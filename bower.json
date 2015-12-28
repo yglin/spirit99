@@ -1,0 +1,16 @@
+{
+  "name": "spirit99",
+  "description": "An angular webapp of posts on map",
+  "version": "0.0.0",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "angular": "~1.4.0",
+    "angular-route": "~1.4.0",
+    "angular-loader": "~1.4.0",
+    "angular-mocks": "~1.4.0",
+    "html5-boilerplate": "~5.2.0",
+    "angular-google-maps": "~2.2.1",
+    "angular-resource": "~1.4.8"
+  }
+}
