@@ -14,25 +14,19 @@
         mapVM.map = getInitialMap();
         mapVM.map.bounds = {};
         // Event handlers
-        mapVM.handlerTilesLoaded = handlerTilesLoaded;
-        mapVM.handlerDragend = handlerDragend;
+        mapVM.propagateMapEvent = propagateMapEvent;
         mapVM.events = {
-            'tilesloaded': mapVM.handlerTilesLoaded,
-            'dragend': mapVM.handlerDragend
+            'tilesloaded': mapVM.propagateMapEvent,
+            'dragend': mapVM.propagateMapEvent
         };
 
 
         activate();
 
         //////////////// Event Handlers ///////////////////
-        function handlerTilesLoaded (mapObject, eventName) {
-            $scope.$broadcast('map:' + eventName, mapVM.map);
-            // console.debug('tiles loaded~!!');
-        }
-        
-        function handlerDragend (mapObject, eventName) {
-            // console.debug(eventName);
-            $scope.$broadcast('map:' + eventName, mapVM.map);
+        // General map event propagation
+        function propagateMapEvent(mapObject, eventName){
+            $scope.$broadcast('map:' + eventName, mapVM.map);            
         }
 
         //////////////// Utility Functions ////////////////

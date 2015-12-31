@@ -2,15 +2,16 @@
         
 describe('FakeData', function () {
     beforeEach(module('spirit99'));
-    var FakeData;
-    beforeEach(inject(function (_FakeData_) {
+    var FakeData, DEFAULTS;
+    beforeEach(inject(function (_FakeData_, _DEFAULTS_) {
         FakeData = _FakeData_;
+        DEFAULTS = _DEFAULTS_;
     }));
 
     describe(' - genFakeMap()', function () {
         it(' - Should has DEFAULT\'s center and zoom', function () {
             var map = FakeData.genFakeMap();
-            expect(map).toEqual(DEFAULT.map);
+            expect(map).toEqual(DEFAULTS.map);
         });
     })
 

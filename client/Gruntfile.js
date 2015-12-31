@@ -22,6 +22,7 @@ module.exports = function (grunt) {
 
     // Configurable paths for the application
     var appConfig = {
+        root: require('./bower.json').rootPath || './',
         app: require('./bower.json').appPath || 'app',
         dist: 'dist'
     };
@@ -93,7 +94,7 @@ module.exports = function (grunt) {
                                 '/app/styles',
                                 connect.static('./app/styles')
                             ),
-                            connect.static(appConfig.app)
+                            connect.static(appConfig.root)
                         ];
                     }
                 }
@@ -101,15 +102,16 @@ module.exports = function (grunt) {
             test: {
                 options: {
                     port: 9001,
+                    // keepalive: true,
                     middleware: function (connect) {
                         return [
                             connect.static('.tmp'),
                             connect.static('test'),
                             connect().use(
                                 '/bower_components',
-                                connect.static('./bower_components')
+                                connect.static('../bower_components')
                             ),
-                            connect.static(appConfig.app)
+                            connect.static(appConfig.root)
                         ];
                     }
                 }
@@ -205,7 +207,7 @@ module.exports = function (grunt) {
         // Automatically inject Bower components into the app
         wiredep: {
             app: {
-                src: ['<%= yeoman.app %>/index.html'],
+                src: ['<%= yeoman.root %>/index.html'],
                 ignorePath:  /\.\.\//
             },
             test: {
@@ -242,7 +244,7 @@ module.exports = function (grunt) {
         // concat, minify and revision files. Creates configurations in memory so
         // additional tasks can operate on them
         useminPrepare: {
-            html: '<%= yeoman.app %>/index.html',
+            html: '<%= yeoman.root %>/index.html',
             options: {
                 dest: '<%= yeoman.dist %>',
                 flow: {

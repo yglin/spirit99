@@ -26,19 +26,11 @@ describe('MapController', function () {
         });
     });
 
-    describe(' - Event: Map\'s tiles loaded', function () {
-        it(' - $scope.$broadcast should be called with "map:tilesloaded" and map object', function () {
+    describe(' - General map event propagation', function () {
+        it(' - Should propagate event and map model to child scopes', function () {
             spyOn($scope, '$broadcast');
-            controller.handlerTilesLoaded({}, 'tilesloaded');
-            expect($scope.$broadcast).toHaveBeenCalledWith('map:tilesloaded', controller.map);
-        });
-    });
-
-    describe(' - Event: User done dargging map', function () {
-        it(' - $scope.$broadcast should be called with "map:dragend" and map object', function () {
-            spyOn($scope, '$broadcast');
-            controller.handlerDragend({}, 'dragend');
-            expect($scope.$broadcast).toHaveBeenCalledWith('map:dragend', controller.map);
+            controller.propagateMapEvent({}, 'some_event');
+            expect($scope.$broadcast).toHaveBeenCalledWith('map:some_event', controller.map);
         });
     });
 });

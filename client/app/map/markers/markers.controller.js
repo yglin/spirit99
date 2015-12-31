@@ -17,31 +17,37 @@
         markersVM.rebuildMarkers = rebuildMarkers;
         markersVM.activate = activate;
 
+        //////////////// Event Handlers ///////////////////
+        markersVM.handlerDragend = handlerDragend;
+
         markersVM.activate();
 
-        //////////////// Event Handlers ///////////////////         
-
-        //////////////// Utility Functions ////////////////
 
         function activate() {
+            // In development we need the DOMs of markers to do some test
             if(CONFIG.env && CONFIG.env === 'development'){
                 markersVM.options.optimized = false;
             }
             else{
                 markersVM.options.optimized = true;
             }
-            markersVM.refresh();
-        }
-
-        function refresh () {
-            var resourceMeta = StationManager.getResourceMeta(UserCtrls.selectedStation, UserCtrls.selectedResource);
-            var iconObjects = IconManager.getIconObjects(resourceMeta);
-            var unbindTilesLoded = $scope.$on('map:tilesloaded', function (event, mapData) {
-                ResourceManager.promiseLoadResources(resourceMeta, mapData.bounds).then(function (resources) {
-                    markersVM.rebuildMarkers(resources, iconObjects);
-                });
+    
+            // Start listening to events
+            $scope.$on('map:dragend', markersVM.handlerDragend);
+            
+            // Load markers at the begining when map tiles loaded
+            var unbindTilesLoded = $scope.$on('map:tilesloaded', function (event, mapModel) {
+                markersVM.refresh(mapModel);
                 // One-time callback
                 unbindTilesLoded();                
+            });
+        }
+
+        function refresh (mapModel) {
+            var resourceMeta = StationManager.getResourceMeta(UserCtrls.selectedStation, UserCtrls.selectedResource);
+            var iconObjects = IconManager.getIconObjects(resourceMeta);
+            ResourceManager.promiseLoadResources(resourceMeta, mapModel.bounds).then(function (resources) {
+                markersVM.rebuildMarkers(resources, iconObjects);
             });
         }
 
@@ -58,8 +64,12 @@
                     marker.markerized = true;
                 }
                 options.markers.push(marker);
-            };
-        };
+            }
+        }
+
+        function handlerDragend (event, mapModel) {
+            markersVM.refresh(mapModel);
+        }
 
     }
 })();

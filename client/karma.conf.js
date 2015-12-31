@@ -5,23 +5,27 @@ module.exports = function(config){
 
         files : [
             // bower:js
-            'app/bower_components/angular/angular.js',
-            'app/bower_components/angular-route/angular-route.js',
-            'app/bower_components/angular-loader/angular-loader.js',
-            'app/bower_components/angular-mocks/angular-mocks.js',
-            'app/bower_components/angular-simple-logger/dist/angular-simple-logger.js',
-            'app/bower_components/lodash/lodash.js',
-            'app/bower_components/angular-google-maps/dist/angular-google-maps.js',
-            'app/bower_components/angular-resource/angular-resource.js',
+            'bower_components/angular/angular.js',
+            'bower_components/angular-route/angular-route.js',
+            'bower_components/angular-mocks/angular-mocks.js',
+            'bower_components/angular-simple-logger/dist/angular-simple-logger.js',
+            'bower_components/lodash/lodash.js',
+            'bower_components/angular-google-maps/dist/angular-google-maps.js',
+            'bower_components/angular-resource/angular-resource.js',
+            'bower_components/angular-animate/angular-animate.js',
+            'bower_components/angular-aria/angular-aria.js',
+            'bower_components/angular-messages/angular-messages.js',
+            'bower_components/angular-material/angular-material.js',
             // endbower
             'app/app.module.js',
-            'app/app.config.js',
-            'app/app.constant.js',
-            'app/app.route.js',
-            'app/services/fake-data.service.js',
+            'app/**/*.js',
+            // 'app/app.constant.js',
+            // 'app/app.route.js',
+            // 'app/services/fake-data.service.js',
             // 'app/components/**/*.js',
             // 'app/services/**/*.js',
-            'app/map/**/*.js'
+            // 'app/**/*.spec.js',
+            // 'app/**/*.test.js'
         ],
 
         autoWatch : true,

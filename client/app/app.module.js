@@ -4,5 +4,6 @@
 angular.module('spirit99', [
   'ngRoute',
   'ngResource',
-  'uiGmapgoogle-maps'
+  'ngMaterial',
+  'uiGmapgoogle-maps',
 ]);

@@ -96,15 +96,27 @@ describe('MarkersController', function () {
             markersVM.activate();
             expect(markersVM.options.optimized).toBe(true);
         });
+
+        it(' - should call refresh() when catch event "map:tilesloaded", and call only once', function () {
+            spyOn(markersVM, 'refresh');
+            // markersVM.activate();
+            var mapData = FakeData.genFakeMap();
+
+            // Catch event "map:tilesloaded" and call refresh()
+            $rootScope.$broadcast('map:tilesloaded', mapData);
+            expect(markersVM.refresh).toHaveBeenCalledWith(mapData);
+
+            // Call refresh() only once
+            $rootScope.$broadcast('map:tilesloaded', mapData);
+            expect(markersVM.refresh.calls.count()).toEqual(1);
+        });
     });
 
     describe(' - refresh()', function () {
-        var mapData;
         beforeEach(function () {
-            mapData = FakeData.genFakeMap;
             spyOn(markersVM, 'rebuildMarkers').and.callThrough();
-            markersVM.refresh();
-            $rootScope.$broadcast('map:tilesloaded', mapData);
+            var mapData = FakeData.genFakeMap();
+            markersVM.refresh(mapData);
             $rootScope.$digest();
         });
         
@@ -119,15 +131,11 @@ describe('MarkersController', function () {
     });
 
     describe(' - rebuildMarkers()', function () {
-        var resources, markers, iconObjects;
-
-        beforeEach(inject(function (IconManager) {
-            resources = FakeData.genFakeResources({count: 100, countHasCategory: 50});
-            markers = [];
-            iconObjects = fakeIconObjects;
-        }));
 
         it(' - markers should has marker-related properties', function () {
+            var resources = FakeData.genFakeResources({count: 100, countHasCategory: 50});
+            var markers = [];
+            var iconObjects = FakeData.genFakeIconObjects();
             markersVM.rebuildMarkers(resources, fakeIconObjects, {markers: markers});
             expect(_.sample(markers).id).toBeDefined();
             expect(_.sample(markers).latitude).toBeDefined();
@@ -135,6 +143,19 @@ describe('MarkersController', function () {
             expect(_.sample(markers.slice(0, 50)).iconObject).toBeDefined();
             expect(_.sample(markers.slice(50, 100)).iconObject).toBeUndefined();
             expect(_.sample(markers).markerized).toBe(true);
+        });
+    });
+
+    describe(' - Events handling', function () {
+
+        describe(' - dragend: User done dragging map', function () {
+
+            it(' - Should call refresh with passed map model', function () {
+                spyOn(markersVM, 'refresh');
+                var mapModel = FakeData.genFakeMap();
+                $rootScope.$broadcast('map:dragend', mapModel);
+                expect(markersVM.refresh).toHaveBeenCalledWith(mapModel);
+            });
         });
     });
 });

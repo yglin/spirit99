@@ -20,7 +20,10 @@
             map: {
                 center: { latitude: 23.973875, longitude: 120.982024 },
                 zoom: ZOOM_LEVELS.TAIWAN,
-                bounds: {}
+                bounds: {
+                    southwest: {latitude: 0, longitude: 0},
+                    northeast: {latitude: 0, longitude: 0}
+                }
             }
         };
     }

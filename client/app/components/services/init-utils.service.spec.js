@@ -1,24 +1,20 @@
 'use strict';
 
 describe('Service initUtils', function () {
-    var initUtils;
-    var DEFAULTS;
-    var $rootScope;
 
     beforeEach(module('spirit99'));
 
+    // Fake data
+    var fakeUserLocation;
+    beforeEach(function () {
+        fakeUserLocation = {latitude: 24.08116, longitude: 120.54813};
+    });
+
     // Mock dependencies
     beforeEach(function () {
-        // module(function($provide) {
-        //     $provide.service('userPref', function() {
-        //         var self = this;
-        //         self.INITIAL_MAP_AS_GEOLOCATION = 1;
-        //         self.initialMapScheme = self.INITIAL_MAP_AS_GEOLOCATION;
-        //     });
-        // });
 
         module(function($provide) {
-            $provide.service('mapNavigator', mockMapNavigator);
+            $provide.service('MapNavigator', mockMapNavigator);
         
             mockMapNavigator.$inject = ['$q'];
         
@@ -27,27 +23,32 @@ describe('Service initUtils', function () {
                 // self.property = {};
                 self.getUserGeolocation = jasmine.createSpy('getUserGeolocation')
                 .and.callFake(function () {
-                    return $q.resolve({latitude: 24.08116, longitude: 120.54813});
+                    return $q.resolve(fakeUserLocation);
                 });
             }
         });
 
     });
 
-    beforeEach(inject(function (_initUtils_, _DEFAULTS_, _$rootScope_) {
+    var initUtils;
+    var DEFAULTS;
+    var ZOOM_LEVELS;
+    var $rootScope;
+    beforeEach(inject(function (_initUtils_, _DEFAULTS_, _ZOOM_LEVELS_, _$rootScope_) {
         initUtils = _initUtils_;
         DEFAULTS = _DEFAULTS_;
+        ZOOM_LEVELS = _ZOOM_LEVELS_;
         $rootScope = _$rootScope_;
     }));
 
-    describe(' - promiseGetInitialMapArea()', function () {
+    describe(' - promiseGetInitMapArea()', function () {
         it(' - Should return user location and ZOOM_LEVELS.STREET if got geolocation', function () {
             var getResolved = jasmine.createSpy('getResolved');
-            initUtils.promiseGetInitialMapArea(initUtils.INIT_MAP_AS_GEOLOCATION).then(getResolved);
+            initUtils.promiseGetInitMapArea(initUtils.INIT_MAP_AS_GEOLOCATION).then(getResolved);
             $rootScope.$digest();
             expect(getResolved).toHaveBeenCalledWith({
-                center: {latitude: 24.08116, longitude: 120.54813},
-                zoom: DEFAULTS.ZOOM_LEVELS.STREET
+                center: fakeUserLocation,
+                zoom: ZOOM_LEVELS.STREET
             });
         });
 
