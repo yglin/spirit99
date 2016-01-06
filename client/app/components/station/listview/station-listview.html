@@ -1,0 +1,12 @@
+<div layout='row'>
+    <md-checkbox ng-model='stationListviewVM.station.isChecked'></md-checkbox>
+    <a layout='row' class='s99-a-link' href="{{stationListviewVM.station.introUrl}}">
+        <md-list-item class='md-3-line'>
+            <img class='md-avatar s99-station-logo' ng-src='{{stationListviewVM.station.logoUrl}}'/>
+            <div class='md-list-item-text'>
+                <h3 class='s99-station-title'>{{stationListviewVM.station.title}}</h3>
+                <p class='s99-station-description'>{{stationListviewVM.station.description}}</p>
+            </div>
+        </md-list-item>
+    </a>
+</div>
