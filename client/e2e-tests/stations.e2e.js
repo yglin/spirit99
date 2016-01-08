@@ -26,6 +26,7 @@ describe('Spirit99 app - stations', function() {
         stationListviews.last().element(by.css('a')).click();
         browser.sleep(2000);
         browser.getCurrentUrl();
+        browser.ignoreSynchronization = false;
     });
 
     it(' - Show toolbar if at least 1 station is checked, hide it otherwise', function() {
@@ -44,4 +45,12 @@ describe('Spirit99 app - stations', function() {
         stationListviews.get(0).element(by.css('checkbox, md-checkbox')).click();
         expect(toolbar.isDisplayed()).toBe(false);
     });
+
+    it(' - Show station offline message and blur logo if station is offline', function() {        
+        var station1 = stationListviews.get(0);
+        // TODO: make request to introUrl of station1 fail
+        station1.click();
+        // TODO: expect logo blurred and offline message
+    });
+
 });

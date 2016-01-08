@@ -11,17 +11,14 @@
     function ToolbarController($scope, StationManager) {
         var toolbarVM = this;
         toolbarVM.title = 'Toolbar';
-        toolbarVM.stationTitle = '請選擇電台';
+        toolbarVM.station = {};
 
         activate();
 
         ////////////////
 
         function activate() {
-            var stationTitle = StationManager.getTitle();
-            if(stationTitle){
-                toolbarVM.stationTitle = stationTitle;
-            }
+            toolbarVM.station = StationManager.getStation();
         }
     }
 })();

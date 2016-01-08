@@ -1,11 +1,14 @@
-/* app css stylesheet */
+/* spirit99 css stylesheet */
+@import 'spirit99-animate.css';
 
 .s99-a-link {
     text-decoration: none;
 }
 
 .s99-toolbar {
-
+    min-height: 48px;
+    max-height: 64px;
+    height:10vh;
 }
 
 /*.menu {

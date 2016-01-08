@@ -342,9 +342,17 @@ module.exports = function (grunt) {
         },
 
         ngtemplates: {
+            test: {
+                options: {
+                    module: 'spirit99',
+                },
+                cwd: '<%= yeoman.root %>',
+                src: '**/*.html',
+                dest: '.tmp/templateCache.js'                
+            },
             dist: {
                 options: {
-                    module: 'spirit99App',
+                    module: 'spirit99',
                     htmlmin: '<%= htmlmin.dist.options %>',
                     usemin: 'scripts/scripts.js'
                 },
@@ -460,6 +468,7 @@ module.exports = function (grunt) {
         'wiredep',
         'concurrent:test',
         'postcss',
+        'ngtemplates:test',
         'connect:test',
         'karma',
     ]);

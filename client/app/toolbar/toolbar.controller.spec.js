@@ -8,30 +8,32 @@ describe('ToolbarController', function () {
         module(function($provide) {
             $provide.service('StationManager', mockStationManager);
         
-            mockStationManager.$inject = [];
+            mockStationManager.$inject = ['DEFAULTS'];
         
-            function mockStationManager () {
+            function mockStationManager (DEFAULTS) {
                 var self = this;
                 self.property = {};
-                self.getTitle = jasmine.createSpy('getTitle')
+                self.getStation = jasmine.createSpy('getStation')
                 .and.callFake(function () {
-                    return 'Mocked Station';
+                    return DEFAULTS.stations[Object.keys(DEFAULTS.stations)[0]];
                 });
             }
         });        
     });
 
-    var toolbarVM, $rootScope;
-    beforeEach(inject(function ($controller, _$rootScope_) {
+    var toolbarVM, $rootScope, DEFAULTS;
+    beforeEach(inject(function ($controller, _$rootScope_, _DEFAULTS_) {
         $rootScope = _$rootScope_;
+        DEFAULTS = _DEFAULTS_;
         toolbarVM = $controller('ToolbarController', {
             $scope: $rootScope.$new()
         });
     }));
 
     describe(' - Initial activate()', function () {
-        it(' - station title should be "Mocked Station"', function () {
-            expect(toolbarVM.stationTitle).toEqual('Mocked Station');
+        it(' - station should has title and logoUrl', function () {
+            expect(toolbarVM.station.title).not.toBeNull();
+            expect(toolbarVM.station.logoUrl).not.toBeNull();
         });
     });
 });

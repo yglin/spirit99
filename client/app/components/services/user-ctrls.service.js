@@ -10,13 +10,14 @@
     /* @ngInject */
     function UserCtrls(DEFAULTS) {
         var self = this;
-        self.selectedStation = '';
+        self.selectedStationID = '';
         self.selectedResource = '';
 
         activate();
 
         ////////////////
         function activate () {
+            self.selectedStationID = Object.keys(DEFAULTS.stations)[0];
         }
     }
 })();

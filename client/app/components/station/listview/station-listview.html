@@ -1,12 +1,22 @@
-<div layout='row'>
-    <md-checkbox ng-model='stationListviewVM.station.isChecked'></md-checkbox>
-    <a layout='row' class='s99-a-link' href="{{stationListviewVM.station.introUrl}}">
-        <md-list-item class='md-3-line'>
-            <img class='md-avatar s99-station-logo' ng-src='{{stationListviewVM.station.logoUrl}}'/>
-            <div class='md-list-item-text'>
+<div layout='row' layout-align='space-between center'>
+    <div layout='row' layout-align='start center' flex=80>
+        <md-checkbox ng-model='stationListviewVM.station.isChecked' aria-label='Check' flex=10 layout-margin></md-checkbox>        
+        <a class='s99-a-link' href="{{stationListviewVM.station.introUrl}}" layout='row' layout-align='start center' flex=90>
+            <img class='s99-station-logo'
+            ng-class='{"s99-station-logo-offline": stationListviewVM.station.isOffline}'
+            ng-src='{{stationListviewVM.station.logoUrl}}'layout-margin />
+            <md-list-item class='md-3-line'>
+            <div layout='column' class='md-list-item-text' flex>
                 <h3 class='s99-station-title'>{{stationListviewVM.station.title}}</h3>
                 <p class='s99-station-description'>{{stationListviewVM.station.description}}</p>
+                <p class='s99-station-offline' ng-show='stationListviewVM.station.isOffline'>電台目前無法連線...</p>
             </div>
-        </md-list-item>
-    </a>
+            </md-list-item>
+        </a>
+    </div>
+    <div layout='row' layout-align='center center' flex=20>
+        <md-button class='md-fab md-mini md-primary' ng-disabled='stationListviewVM.station.isOffline' aria-label='GO'>
+            <md-icon class='material-icons'>power</md-icon>
+        </md-button>        
+    </div>
 </div>

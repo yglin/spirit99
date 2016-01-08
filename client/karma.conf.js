@@ -18,6 +18,7 @@ module.exports = function(config){
             'bower_components/angular-material/angular-material.js',
             // endbower
             'app/app.module.js',
+            '.tmp/templateCache.js',
             'app/**/*.js',
             // 'app/app.constant.js',
             // 'app/app.route.js',

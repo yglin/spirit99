@@ -20,14 +20,13 @@
         
         // Watch if at least 1 station is checked
         $scope.$watch(function(){
-            for (var i = 0; i < stationsVM.stations.length; i++) {
-                if(stationsVM.stations[i].isChecked){
+            for (var id in stationsVM.stations) {
+                if(stationsVM.stations[id].isChecked){
                     return true;
                 }
             }
             return false;
         }, function (newValue) {
-            console.log(newValue);
             if(newValue){
                 stationsVM.showToolbar = true;
             }
