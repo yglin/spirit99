@@ -1,12 +1,10 @@
 <div ng-controller="ToolbarController as toolbarVM">
     <md-toolbar>
         <div class='md-toolbar-tools'>
-            <md-list-item>
-                <img class='md-avatar s99-station-logo'
-                ng-class='{"s99-station-logo-offline": stationListviewVM.station.isOffline}'
-                ng-src='{{toolbarVM.station.logoUrl}}'/>
-                <h3 class='s99-station-title'>{{toolbarVM.station.title}}</h3>
-            </md-list-item>
+            <img class='s99-station-logo'
+            ng-class='{"s99-station-logo-offline": stationListviewVM.station.isOffline}'
+            ng-src='{{toolbarVM.station.logoUrl}}'/>
+            <div layout-margin hide-xs class='s99-station-title'>{{toolbarVM.station.title}}</div>
         </div>
     </md-toolbar>
 </div>
