@@ -1,6 +1,6 @@
 <div layout='row' layout-align='space-between center'>
     <md-checkbox ng-model='stationListviewVM.station.isChecked' aria-label='Check' layout-margin flex=10></md-checkbox>        
-    <a class='s99-a-link' href="{{stationListviewVM.station.introUrl}}" layout='row' layout-align='start center' flex=70>
+    <a class='s99-a-link' href="{{stationListviewVM.station.introUrl}}" layout='row' layout-align='start center' flex>
         <img class='s99-station-logo'
         ng-class='{"s99-station-logo-offline": stationListviewVM.station.isOffline}'
         ng-src='{{stationListviewVM.station.logoUrl}}'layout-margin />
@@ -12,9 +12,7 @@
         </div>
         </md-list-item>
     </a>
-    <div flex=20>
-        <md-button class='md-fab md-mini md-primary' ng-disabled='stationListviewVM.station.isOffline' aria-label='GO'>
-            <md-icon class='material-icons'>power</md-icon>
-        </md-button>
-    </div>   
+    <md-button class='md-fab md-mini md-primary' ng-disabled='stationListviewVM.station.isOffline' aria-label='GO'>
+        <md-icon class='material-icons'>power</md-icon>
+    </md-button>
 </div>
