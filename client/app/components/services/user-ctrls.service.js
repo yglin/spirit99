@@ -11,7 +11,7 @@
     function UserCtrls(DEFAULTS) {
         var self = this;
         self.selectedStationID = '';
-        self.selectedResource = '';
+        self.selectedSpirit = '';
 
         activate();
 

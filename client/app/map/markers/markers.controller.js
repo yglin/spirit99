@@ -5,10 +5,10 @@
         .module('spirit99')
         .controller('MarkersController', MarkersController);
 
-    MarkersController.$inject = ['$scope', 'CONFIG', 'StationManager', 'ResourceManager', 'IconManager', 'UserCtrls'];
+    MarkersController.$inject = ['$scope', 'CONFIG', 'StationManager', 'SpiritManager', 'IconManager', 'UserCtrls'];
 
     /* @ngInject */
-    function MarkersController($scope, CONFIG, StationManager, ResourceManager, IconManager, UserCtrls) {
+    function MarkersController($scope, CONFIG, StationManager, SpiritManager, IconManager, UserCtrls) {
         var markersVM = this;
         markersVM.title = 'MarkersController';
         markersVM.markers = [];
@@ -44,19 +44,19 @@
         }
 
         function refresh (mapModel) {
-            var resourceMeta = StationManager.getResourceMeta(UserCtrls.selectedStation, UserCtrls.selectedResource);
-            var iconObjects = IconManager.getIconObjects(resourceMeta);
-            ResourceManager.promiseLoadResources(resourceMeta, mapModel.bounds).then(function (resources) {
-                markersVM.rebuildMarkers(resources, iconObjects);
+            var spiritMeta = StationManager.getSpiritMeta(UserCtrls.selectedStation, UserCtrls.selectedSpirit);
+            var iconObjects = IconManager.getIconObjects(spiritMeta);
+            SpiritManager.promiseLoadSpirits(spiritMeta, mapModel.bounds).then(function (spirits) {
+                markersVM.rebuildMarkers(spirits, iconObjects);
             });
         }
 
-        function rebuildMarkers (resources, iconObjects, options) {
+        function rebuildMarkers (spirits, iconObjects, options) {
             options = typeof options === 'undefined' ? {} : options;
             options.markers = typeof options.markers === 'undefined' ? markersVM.markers : options.markers;
             options.markers.length = 0;
-            for (var i = 0; i < resources.length; i++) {
-                var marker = resources[i];
+            for (var i = 0; i < spirits.length; i++) {
+                var marker = spirits[i];
                 if(!marker.markerized){
                     if(marker.category && marker.category in iconObjects){
                         marker.iconObject = iconObjects[marker.category];

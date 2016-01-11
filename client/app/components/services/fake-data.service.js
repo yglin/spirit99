@@ -12,7 +12,7 @@
         var self = this;
         self.genFakeMap = genFakeMap;
         self.genFakeStations = genFakeStations;
-        self.genFakeResources = genFakeResources;
+        self.genFakeSpirits = genFakeSpirits;
         self.genFakeIconObjects = genFakeIconObjects;
 
         ////////////////
@@ -28,24 +28,24 @@
             return DEFAULTS.stations;
         };
 
-        function genFakeResources(options) {
+        function genFakeSpirits(options) {
             options = typeof options === 'undefined' ? {} : options;
             options.count = typeof options.count === 'undefined' ? 10 : options.count;
             options.countHasCategory = typeof options.countHasCategory === 'undefined' ? options.count : options.countHasCategory;  
-            var resources = [];
+            var spirits = [];
             var categories = Object.keys(self.genFakeIconObjects());
             for (var i = 0; i < options.count; i++) {
-                var resource = {
+                var spirit = {
                     id: i+1,
                     latitude: 23.973875 + 2 * (0.5 - Math.random()),
                     longitude: 120.982024 + 2 * (0.5 - Math.random()),
                 };
                 if(i < options.countHasCategory){
-                    resource.category = _.sample(categories);
+                    spirit.category = _.sample(categories);
                 }
-                resources.push(resource);
+                spirits.push(spirit);
             };
-            return resources;
+            return spirits;
         }
 
         function genFakeIconObjects (options) {

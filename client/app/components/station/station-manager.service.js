@@ -12,7 +12,7 @@
         var self = this;
         self.getStations = getStations;
         self.getStation = getStation;
-        self.getResourceMeta = getResourceMeta;
+        self.getSpiritMeta = getSpiritMeta;
 
         ////////////////
         function getStation(stationID){
@@ -29,7 +29,7 @@
         }
 
         // TODO: Implement
-        function getResourceMeta(stationName, resourceName) {
+        function getSpiritMeta(stationName, spiritName) {
             return {};
         }
 

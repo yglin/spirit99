@@ -15,36 +15,36 @@ describe('FakeData', function () {
         });
     })
 
-    describe(' - genFakeResources()', function () {
-        it(' - Should return 10 fake resources as default count', function () {
-            var fakeResources = FakeData.genFakeResources();
-            expect(fakeResources.length).toBe(10);
+    describe(' - genFakeSpirits()', function () {
+        it(' - Should return 10 fake spirits as default count', function () {
+            var fakeSpirits = FakeData.genFakeSpirits();
+            expect(fakeSpirits.length).toBe(10);
         });
 
-        it(' - Should return 50 fake resources if given options.count=50', function () {
-            var fakeResources = FakeData.genFakeResources({count: 50});
-            expect(fakeResources.length).toBe(50);
+        it(' - Should return 50 fake spirits if given options.count=50', function () {
+            var fakeSpirits = FakeData.genFakeSpirits({count: 50});
+            expect(fakeSpirits.length).toBe(50);
         });
 
         it(' - Should have property "id"', function () {
-            var fakeResources = FakeData.genFakeResources();
-            expect(_.sample(fakeResources).id).toBeDefined();
+            var fakeSpirits = FakeData.genFakeSpirits();
+            expect(_.sample(fakeSpirits).id).toBeDefined();
         });
 
         it(' - Should have property "latitude" and "longitude"', function () {
-            var fakeResources = FakeData.genFakeResources(); 
-            expect(_.sample(fakeResources).latitude).toBeDefined();           
-            expect(_.sample(fakeResources).longitude).toBeDefined();           
+            var fakeSpirits = FakeData.genFakeSpirits(); 
+            expect(_.sample(fakeSpirits).latitude).toBeDefined();           
+            expect(_.sample(fakeSpirits).longitude).toBeDefined();           
         });
 
         it(' - Should have property "category"', function () {
-            var fakeResources = FakeData.genFakeResources();
-            expect(_.sample(fakeResources).category).toBeDefined();
+            var fakeSpirits = FakeData.genFakeSpirits();
+            expect(_.sample(fakeSpirits).category).toBeDefined();
         });
 
-        it(' - None of resources should have property "category" if given options.countHasCategory=0', function () {
-            var fakeResources = FakeData.genFakeResources({countHasCategory: 0});
-            expect(_.sample(fakeResources).category).toBeUndefined();
+        it(' - None of spirits should have property "category" if given options.countHasCategory=0', function () {
+            var fakeSpirits = FakeData.genFakeSpirits({countHasCategory: 0});
+            expect(_.sample(fakeSpirits).category).toBeUndefined();
         });
     });
 });

@@ -14,26 +14,26 @@ describe('MarkersController', function () {
             function mockStationManager () {
                 var self = this;
                 // self.property = {};
-                self.getResourceMeta = jasmine.createSpy('getResourceMeta')
+                self.getSpiritMeta = jasmine.createSpy('getSpiritMeta')
                 .and.callFake(function () {
                     return {
-                        url: 'http://fake.url.to/resource/'
+                        url: 'http://fake.url.to/spirit/'
                     };
                 });
             }
         });
 
         module(function($provide) {
-            $provide.service('ResourceManager', mockResourceManager);
+            $provide.service('SpiritManager', mockSpiritManager);
         
-            mockResourceManager.$inject = ['$q'];
+            mockSpiritManager.$inject = ['$q'];
         
-            function mockResourceManager ($q) {
+            function mockSpiritManager ($q) {
                 var self = this;
                 // self.property = {};
-                self.promiseLoadResources = jasmine.createSpy('promiseLoadResources')
+                self.promiseLoadSpirits = jasmine.createSpy('promiseLoadSpirits')
                 .and.callFake(function () {
-                    return $q.resolve(fakeResources);
+                    return $q.resolve(fakeSpirits);
                 });
             }
         });
@@ -61,21 +61,21 @@ describe('MarkersController', function () {
             function mockUserCtrls () {
                 var self = this;
                 self.selectedStation = '';
-                self.selectedResource = '';
+                self.selectedSpirit = '';
             }
         });
     })
 
     // >>>>>>>>>>>>>>>>>>>>>>>>> Mock Dependencies >>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-    var markersVM, $scope, $rootScope, CONFIG, FakeData, fakeResources, fakeIconObjects;
+    var markersVM, $scope, $rootScope, CONFIG, FakeData, fakeSpirits, fakeIconObjects;
 
     beforeEach(inject(function (_$rootScope_, _FakeData_, _CONFIG_, $controller) {
         $rootScope = _$rootScope_;
         CONFIG = _CONFIG_;
         // Generate Fake Data
         FakeData = _FakeData_;
-        fakeResources = FakeData.genFakeResources();
+        fakeSpirits = FakeData.genFakeSpirits();
         fakeIconObjects = FakeData.genFakeIconObjects();
 
         $scope = $rootScope.$new();
@@ -124,8 +124,8 @@ describe('MarkersController', function () {
             expect(markersVM.rebuildMarkers).toHaveBeenCalled();
         });
 
-        it('self.markers should contain markerized resources', function () {
-            expect(markersVM.markers.length).toBe(fakeResources.length);
+        it('self.markers should contain markerized spirits', function () {
+            expect(markersVM.markers.length).toBe(fakeSpirits.length);
             expect(_.sample(markersVM.markers).markerized).toBe(true);
         });
     });
@@ -133,10 +133,10 @@ describe('MarkersController', function () {
     describe(' - rebuildMarkers()', function () {
 
         it(' - markers should has marker-related properties', function () {
-            var resources = FakeData.genFakeResources({count: 100, countHasCategory: 50});
+            var spirits = FakeData.genFakeSpirits({count: 100, countHasCategory: 50});
             var markers = [];
             var iconObjects = FakeData.genFakeIconObjects();
-            markersVM.rebuildMarkers(resources, fakeIconObjects, {markers: markers});
+            markersVM.rebuildMarkers(spirits, fakeIconObjects, {markers: markers});
             expect(_.sample(markers).id).toBeDefined();
             expect(_.sample(markers).latitude).toBeDefined();
             expect(_.sample(markers).longitude).toBeDefined();

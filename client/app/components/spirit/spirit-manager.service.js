@@ -3,28 +3,28 @@
 
     angular
         .module('spirit99')
-        .service('ResourceManager', ResourceManager);
+        .service('SpiritManager', SpiritManager);
 
-    ResourceManager.$inject = ['$q', 'FakeData'];
+    SpiritManager.$inject = ['$q', 'FakeData'];
 
     /* @ngInject */
-    function ResourceManager($q, FakeData) {
+    function SpiritManager($q, FakeData) {
         var self = this;
-        self.promiseLoadResources = promiseLoadResources;
-        self.getResourcer = getResourcer;
+        self.promiseLoadSpirits = promiseLoadSpirits;
+        self.getSpiritr = getSpiritr;
 
         ////////////////
         // TODO: Implement
-        function getResourcer (resourceMeta, options) {
+        function getSpiritr (spiritMeta, options) {
             options = typeof options === 'undefined' ? {} : options;
             // options.optionArg = typeof options.optionArg === 'undefined' ? defaultValue : options.optionArg;
             return {};
         };
 
         // TODO: Implement
-        function promiseLoadResources (resourceMeta, mapBounds, options) {
+        function promiseLoadSpirits (spiritMeta, mapBounds, options) {
             options = typeof options === 'undefined' ? {} : options;
-            return $q.resolve(FakeData.genFakeResources({count: 50}));
+            return $q.resolve(FakeData.genFakeSpirits({count: 50}));
         };
     }
 })();
