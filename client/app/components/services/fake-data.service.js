@@ -11,7 +11,6 @@
     function FakeData(DEFAULTS) {
         var self = this;
         self.genFakeMap = genFakeMap;
-        self.genFakeStations = genFakeStations;
         self.genFakeSpirits = genFakeSpirits;
         self.genFakeIconObjects = genFakeIconObjects;
 
@@ -20,12 +19,6 @@
             options = typeof options === 'undefined' ? {} : options;
             // options.optionArg = typeof options.optionArg === 'undefined' ? defaultValue : options.optionArg;
             return DEFAULTS.map;
-        };
-
-        function genFakeStations (options) {
-            options = typeof options === 'undefined' ? {} : options;
-            // options.optionArg = typeof options.optionArg === 'undefined' ? defaultValue : options.optionArg;
-            return DEFAULTS.stations;
         };
 
         function genFakeSpirits(options) {

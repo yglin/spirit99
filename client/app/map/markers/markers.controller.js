@@ -44,7 +44,7 @@
         }
 
         function refresh (mapModel) {
-            var spiritMeta = StationManager.getSpiritMeta(UserCtrls.selectedStation, UserCtrls.selectedSpirit);
+            var spiritMeta = StationManager.getSpiritMeta(UserCtrls.tunedInStation, UserCtrls.selectedSpirit);
             var iconObjects = IconManager.getIconObjects(spiritMeta);
             SpiritManager.promiseLoadSpirits(spiritMeta, mapModel.bounds).then(function (spirits) {
                 markersVM.rebuildMarkers(spirits, iconObjects);

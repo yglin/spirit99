@@ -3,6 +3,7 @@
 describe('Spirit99 app - stations', function() {
     beforeEach(function() {
         browser.get('#/stations');
+        browser.sleep(1000);
     });
 
     var stationListviews = element.all(by.tagName('s99-station-listview'));

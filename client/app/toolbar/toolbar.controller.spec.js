@@ -12,7 +12,8 @@ describe('ToolbarController', function () {
         
             function mockStationManager (DEFAULTS) {
                 var self = this;
-                self.property = {};
+                // self.property = {};
+                // console.debug(DEFAULTS.stations);
                 self.getStation = jasmine.createSpy('getStation')
                 .and.callFake(function () {
                     return DEFAULTS.stations[Object.keys(DEFAULTS.stations)[0]];
@@ -32,6 +33,7 @@ describe('ToolbarController', function () {
 
     describe(' - Initial activate()', function () {
         it(' - station should has title and logoUrl', function () {
+            // console.debug(toolbarVM.station);
             expect(toolbarVM.station.title).not.toBeNull();
             expect(toolbarVM.station.logoUrl).not.toBeNull();
         });

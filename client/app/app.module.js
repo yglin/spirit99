@@ -6,5 +6,6 @@ angular.module('spirit99', [
   'ngResource',
   'ngAnimate',
   'ngMaterial',
+  'LocalStorageModule',
   'uiGmapgoogle-maps',
 ]);

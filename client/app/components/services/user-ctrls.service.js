@@ -10,14 +10,14 @@
     /* @ngInject */
     function UserCtrls(DEFAULTS) {
         var self = this;
-        self.selectedStationID = '';
+        self.tunedInStationID = '';
         self.selectedSpirit = '';
 
         activate();
 
         ////////////////
         function activate () {
-            self.selectedStationID = Object.keys(DEFAULTS.stations)[0];
+            self.tunedInStationID = Object.keys(DEFAULTS.stations)[0];
         }
     }
 })();

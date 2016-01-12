@@ -60,7 +60,7 @@ describe('MarkersController', function () {
         
             function mockUserCtrls () {
                 var self = this;
-                self.selectedStation = '';
+                self.tunedInStation = '';
                 self.selectedSpirit = '';
             }
         });

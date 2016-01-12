@@ -4,30 +4,28 @@ describe('StationsContrller', function () {
 
     beforeEach(module('spirit99'));
 
-    var fakeStations;
-
     // Mock dependencies
     beforeEach(function() {
         module(function($provide) {
             $provide.service('StationsManager', mockStationsManager);
         
-            mockStationsManager.$inject = [];
+            mockStationsManager.$inject = ['DEFAULTS'];
         
-            function mockStationsManager () {
+            function mockStationsManager (DEFAULTS) {
                 var self = this;
                 // self.property = {};
                 self.getStations = jasmine.createSpy('getStations')
                 .and.callFake(function () {
-                    return fakeStations;
+                    return DEFAULTS.stations;
                 });
             }
         });        
     });
 
-    var stationsVM, $rootScope;
-    beforeEach(inject(function ($controller, _$rootScope_, FakeData) {
+    var stationsVM, $rootScope, DEFAULTS;
+    beforeEach(inject(function ($controller, _$rootScope_, _DEFAULTS_) {
         $rootScope = _$rootScope_;
-        fakeStations = FakeData.genFakeStations();
+        DEFAULTS = _DEFAULTS_;
         stationsVM = $controller('StationsController', {
             $scope: $rootScope.$new()
         });

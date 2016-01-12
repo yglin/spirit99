@@ -24,7 +24,9 @@
     <!--[if lt IE 7]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
-    <div ng-view></div>
+    <div style='position:relative'>
+    <div class='s99-view-enter s99-view-leave' ng-view></div>
+    </div>
 
     <!-- In production use:
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
@@ -43,6 +45,7 @@
     <script src="bower_components/angular-aria/angular-aria.js"></script>
     <script src="bower_components/angular-messages/angular-messages.js"></script>
     <script src="bower_components/angular-material/angular-material.js"></script>
+    <script src="bower_components/angular-local-storage/dist/angular-local-storage.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -55,16 +58,20 @@
     <!-- XXX This should be removed in production -->
     <script src="app/components/services/fake-data.service.js"></script>
 
+    <!-- Compoents -->
     <script src="app/components/services/map-navigator.service.js"></script>
     <script src="app/components/services/init-utils.service.js"></script>
     <script src="app/components/services/user-ctrls.service.js"></script>
+    <script src="app/components/services/user-prefs.service.js"></script>
     <script src="app/components/services/icon-manager.service.js"></script>
 
     <script src="app/components/spirit/spirit-manager.service.js"></script>
 
     <script src="app/components/station/station-manager.service.js"></script>
     <script src="app/components/station/listview/station-listview.directive.js"></script>
+    <!-- end Components -->
     
+    <!-- Views -->
     <script src="app/map/map.controller.js"></script>
     <script src="app/map/map.config.js"></script>
     <script src="app/map/map.route.js"></script>
@@ -72,6 +79,13 @@
 
     <script src="app/stations/stations.controller.js"></script>
     <script src="app/stations/stations.route.js"></script>
+    
+    <script src="app/search/search.controller.js"></script>
+    <script src="app/search/search.route.js"></script>
+    
+    <script src="app/settings/settings.controller.js"></script>
+    <script src="app/settings/settings.route.js"></script>
+    <!-- end Views -->
     
     <script src="app/toolbar/toolbar.controller.js"></script>
     <!-- endbuild -->
