@@ -26,7 +26,7 @@ describe('Spirit99 app - stations', function() {
         var lastLocation = browser.getCurrentUrl();
         stationListviews.last().element(by.css('a')).click();
         browser.sleep(2000);
-        browser.getCurrentUrl();
+        expect(browser.getCurrentUrl()).not.toEqual(lastLocation);
         browser.ignoreSynchronization = false;
     });
 
@@ -54,4 +54,8 @@ describe('Spirit99 app - stations', function() {
         // TODO: expect logo blurred and offline message
     });
 
+    it(' - Click on open button redirect to station-editor page', function() {
+        element(by.id('button-open-station')).click();
+        expect(browser.getCurrentUrl()).toMatch(/.+\/station-editor/);
+    });
 });

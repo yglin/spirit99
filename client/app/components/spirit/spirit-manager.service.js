@@ -11,11 +11,11 @@
     function SpiritManager($q, FakeData) {
         var self = this;
         self.promiseLoadSpirits = promiseLoadSpirits;
-        self.getSpiritr = getSpiritr;
+        self.getSpirit = getSpirit;
 
         ////////////////
         // TODO: Implement
-        function getSpiritr (spiritMeta, options) {
+        function getSpirit (spiritMeta, options) {
             options = typeof options === 'undefined' ? {} : options;
             // options.optionArg = typeof options.optionArg === 'undefined' ? defaultValue : options.optionArg;
             return {};
