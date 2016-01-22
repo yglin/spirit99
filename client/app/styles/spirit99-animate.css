@@ -28,6 +28,41 @@
     }
 }
 
+@-webkit-keyframes borderRadiusInflate {
+    from {
+        border-radius: 50%;
+    }
+
+    to {
+        border-radius: 10%;
+    }
+}
+
+@-webkit-keyframes borderRadiusDeflate {
+    from {
+        border-radius: 10%;
+    }
+
+    to {
+        border-radius: 50%;
+    }
+}
+
+.s99-channel-logo.s99-button {
+    -webkit-animation: borderRadiusDeflate 0.25s;
+    animation: borderRadiusDeflate 0.25s;
+}
+
+.s99-channel-logo.s99-not-button {
+    -webkit-animation: borderRadiusInflate 0.25s;
+    animation: borderRadiusInflate 0.25s;
+}
+
+.s99-show-lightSpeedIn.ng-hide-remove {
+    -webkit-animation: lightSpeedIn 0.25s;
+    animation: lightSpeedIn 0.25s;    
+}
+
 .s99-show-scaleInDown.ng-hide-remove {
     -webkit-animation: scaleInDown 0.25s;
     animation: scaleInDown 0.25s;

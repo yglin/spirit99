@@ -1,12 +1,26 @@
-<div layout='row' layout-align='space-between center'>
+<div layout='row' layout-align='start center' class='s99-channel-item'>
     <img class='s99-channel-logo'
-    ng-class='{"s99-channel-logo-offline": channelItemVM.channel.isOffline}'
-    ng-src='{{channelItemVM.channel.logoUrl}}'layout-margin />
-    <md-list-item class='md-3-line'>
-    <div layout='column' class='md-list-item-text' flex>
-        <h3 class='s99-channel-title'>{{channelItemVM.channel.title}}</h3>
-        <p class='s99-channel-description'>{{channelItemVM.channel.description}}</p>
-        <p class='s99-channel-offline' ng-show='channelItemVM.channel.isOffline'>電台目前無法連線...</p>
+        ng-class='{"s99-channel-logo-offline": channelItemVM.channel.isOffline,
+            "s99-button": channelItemVM.showButtons,
+            "s99-not-button": !channelItemVM.showButtons}'
+        ng-src='{{channelItemVM.channel.logoUrl}}' layout-margin
+        ng-click="channelItemVM.showButtons = !(channelItemVM.showButtons)"/>
+    <div layout='column' flex
+        ng-hide='channelItemVM.showButtons' class='s99-show-lightSpeedIn'
+        ng-click="channelItemVM.showButtons = !(channelItemVM.showButtons)">
+        <div class='s99-channel-title'>{{channelItemVM.channel.title}}</div>
+        <div class='s99-channel-description'>{{channelItemVM.channel.description}}</div>
+        <div class='s99-channel-offline' ng-show='channelItemVM.channel.isOffline'>電台目前無法連線...</div>
     </div>
-    </md-list-item>
+    <div flex layout='row' ng-show='channelItemVM.showButtons' class='s99-show-lightSpeedIn'>
+        <md-button class='md-fab md-mini'>
+            <md-icon class='material-icons'>pageview</md-icon>
+        </md-button>
+        <md-button class='md-fab md-mini'>
+            <md-icon class='material-icons'>delete</md-icon>
+        </md-button>
+        <md-button class='md-fab md-mini'>
+            <md-icon class='material-icons'>power</md-icon>
+        </md-button>
+    </div>
 </div>

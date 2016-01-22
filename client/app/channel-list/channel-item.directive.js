@@ -32,6 +32,7 @@
 
     /* @ngInject */
     function ChannelItemController() {
-
+        var channelItemVM = this;
+        channelItemVM.showButtons = false;
     }
 })();

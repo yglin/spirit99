@@ -1,3 +1,7 @@
+.s99-channel-item {
+    min-height: 80px;
+}
+
 .s99-channel-logo {
     width:40px;
     height:40px;
@@ -10,13 +14,16 @@
 }
 
 .s99-channel-title {
-
+    font-weight: bold;
 }
 
 .s99-channel-description {
-    
+    color: blue;
+    font-size: 80%;
 }
 
 .s99-channel-offline {
     color: red;
+    font-size: 80%;
+    font-style: italic;
 }
