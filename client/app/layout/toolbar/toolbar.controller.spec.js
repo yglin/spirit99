@@ -6,17 +6,17 @@ describe('ToolbarController', function () {
 
     beforeEach(function () {
         module(function($provide) {
-            $provide.service('StationManager', mockStationManager);
+            $provide.service('ChannelManager', mockChannelManager);
         
-            mockStationManager.$inject = ['DEFAULTS'];
+            mockChannelManager.$inject = ['DEFAULTS'];
         
-            function mockStationManager (DEFAULTS) {
+            function mockChannelManager (DEFAULTS) {
                 var self = this;
                 // self.property = {};
-                // console.debug(DEFAULTS.stations);
-                self.getStation = jasmine.createSpy('getStation')
+                // console.debug(DEFAULTS.channels);
+                self.getChannel = jasmine.createSpy('getChannel')
                 .and.callFake(function () {
-                    return DEFAULTS.stations[Object.keys(DEFAULTS.stations)[0]];
+                    return DEFAULTS.channels[Object.keys(DEFAULTS.channels)[0]];
                 });
             }
         });        
@@ -32,10 +32,10 @@ describe('ToolbarController', function () {
     }));
 
     describe(' - Initial activate()', function () {
-        it(' - station should has title and logoUrl', function () {
-            // console.debug(toolbarVM.station);
-            expect(toolbarVM.station.title).not.toBeNull();
-            expect(toolbarVM.station.logoUrl).not.toBeNull();
+        it(' - channel should has title and logoUrl', function () {
+            // console.debug(toolbarVM.channel);
+            expect(toolbarVM.channel.title).not.toBeNull();
+            expect(toolbarVM.channel.logoUrl).not.toBeNull();
         });
     });
 });

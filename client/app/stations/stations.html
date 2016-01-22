@@ -1,8 +1,8 @@
 <div>
     <md-content>
-        <div ng-repeat='station in stationsVM.stations'>
-            <s99-station-listview station-model='station'>
-            </s99-station-listview>
+        <div ng-repeat='channel in channelsVM.channels'>
+            <s99-channel-listview channel-model='channel'>
+            </s99-channel-listview>
             <md-divider layout-margin ng-if="!$last"></md-divider>
         </div>
     </md-content>

@@ -1,22 +1,22 @@
-.s99-station-logo {
+.s99-channel-logo {
     width:40px;
     height:40px;
     border-radius: 10%;
 }
 
-.s99-station-logo-offline {
+.s99-channel-logo-offline {
     opacity: 0.4;
     filter: alpha(opacity=40); /* For IE8 and earlier */
 }
 
-.s99-station-title {
+.s99-channel-title {
 
 }
 
-.s99-station-description {
+.s99-channel-description {
     
 }
 
-.s99-station-offline {
+.s99-channel-offline {
     color: red;
 }

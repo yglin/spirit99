@@ -1,0 +1,31 @@
+<div ng-controller="ToolbarController as toolbarVM">
+    <md-toolbar>
+        <div class='md-toolbar-tools' ng-cloak>
+            <div layout='row' ng-click='toolbarVM.toggleSidenav("sidenav-channel-list")'>
+                <img class='s99-channel-logo s99-button'
+                ng-class='{"s99-channel-logo-offline": channelListviewVM.channel.isOffline}'
+                ng-src='{{toolbarVM.channel.logoUrl}}'>
+                <p layout-margin hide-xs class='s99-channel-title'>{{toolbarVM.channel.title}}</p>
+            </div>
+            <div hide-xs flex>
+                <md-chips ng-model='toolbarVM.keywords' readonly='toolbarVM.readonly' placeholder='增加關鍵字' secondary-placeholder='搜尋標題'></md-chips>
+            </div>
+            <div flex></div>
+            <div>
+                <md-button id='bookmarks-button' class='md-icon-button' ng-click="toolbarVM.toggleSidenav('sidenav-bookmarks')">
+                    <md-icon class='material-icons'>bookmark</md-icon>
+                </md-button>
+            </div>
+            <div>
+                <md-button id='search-button' class='md-icon-button' ng-click="toolbarVM.toggleSidenav('sidenav-search')">
+                    <md-icon class='material-icons'>search</md-icon>
+                </md-button>
+            </div>
+            <div>
+                <md-button id='menu-button' class='md-icon-button' ng-click="toolbarVM.toggleSidenav('sidenav-menu')">
+                    <md-icon class='material-icons'>menu</md-icon>
+                </md-button>
+            </div>
+        </div>
+    </md-toolbar>
+</div>

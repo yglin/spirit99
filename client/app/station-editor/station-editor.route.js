@@ -3,16 +3,16 @@
 
     angular
     .module('spirit99')
-    .config(StationEditorRouter);
+    .config(ChannelEditorRouter);
 
-    StationEditorRouter.$inject = ['$routeProvider'];
+    ChannelEditorRouter.$inject = ['$routeProvider'];
 
     /* @ngInject */
-    function StationEditorRouter($routeProvider){
-        $routeProvider.when('/station-editor', {
-            templateUrl: 'app/station-editor/station-editor.html',
-            controller: 'StationEditorController',
-            controllerAs: 'stationEditorVM'
+    function ChannelEditorRouter($routeProvider){
+        $routeProvider.when('/channel-editor', {
+            templateUrl: 'app/channel-editor/channel-editor.html',
+            controller: 'ChannelEditorController',
+            controllerAs: 'channelEditorVM'
         });        
     }
 

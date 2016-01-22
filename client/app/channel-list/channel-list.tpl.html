@@ -1,0 +1,6 @@
+<md-content ng-controller="ChannelListController as channelListVM">
+    <div ng-repeat="(id, channel) in channelListVM.channels">
+        <s99-channel-item channel='channel'></s99-channel-item>
+        <md-divider layout-margin ng-if="!$last"></md-divider>
+    </div>
+</md-content>

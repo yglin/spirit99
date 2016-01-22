@@ -7,11 +7,11 @@ describe('MarkersController', function () {
     // <<<<<<<<<<<<<<<<<<<<<<<<< Mock Dependencies <<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     beforeEach(function () {
         module(function($provide) {
-            $provide.service('StationManager', mockStationManager);
+            $provide.service('ChannelManager', mockChannelManager);
         
-            mockStationManager.$inject = [];
+            mockChannelManager.$inject = [];
         
-            function mockStationManager () {
+            function mockChannelManager () {
                 var self = this;
                 // self.property = {};
                 self.getSpiritMeta = jasmine.createSpy('getSpiritMeta')
@@ -60,7 +60,7 @@ describe('MarkersController', function () {
         
             function mockUserCtrls () {
                 var self = this;
-                self.tunedInStation = '';
+                self.tunedInChannel = '';
                 self.selectedSpirit = '';
             }
         });

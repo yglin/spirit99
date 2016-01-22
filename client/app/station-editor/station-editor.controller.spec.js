@@ -1,11 +1,11 @@
 'use strict';
         
-describe('StationEditorController', function () {
+describe('ChannelEditorController', function () {
 
     beforeEach(module('spirit99'));
 
-    var stationEditorVM;
+    var channelEditorVM;
     beforeEach(inject(function ($controller) {
-        stationEditorVM = $controller('StationEditorController');
+        channelEditorVM = $controller('ChannelEditorController');
     }));
 });

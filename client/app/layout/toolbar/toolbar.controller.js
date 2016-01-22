@@ -5,16 +5,16 @@
         .module('spirit99')
         .controller('ToolbarController', ToolbarController);
 
-    ToolbarController.$inject = ['$scope', '$location', 'StationManager'];
+    ToolbarController.$inject = ['$scope', '$location', '$mdSidenav', '$log', 'ChannelManager'];
 
     /* @ngInject */
-    function ToolbarController($scope, $location, StationManager) {
+    function ToolbarController($scope, $location, $mdSidenav, $log, ChannelManager) {
         var toolbarVM = this;
         toolbarVM.title = 'Toolbar';
         toolbarVM.viewButtons = {
-            'stations': {
+            'channels': {
                 icon: 'radio',
-                viewPath: 'stations',
+                viewPath: 'channels',
                 hide: false
             },
             'map': {
@@ -33,15 +33,18 @@
                 hide: false
             }
         };
-        toolbarVM.station = {};
+        toolbarVM.channel = {};
         toolbarVM.gotoView = gotoView;
+        toolbarVM.readonly = false;
+        toolbarVM.keywords = [];
+        toolbarVM.toggleSidenav = toggleSidenav;
 
         activate();
 
         ////////////////
 
         function activate() {
-            toolbarVM.station = StationManager.getStation();
+            toolbarVM.channel = ChannelManager.getChannel();
             hideCurrentViewButton();
         }
 
@@ -59,6 +62,16 @@
                     toolbarVM.viewButtons[key].hide = false;
                 }
             }
+        }
+
+        function toggleSidenav (componentID, options) {
+            options = typeof options === 'undefined' ? {} : options;
+            // options.optionArg = typeof options.optionArg === 'undefined' ? defaultValue : options.optionArg;
+            $mdSidenav(componentID)
+            .toggle();
+            // .then(function () {
+            //     $log.debug("toggle " + componentID + " is done");
+            // });
         }
     }
 })();

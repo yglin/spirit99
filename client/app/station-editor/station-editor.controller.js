@@ -3,14 +3,14 @@
 
     angular
         .module('spirit99')
-        .controller('StationEditorController',StationEditorController);
+        .controller('ChannelEditorController',ChannelEditorController);
 
-    StationEditorController.$inject = ['$scope', 'StationManager'];
+    ChannelEditorController.$inject = ['$scope', 'ChannelManager'];
 
     /* @ngInject */
-    function StationEditorController($scope, StationManager) {
-        var stationEditorVM = this;
-        stationEditorVM.title = 'StationEditor';
+    function ChannelEditorController($scope, ChannelManager) {
+        var channelEditorVM = this;
+        channelEditorVM.title = 'ChannelEditor';
 
         activate();
 

@@ -3,25 +3,25 @@
 
     angular
         .module('spirit99')
-        .directive('s99StationListview', s99StationListview);
+        .directive('s99ChannelItem', ChannelItem);
 
-    s99StationListview.$inject = [];
+    ChannelItem.$inject = [];
 
     /* @ngInject */
-    function s99StationListview() {
+    function ChannelItem() {
         // Usage:
         //
         // Creates:
         //
         var directive = {
-            templateUrl: 'app/components/station/listview/station-listview.html',
+            templateUrl: 'app/channel-list/channel-item.tpl.html',
             bindToController: true,
-            controller: StationListviewController,
-            controllerAs: 'stationListviewVM',
+            controller: ChannelItemController,
+            controllerAs: 'channelItemVM',
             link: link,
             restrict: 'EA',
             scope: {
-                station: '=stationModel'
+                channel: '=channel'
             }
         };
         return directive;
@@ -31,7 +31,7 @@
     }
 
     /* @ngInject */
-    function StationListviewController() {
+    function ChannelItemController() {
 
     }
 })();

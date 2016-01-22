@@ -3,16 +3,16 @@
 
     angular
     .module('spirit99')
-    .config(StationsRouter);
+    .config(ChannelsRouter);
 
-    StationsRouter.$inject = ['$routeProvider'];
+    ChannelsRouter.$inject = ['$routeProvider'];
 
     /* @ngInject */
-    function StationsRouter($routeProvider){
-        $routeProvider.when('/stations', {
-            templateUrl: 'app/stations/stations.html',
-            controller: 'StationsController',
-            controllerAs: 'stationsVM'
+    function ChannelsRouter($routeProvider){
+        $routeProvider.when('/channels', {
+            templateUrl: 'app/channels/channels.html',
+            controller: 'ChannelsController',
+            controllerAs: 'channelsVM'
         });        
     }
 

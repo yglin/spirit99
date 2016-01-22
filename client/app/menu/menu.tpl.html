@@ -1,0 +1,14 @@
+<md-list ng-controller="MenuController as menuVM">
+    <md-list-item ng-click="menuVM.openSidenav('sidenav-channel-list')">
+        <md-icon class='material-icons'>radio</md-icon>
+        <p>電台列表</p>
+    </md-list-item>
+    <md-list-item ng-click="menuVM.openSidenav('sidenav-search')">
+        <md-icon class='material-icons'>search</md-icon>
+        <p>搜尋檢視</p>
+    </md-list-item>
+    <md-list-item ng-click="menuVM.openSidenav('sidenav-bookmarks')">
+        <md-icon class='material-icons'>bookmark</md-icon>
+        <p>快速瀏覽</p>
+    </md-list-item>
+</md-list>

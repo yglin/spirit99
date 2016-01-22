@@ -25,7 +25,7 @@
                     northeast: {latitude: 0, longitude: 0}
                 }
             },
-            stations: {
+            channels: {
                 'nuclear-waste': {
                     portalUrl: 'http://localhost:3000/nuclear-waste/portal/',
                     id: 'nuclear-waste',

@@ -3,40 +3,40 @@
 
     angular
         .module('spirit99')
-        .controller('StationsController', StationsController);
+        .controller('ChannelsController', ChannelsController);
 
-    StationsController.$inject = ['$scope', 'StationManager'];
+    ChannelsController.$inject = ['$scope', 'ChannelManager'];
 
     /* @ngInject */
-    function StationsController($scope, StationManager) {
-        var stationsVM = this;
-        stationsVM.title = 'Stations';
-        stationsVM.stations = [];
-        stationsVM.showToolbar = false;
+    function ChannelsController($scope, ChannelManager) {
+        var channelsVM = this;
+        channelsVM.title = 'Channels';
+        channelsVM.channels = [];
+        channelsVM.showToolbar = false;
 
         activate();
 
         ////////////////
         
-        // Watch if at least 1 station is checked
+        // Watch if at least 1 channel is checked
         $scope.$watch(function(){
-            for (var id in stationsVM.stations) {
-                if(stationsVM.stations[id].isChecked){
+            for (var id in channelsVM.channels) {
+                if(channelsVM.channels[id].isChecked){
                     return true;
                 }
             }
             return false;
         }, function (newValue) {
             if(newValue){
-                stationsVM.showToolbar = true;
+                channelsVM.showToolbar = true;
             }
             else{
-                stationsVM.showToolbar = false;
+                channelsVM.showToolbar = false;
             }
         });
 
         function activate() {
-            stationsVM.stations = StationManager.getStations();
+            channelsVM.channels = ChannelManager.getChannels();
         }
     }
 })();

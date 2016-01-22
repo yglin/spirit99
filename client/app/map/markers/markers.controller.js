@@ -5,10 +5,10 @@
         .module('spirit99')
         .controller('MarkersController', MarkersController);
 
-    MarkersController.$inject = ['$scope', 'CONFIG', 'StationManager', 'SpiritManager', 'IconManager', 'UserCtrls'];
+    MarkersController.$inject = ['$scope', 'CONFIG', 'ChannelManager', 'SpiritManager', 'IconManager', 'UserCtrls'];
 
     /* @ngInject */
-    function MarkersController($scope, CONFIG, StationManager, SpiritManager, IconManager, UserCtrls) {
+    function MarkersController($scope, CONFIG, ChannelManager, SpiritManager, IconManager, UserCtrls) {
         var markersVM = this;
         markersVM.title = 'MarkersController';
         markersVM.markers = [];
@@ -44,7 +44,7 @@
         }
 
         function refresh (mapModel) {
-            var spiritMeta = StationManager.getSpiritMeta(UserCtrls.tunedInStation, UserCtrls.selectedSpirit);
+            var spiritMeta = ChannelManager.getSpiritMeta(UserCtrls.tunedInChannel, UserCtrls.selectedSpirit);
             var iconObjects = IconManager.getIconObjects(spiritMeta);
             SpiritManager.promiseLoadSpirits(spiritMeta, mapModel.bounds).then(function (spirits) {
                 markersVM.rebuildMarkers(spirits, iconObjects);

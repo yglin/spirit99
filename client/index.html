@@ -12,15 +12,16 @@
     <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/normalize.css">
     <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/main.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="app/styles/spirit99.css">
+    <link rel="stylesheet" href="app/channel-list/channel-item.css">
     <link rel="stylesheet" href="app/map/map.css">
-    <link rel="stylesheet" href="app/components/station/station.css">
+    <link rel="stylesheet" href="app/styles/spirit99.css">
     <link rel="stylesheet" href="/bower_components/angular-material/angular-material.css">
 
     <script src="bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>
 </head>
 <body>
-    <div ng-include='"app/toolbar/toolbar.html"'></div>
+    <div ng-include='"app/layout/toolbar/toolbar.html"'></div>
+    <div ng-include='"app/layout/sidenav/sidenav.html"'></div>
     <!--[if lt IE 7]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
@@ -69,8 +70,7 @@
 
     <script src="app/components/spirit/spirit-manager.service.js"></script>
 
-    <script src="app/components/station/station-manager.service.js"></script>
-    <script src="app/components/station/listview/station-listview.directive.js"></script>
+    <script src="app/components/channel/channel-manager.service.js"></script>
     <!-- end Components -->
     
     <!-- Views -->
@@ -79,20 +79,20 @@
     <script src="app/map/map.route.js"></script>
     <script src="app/map/markers/markers.controller.js"></script>
 
-    <script src="app/stations/stations.controller.js"></script>
-    <script src="app/stations/stations.route.js"></script>
-    
-    <script src="app/station-editor/station-editor.controller.js"></script>
-    <script src="app/station-editor/station-editor.route.js"></script>
-    
     <script src="app/search/search.controller.js"></script>
     <script src="app/search/search.route.js"></script>
     
     <script src="app/settings/settings.controller.js"></script>
     <script src="app/settings/settings.route.js"></script>
     <!-- end Views -->
+
+    <!-- Templates -->
+    <script src="app/menu/menu.controller.js"></script>
+    <script src="app/channel-list/channel-item.directive.js"></script>
+    <script src="app/channel-list/channel-list.controller.js"></script>
+    <script src="app/layout/toolbar/toolbar.controller.js"></script>
+    <!-- end Templates -->
     
-    <script src="app/toolbar/toolbar.controller.js"></script>
     <!-- endbuild -->
 </body>
 </html>
