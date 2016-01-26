@@ -16,7 +16,6 @@
         self.getChannels = getChannels;
         self.loadChannels = loadChannels;
         self.validateChannel = validateChannel;
-        self.tuneInChannel = tuneInChannel;
         self.getSpiritMeta = getSpiritMeta;
 
         ////////////////
@@ -61,12 +60,6 @@
             }
             return true;
         }
-
-        function tuneInChannel (channelID, options) {
-            options = typeof options === 'undefined' ? {} : options;
-            // options.optionArg = typeof options.optionArg === 'undefined' ? defaultValue : options.optionArg;
-            UserCtrls.tuneInChannel(channelID);
-        };
 
         function promiseUpdateChannel (channelID, options) {
             options = typeof options === 'undefined' ? {} : options;

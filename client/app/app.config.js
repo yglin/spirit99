@@ -7,7 +7,8 @@
 
     function configProvider() {
         return {
-            env: 'development'
+            env: 'development',
+            MIN_POSTS_FOR_LIST: 10
         };
     }
 

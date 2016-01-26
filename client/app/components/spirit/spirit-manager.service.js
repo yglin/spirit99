@@ -24,7 +24,7 @@
         // TODO: Implement
         function promiseLoadSpirits (spiritMeta, mapBounds, options) {
             options = typeof options === 'undefined' ? {} : options;
-            return $q.resolve(FakeData.genFakeSpirits({count: 50}));
+            return $q.resolve(FakeData.genFakeSpirits({count: Math.floor(Math.random() * (20)) + 5}));
         };
     }
 })();

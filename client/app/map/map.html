@@ -1,7 +1,19 @@
-<div>
-<ui-gmap-google-map center='mapVM.map.center' zoom='mapVM.map.zoom' bounds='mapVM.map.bounds' events='mapVM.events'>
-    <ng-include src='"app/map/markers/markers.html"' scope="" onload=""></ng-include>
+<div style='position:relative;'>
+<ui-gmap-google-map center='mapVM.map.center' zoom='mapVM.map.zoom'
+bounds='mapVM.map.bounds' events='mapVM.events'>
+    <ng-include src='"app/map/markers/markers.html"' onload=""></ng-include>
 </ui-gmap-google-map>
+<div style='position:absolute;top:0px;right:0px;' layout='column'>
+    <md-button class='md-fab md-mini md-accent s99-show-flipInX'
+    ng-hide='mapVM.isDragging'
+    ng-click="mapVM.locate($event)">
+        <md-icon class='material-icons'>my_location</md-icon>
+    </md-button>
+    <md-button class='md-fab md-mini md-accent s99-show-flipInX'
+    ng-hide='mapVM.isDragging || !mapVM.showListButton'>
+        <md-icon class='material-icons'>list</md-icon>
+    </md-button>    
+</div>
 <!-- <p>Bounds:
 North East: {{mapVM.map.bounds.northeast.latitude}}, {{mapVM.map.bounds.northeast.longitude}}
 Southwest: {{mapVM.map.bounds.southwest.latitude}}, {{mapVM.map.bounds.southwest.longitude}}

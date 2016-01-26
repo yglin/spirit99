@@ -5,33 +5,69 @@
     .module('spirit99')
     .controller('MapController', MapController);
 
-    MapController.$inject = ['$scope', 'initMapArea'];
+    MapController.$inject = ['CONFIG', '$scope', '$mdDialog', 'initMapArea'];
 
     /* @ngInject */
-    function MapController($scope, initMapArea) {
+    function MapController(CONFIG, $scope, $mdDialog, initMapArea) {
         var mapVM = this;
         mapVM.title = 'MapController';
         mapVM.map = getInitialMap();
         mapVM.map.bounds = {};
-        // Event handlers
-        mapVM.propagateMapEvent = propagateMapEvent;
+        mapVM.isDragging = false;
+        mapVM.showListButton = false;
+        mapVM.locate = locate;
+        // Map events
         mapVM.events = {
-            'tilesloaded': mapVM.propagateMapEvent,
-            'dragend': mapVM.propagateMapEvent
+            'tilesloaded': broadcastMapEvent,
+            'dragstart': handlerDragStart,
+            'dragend': handlerDragEnd,
         };
-
+        // Publish-Subscribe events
+        $scope.$on('markers:refresh', handlerMarkersRefresh);
 
         activate();
+        //////////////// Custom Event Handlers ///////////////////
+        function handlerMarkersRefresh (eventName, markers) {
+            if(markers.length >= CONFIG.MIN_POSTS_FOR_LIST){
+                mapVM.showListButton = true;
+            }
+            else{
+                mapVM.showListButton = false;                
+            }
+        };
 
-        //////////////// Event Handlers ///////////////////
-        // General map event propagation
-        function propagateMapEvent(mapObject, eventName){
+        //////////////// Map Event Handlers ///////////////////
+        // Do nothing but broadcast map event
+        function broadcastMapEvent(mapObject, eventName){
             $scope.$broadcast('map:' + eventName, mapVM.map);            
+        }
+
+        function handlerDragStart (mapObject, eventName) {
+            // options = typeof options === 'undefined' ? {} : options;
+            // options.optionArg = typeof options.optionArg === 'undefined' ? defaultValue : options.optionArg;
+            mapVM.isDragging = true;
+        }
+
+        function handlerDragEnd (mapObject, eventName) {
+            // options = typeof options === 'undefined' ? {} : options;
+            // options.optionArg = typeof options.optionArg === 'undefined' ? defaultValue : options.optionArg;
+            mapVM.isDragging = false;
+            broadcastMapEvent(mapObject, eventName);
         }
 
         //////////////// Utility Functions ////////////////
 
         function activate () {
+        }
+
+        function locate(event) {
+            $mdDialog.show({
+                templateUrl: 'app/locater/locater.tpl.html',
+                controller: 'LocaterController',
+                controllerAs: 'locaterVM',
+                targetEvent: event,
+                clickOutsideToClose:true
+            });
         }
 
         function getInitialMap () {

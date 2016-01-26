@@ -12,15 +12,20 @@
         <div class='s99-channel-description'>{{channelItemVM.channel.description}}</div>
         <div class='s99-channel-offline' ng-show='channelItemVM.channel.isOffline'>電台目前無法連線...</div>
     </div>
-    <div flex layout='row' ng-show='channelItemVM.showButtons' class='s99-show-lightSpeedIn'>
-        <md-button class='md-fab md-mini'>
-            <md-icon class='material-icons'>pageview</md-icon>
+    <div layout='row' flex
+        ng-show='channelItemVM.showButtons' class='s99-show-lightSpeedIn'
+        ng-click="channelItemVM.showButtons = !(channelItemVM.showButtons)">
+        <md-button class='md-fab md-mini'
+            ng-click="$event.stopPropagation();">
+            <md-icon class='material-icons'>description</md-icon>
         </md-button>
-        <md-button class='md-fab md-mini'>
+        <md-button class='md-fab md-mini'
+            ng-click="$event.stopPropagation();">
             <md-icon class='material-icons'>delete</md-icon>
         </md-button>
-        <md-button class='md-fab md-mini'>
-            <md-icon class='material-icons'>power</md-icon>
+        <md-button class='md-fab md-mini'
+            ng-click="$event.stopPropagation(); channelItemVM.tuneInChannel(channelItemVM.channel.id)">
+            <md-icon class='material-icons'>play_arrow</md-icon>
         </md-button>
     </div>
 </div>

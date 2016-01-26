@@ -42,6 +42,15 @@
                     description: '要不要要不不要要不要要要要不要要不要ㄚ呆呆',
                     introUrl: 'http://www.google.com',
                     logoUrl: 'https://www.evansville.edu/residencelife/images/greenLogo.png'
+                },
+
+                'birdy-go-home': {
+                    portalUrl: 'http://localhost:3000/birdy-go-home/portal/',
+                    id: 'birdy-go-home',
+                    title: '小小鳥兒要回家',
+                    description: '幫助在外流浪的鳥兒回到鳥奴身邊',
+                    introUrl: 'http://www.google.com',
+                    logoUrl: 'http://www.mrspeaker.net/images/wafty-icon.png'
                 }                
             }
 

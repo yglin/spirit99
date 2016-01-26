@@ -30,9 +30,12 @@
         }
     }
 
+    ChannelItemController.$inject = ['UserCtrls']
+
     /* @ngInject */
-    function ChannelItemController() {
+    function ChannelItemController(UserCtrls) {
         var channelItemVM = this;
         channelItemVM.showButtons = false;
+        channelItemVM.tuneInChannel = UserCtrls.tuneInChannel;
     }
 })();

@@ -15,11 +15,13 @@
 
 .s99-channel-title {
     font-weight: bold;
+    margin: 2px 10px;
 }
 
 .s99-channel-description {
     color: blue;
     font-size: 80%;
+    margin: 2px 10px;
 }
 
 .s99-channel-offline {

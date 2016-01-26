@@ -48,6 +48,7 @@
             var iconObjects = IconManager.getIconObjects(spiritMeta);
             SpiritManager.promiseLoadSpirits(spiritMeta, mapModel.bounds).then(function (spirits) {
                 markersVM.rebuildMarkers(spirits, iconObjects);
+                $scope.$emit('markers:refresh', markersVM.markers);
             });
         }
 
