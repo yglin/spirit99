@@ -10,8 +10,9 @@ bounds='mapVM.map.bounds' events='mapVM.events'>
         <md-icon class='material-icons'>my_location</md-icon>
     </md-button>
     <md-button class='md-fab md-mini md-accent s99-show-flipInX'
-    ng-hide='mapVM.isDragging || !mapVM.showListButton'>
-        <md-icon class='material-icons'>list</md-icon>
+    ng-hide='mapVM.isDragging || !mapVM.showListButton'
+    ng-click="mapVM.showSidenav('sidenav-post-list')">
+        <md-icon class='material-icons'>view_list</md-icon>
     </md-button>    
 </div>
 <!-- <p>Bounds:
