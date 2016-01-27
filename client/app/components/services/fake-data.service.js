@@ -11,7 +11,7 @@
     function FakeData(DEFAULTS) {
         var self = this;
         self.genFakeMap = genFakeMap;
-        self.genFakeSpirits = genFakeSpirits;
+        self.genFakePosts = genFakePosts;
         self.genFakeIconObjects = genFakeIconObjects;
 
         ////////////////
@@ -21,24 +21,24 @@
             return DEFAULTS.map;
         };
 
-        function genFakeSpirits(options) {
+        function genFakePosts(options) {
             options = typeof options === 'undefined' ? {} : options;
             options.count = typeof options.count === 'undefined' ? 10 : options.count;
             options.countHasCategory = typeof options.countHasCategory === 'undefined' ? options.count : options.countHasCategory;  
-            var spirits = [];
+            var posts = [];
             var categories = Object.keys(self.genFakeIconObjects());
             for (var i = 0; i < options.count; i++) {
-                var spirit = {
+                var post = {
                     id: i+1,
                     latitude: 23.973875 + 2 * (0.5 - Math.random()),
                     longitude: 120.982024 + 2 * (0.5 - Math.random()),
                 };
                 if(i < options.countHasCategory){
-                    spirit.category = _.sample(categories);
+                    post.category = _.sample(categories);
                 }
-                spirits.push(spirit);
+                posts.push(post);
             };
-            return spirits;
+            return posts;
         }
 
         function genFakeIconObjects (options) {

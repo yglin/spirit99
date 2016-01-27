@@ -17,6 +17,9 @@
 
     function defaultsProvider() {
         return {
+            userCtrls: {
+                selectedSidenav: 'channel-list'
+            },
             map: {
                 center: { latitude: 23.973875, longitude: 120.982024 },
                 zoom: ZOOM_LEVELS.TAIWAN,

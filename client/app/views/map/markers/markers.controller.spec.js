@@ -14,26 +14,26 @@ describe('MarkersController', function () {
             function mockChannelManager () {
                 var self = this;
                 // self.property = {};
-                self.getSpiritMeta = jasmine.createSpy('getSpiritMeta')
+                self.getPostMeta = jasmine.createSpy('getPostMeta')
                 .and.callFake(function () {
                     return {
-                        url: 'http://fake.url.to/spirit/'
+                        url: 'http://fake.url.to/post/'
                     };
                 });
             }
         });
 
         module(function($provide) {
-            $provide.service('SpiritManager', mockSpiritManager);
+            $provide.service('PostManager', mockPostManager);
         
-            mockSpiritManager.$inject = ['$q'];
+            mockPostManager.$inject = ['$q'];
         
-            function mockSpiritManager ($q) {
+            function mockPostManager ($q) {
                 var self = this;
                 // self.property = {};
-                self.promiseLoadSpirits = jasmine.createSpy('promiseLoadSpirits')
+                self.promiseLoadPosts = jasmine.createSpy('promiseLoadPosts')
                 .and.callFake(function () {
-                    return $q.resolve(fakeSpirits);
+                    return $q.resolve(fakePosts);
                 });
             }
         });
@@ -61,21 +61,21 @@ describe('MarkersController', function () {
             function mockUserCtrls () {
                 var self = this;
                 self.tunedInChannel = '';
-                self.selectedSpirit = '';
+                self.selectedPost = '';
             }
         });
     })
 
     // >>>>>>>>>>>>>>>>>>>>>>>>> Mock Dependencies >>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-    var markersVM, $scope, $rootScope, CONFIG, FakeData, fakeSpirits, fakeIconObjects;
+    var markersVM, $scope, $rootScope, CONFIG, FakeData, fakePosts, fakeIconObjects;
 
     beforeEach(inject(function (_$rootScope_, _FakeData_, _CONFIG_, $controller) {
         $rootScope = _$rootScope_;
         CONFIG = _CONFIG_;
         // Generate Fake Data
         FakeData = _FakeData_;
-        fakeSpirits = FakeData.genFakeSpirits();
+        fakePosts = FakeData.genFakePosts();
         fakeIconObjects = FakeData.genFakeIconObjects();
 
         $scope = $rootScope.$new();
@@ -124,8 +124,8 @@ describe('MarkersController', function () {
             expect(markersVM.rebuildMarkers).toHaveBeenCalled();
         });
 
-        it('self.markers should contain markerized spirits', function () {
-            expect(markersVM.markers.length).toBe(fakeSpirits.length);
+        it('self.markers should contain markerized posts', function () {
+            expect(markersVM.markers.length).toBe(fakePosts.length);
             expect(_.sample(markersVM.markers).markerized).toBe(true);
         });
     });
@@ -133,10 +133,10 @@ describe('MarkersController', function () {
     describe(' - rebuildMarkers()', function () {
 
         it(' - markers should has marker-related properties', function () {
-            var spirits = FakeData.genFakeSpirits({count: 100, countHasCategory: 50});
+            var posts = FakeData.genFakePosts({count: 100, countHasCategory: 50});
             var markers = [];
             var iconObjects = FakeData.genFakeIconObjects();
-            markersVM.rebuildMarkers(spirits, fakeIconObjects, {markers: markers});
+            markersVM.rebuildMarkers(posts, fakeIconObjects, {markers: markers});
             expect(_.sample(markers).id).toBeDefined();
             expect(_.sample(markers).latitude).toBeDefined();
             expect(_.sample(markers).longitude).toBeDefined();

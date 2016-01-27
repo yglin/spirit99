@@ -16,7 +16,7 @@
         self.getChannels = getChannels;
         self.loadChannels = loadChannels;
         self.validateChannel = validateChannel;
-        self.getSpiritMeta = getSpiritMeta;
+        self.getPostMeta = getPostMeta;
 
         ////////////////
         function getChannel(channelID){
@@ -96,7 +96,7 @@
         };  
 
         // TODO: Implement
-        function getSpiritMeta(channelName, spiritName) {
+        function getPostMeta(channelName, postName) {
             return {};
         }
 

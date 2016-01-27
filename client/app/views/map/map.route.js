@@ -9,7 +9,7 @@
 
     function MapRouter($routeProvider){
         $routeProvider.when('/map', {
-            templateUrl: 'app/map/map.html',
+            templateUrl: 'app/views/map/map.html',
             controller: 'MapController',
             controllerAs: 'mapVM',
             resolve: {

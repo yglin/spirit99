@@ -64,7 +64,7 @@
 
         function locate(event) {
             $mdDialog.show({
-                templateUrl: 'app/locater/locater.tpl.html',
+                templateUrl: 'app/views/locater/locater.tpl.html',
                 controller: 'LocaterController',
                 controllerAs: 'locaterVM',
                 targetEvent: event,

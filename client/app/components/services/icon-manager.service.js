@@ -15,7 +15,7 @@
         ////////////////
         
         // TODO: Implement
-        function getIconObjects (spiritMeta, options) {
+        function getIconObjects (postMeta, options) {
             options = typeof options === 'undefined' ? {} : options;
             // options.optionArg = typeof options.optionArg === 'undefined' ? defaultValue : options.optionArg;
             return FakeData.genFakeIconObjects();

@@ -14,7 +14,7 @@
         // Creates:
         //
         var directive = {
-            templateUrl: 'app/channel-list/channel-item.tpl.html',
+            templateUrl: 'app/views/channel-list/channel-item.tpl.html',
             bindToController: true,
             controller: ChannelItemController,
             controllerAs: 'channelItemVM',

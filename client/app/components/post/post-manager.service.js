@@ -3,28 +3,28 @@
 
     angular
         .module('spirit99')
-        .service('SpiritManager', SpiritManager);
+        .service('PostManager', PostManager);
 
-    SpiritManager.$inject = ['$q', 'FakeData'];
+    PostManager.$inject = ['$q', 'FakeData'];
 
     /* @ngInject */
-    function SpiritManager($q, FakeData) {
+    function PostManager($q, FakeData) {
         var self = this;
-        self.promiseLoadSpirits = promiseLoadSpirits;
-        self.getSpirit = getSpirit;
+        self.promiseLoadPosts = promiseLoadPosts;
+        self.getPost = getPost;
 
         ////////////////
         // TODO: Implement
-        function getSpirit (spiritMeta, options) {
+        function getPost (postMeta, options) {
             options = typeof options === 'undefined' ? {} : options;
             // options.optionArg = typeof options.optionArg === 'undefined' ? defaultValue : options.optionArg;
             return {};
         };
 
         // TODO: Implement
-        function promiseLoadSpirits (spiritMeta, mapBounds, options) {
+        function promiseLoadPosts (postMeta, mapBounds, options) {
             options = typeof options === 'undefined' ? {} : options;
-            return $q.resolve(FakeData.genFakeSpirits({count: Math.floor(Math.random() * (20)) + 5}));
+            return $q.resolve(FakeData.genFakePosts({count: Math.floor(Math.random() * (20)) + 5}));
         };
     }
 })();

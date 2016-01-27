@@ -12,13 +12,14 @@
         var self = this;
         self.tunedInChannelID = '';
         self.tuneInChannel = tuneInChannel;
-
+        self.selectedSidenav = '';
 
         activate();
 
         ////////////////
         function activate () {
             self.tunedInChannelID = Object.keys(DEFAULTS.channels)[0];
+            self.selectedSidenav = DEFAULTS.userCtrls.selectedSidenav;
         }
 
         function tuneInChannel (channelID, options) {

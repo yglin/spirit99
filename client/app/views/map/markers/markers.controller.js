@@ -5,10 +5,10 @@
         .module('spirit99')
         .controller('MarkersController', MarkersController);
 
-    MarkersController.$inject = ['$scope', 'CONFIG', 'ChannelManager', 'SpiritManager', 'IconManager', 'UserCtrls'];
+    MarkersController.$inject = ['$scope', 'CONFIG', 'ChannelManager', 'PostManager', 'IconManager', 'UserCtrls'];
 
     /* @ngInject */
-    function MarkersController($scope, CONFIG, ChannelManager, SpiritManager, IconManager, UserCtrls) {
+    function MarkersController($scope, CONFIG, ChannelManager, PostManager, IconManager, UserCtrls) {
         var markersVM = this;
         markersVM.title = 'MarkersController';
         markersVM.markers = [];
@@ -44,20 +44,20 @@
         }
 
         function refresh (mapModel) {
-            var spiritMeta = ChannelManager.getSpiritMeta(UserCtrls.tunedInChannel, UserCtrls.selectedSpirit);
-            var iconObjects = IconManager.getIconObjects(spiritMeta);
-            SpiritManager.promiseLoadSpirits(spiritMeta, mapModel.bounds).then(function (spirits) {
-                markersVM.rebuildMarkers(spirits, iconObjects);
+            var postMeta = ChannelManager.getPostMeta(UserCtrls.tunedInChannel, UserCtrls.selectedPost);
+            var iconObjects = IconManager.getIconObjects(postMeta);
+            PostManager.promiseLoadPosts(postMeta, mapModel.bounds).then(function (posts) {
+                markersVM.rebuildMarkers(posts, iconObjects);
                 $scope.$emit('markers:refresh', markersVM.markers);
             });
         }
 
-        function rebuildMarkers (spirits, iconObjects, options) {
+        function rebuildMarkers (posts, iconObjects, options) {
             options = typeof options === 'undefined' ? {} : options;
             options.markers = typeof options.markers === 'undefined' ? markersVM.markers : options.markers;
             options.markers.length = 0;
-            for (var i = 0; i < spirits.length; i++) {
-                var marker = spirits[i];
+            for (var i = 0; i < posts.length; i++) {
+                var marker = posts[i];
                 if(!marker.markerized){
                     if(marker.category && marker.category in iconObjects){
                         marker.iconObject = iconObjects[marker.category];

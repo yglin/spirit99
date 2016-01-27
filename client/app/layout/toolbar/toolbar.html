@@ -1,7 +1,7 @@
 <div ng-controller="ToolbarController as toolbarVM">
     <md-toolbar>
         <div class='md-toolbar-tools' ng-cloak>
-            <div layout='row' ng-click='toolbarVM.toggleSidenav("sidenav-channel-list")'>
+            <div layout='row' ng-click='toolbarVM.openSidenav("channel-list")'>
                 <img class='s99-channel-logo s99-button'
                 ng-class='{"s99-channel-logo-offline": channelListviewVM.channel.isOffline}'
                 ng-src='{{toolbarVM.channel.logoUrl}}'>
@@ -12,17 +12,17 @@
             </div>
             <div flex></div>
             <div>
-                <md-button id='bookmarks-button' class='md-icon-button' ng-click="toolbarVM.toggleSidenav('sidenav-bookmarks')">
+                <md-button id='bookmarks-button' class='md-icon-button' ng-click="toolbarVM.openSidenav('bookmark')">
                     <md-icon class='material-icons'>bookmark</md-icon>
                 </md-button>
             </div>
             <div>
-                <md-button id='search-button' class='md-icon-button' ng-click="toolbarVM.toggleSidenav('sidenav-search')">
+                <md-button id='search-button' class='md-icon-button' ng-click="toolbarVM.openSidenav('search')">
                     <md-icon class='material-icons'>search</md-icon>
                 </md-button>
             </div>
             <div>
-                <md-button id='menu-button' class='md-icon-button' ng-click="toolbarVM.toggleSidenav('sidenav-menu')">
+                <md-button id='menu-button' class='md-icon-button' ng-click="toolbarVM.openSidenav('main')">
                     <md-icon class='material-icons'>menu</md-icon>
                 </md-button>
             </div>

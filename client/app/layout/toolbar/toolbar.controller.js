@@ -5,10 +5,10 @@
         .module('spirit99')
         .controller('ToolbarController', ToolbarController);
 
-    ToolbarController.$inject = ['$scope', '$location', '$mdSidenav', '$log', 'ChannelManager'];
+    ToolbarController.$inject = ['$scope', '$location', '$mdSidenav', '$log', 'UserCtrls', 'ChannelManager'];
 
     /* @ngInject */
-    function ToolbarController($scope, $location, $mdSidenav, $log, ChannelManager) {
+    function ToolbarController($scope, $location, $mdSidenav, $log, UserCtrls, ChannelManager) {
         var toolbarVM = this;
         toolbarVM.title = 'Toolbar';
         toolbarVM.viewButtons = {
@@ -37,7 +37,7 @@
         toolbarVM.gotoView = gotoView;
         toolbarVM.readonly = false;
         toolbarVM.keywords = [];
-        toolbarVM.toggleSidenav = toggleSidenav;
+        toolbarVM.openSidenav = openSidenav;
 
         activate();
 
@@ -64,14 +64,9 @@
             }
         }
 
-        function toggleSidenav (componentID, options) {
-            options = typeof options === 'undefined' ? {} : options;
-            // options.optionArg = typeof options.optionArg === 'undefined' ? defaultValue : options.optionArg;
-            $mdSidenav(componentID)
-            .toggle();
-            // .then(function () {
-            //     $log.debug("toggle " + componentID + " is done");
-            // });
+        function openSidenav (sidenavName) {
+            UserCtrls.selectedSidenav = sidenavName;
+            $mdSidenav('sidenav-main').open();
         }
     }
 })();
