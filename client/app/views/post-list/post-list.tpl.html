@@ -1,1 +1,10 @@
-<p>This is post list view</p>
+<md-content ng-controller="PostListController as postListVM">
+    <md-input-container class='md-block' flex>
+        <label>搜尋標題</label>
+        <input ng-model='postListVM.search.title' />
+    </md-input-container>
+    <div ng-repeat="post in postListVM.posts | filter:postListVM.search">
+        <s99-post-item post='post'></s99-post-item>
+        <md-divider layout-margin ng-if="!$last"></md-divider>
+    </div>
+</md-content>

@@ -14,7 +14,7 @@
         // Creates:
         //
         var directive = {
-            templateUrl: 'app/post-list/post-item.tpl.html',
+            templateUrl: 'app/views/post-list/post-item.tpl.html',
             bindToController: true,
             controller: PostItemController,
             controllerAs: 'postItemVM',

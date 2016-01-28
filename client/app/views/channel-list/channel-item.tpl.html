@@ -1,8 +1,6 @@
 <div layout='row' layout-align='start center' class='s99-channel-item'>
     <img class='s99-channel-logo'
-        ng-class='{"s99-channel-logo-offline": channelItemVM.channel.isOffline,
-            "s99-button": channelItemVM.showButtons,
-            "s99-not-button": !channelItemVM.showButtons}'
+        ng-class='{"s99-channel-logo-offline": channelItemVM.channel.isOffline}'
         ng-src='{{channelItemVM.channel.logoUrl}}' layout-margin
         ng-click="channelItemVM.showButtons = !(channelItemVM.showButtons)"/>
     <div layout='column' flex

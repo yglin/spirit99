@@ -5,10 +5,10 @@
     .module('spirit99')
     .controller('MapController', MapController);
 
-    MapController.$inject = ['CONFIG', '$scope', '$mdSidenav', '$mdDialog', 'initMapArea'];
+    MapController.$inject = ['CONFIG', '$scope', '$mdSidenav', '$mdDialog', 'UserCtrls', 'initMapArea'];
 
     /* @ngInject */
-    function MapController(CONFIG, $scope, $mdSidenav, $mdDialog, initMapArea) {
+    function MapController(CONFIG, $scope, $mdSidenav, $mdDialog, UserCtrls, initMapArea) {
         var mapVM = this;
         mapVM.title = 'MapController';
         mapVM.map = getInitialMap();
@@ -25,7 +25,7 @@
         // Publish-Subscribe events
         $scope.$on('markers:refresh', handlerMarkersRefresh);
         // UI controlls
-        mapVM.showSidenav = showSidenav;
+        mapVM.openPostList = openPostList;
 
         activate();
         //////////////// Custom Event Handlers ///////////////////
@@ -79,8 +79,9 @@
             };
         }
 
-        function showSidenav(sidenavID) {
-            $mdSidenav(sidenavID).open();
+        function openPostList() {
+            UserCtrls.selectedSidenav = 'post-list';
+            $mdSidenav('sidenav-main').open();
         }
     }
 })();

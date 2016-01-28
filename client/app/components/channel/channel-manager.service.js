@@ -15,6 +15,7 @@
         self.getChannel = getChannel;
         self.getChannels = getChannels;
         self.loadChannels = loadChannels;
+        self.getCategories = getCategories;
         self.validateChannel = validateChannel;
         self.getPostMeta = getPostMeta;
 
@@ -28,7 +29,7 @@
                 return channels[channelID];
             }
             else{
-                return null
+                return {}
             }
         }
 
@@ -47,6 +48,16 @@
                 }
             }
             return channels;
+        }
+
+        function getCategories (channelID) {
+            var channel = getChannel(channelID);
+            if(channel.categories){
+                return channel.categories;
+            }
+            else{
+                return {};
+            }            
         }
 
         function validateChannel (channel) {

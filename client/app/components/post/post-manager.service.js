@@ -10,6 +10,7 @@
     /* @ngInject */
     function PostManager($q, FakeData) {
         var self = this;
+        self.posts = [];
         self.promiseLoadPosts = promiseLoadPosts;
         self.getPost = getPost;
 
@@ -22,9 +23,10 @@
         };
 
         // TODO: Implement
-        function promiseLoadPosts (postMeta, mapBounds, options) {
-            options = typeof options === 'undefined' ? {} : options;
-            return $q.resolve(FakeData.genFakePosts({count: Math.floor(Math.random() * (20)) + 5}));
+        function promiseLoadPosts (postMeta, mapBounds) {
+            self.posts.length = 0;
+            self.posts.push.apply(self.posts, FakeData.genFakePosts({count: Math.floor(Math.random() * (20)) + 5}));
+            return $q.resolve(self.posts);
         };
     }
 })();

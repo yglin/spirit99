@@ -1,6 +1,6 @@
 <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="sidenav-main">
-    <div ng-controller="SidenavController as sidenavVM">
-        <md-tabs md-dynamic-height md-selected='sidenavVM.selectedTabIndex' class='md-primary'>
+    <div ng-controller="SidenavController as sidenavVM" style='height:100vh;'>
+        <md-tabs md-selected='sidenavVM.selectedTabIndex' class='md-primary' layout-fill>
             <md-tab ng-repeat='tab in sidenavVM.tabs'>
                 <md-tab-label>
                     <md-icon class='material-icons'>{{tab.icon}}</md-icon>

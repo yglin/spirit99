@@ -35,7 +35,24 @@
                     title: '核廢料掩埋場',
                     description: '創造非核家園',
                     introUrl: 'http://www.google.com',
-                    logoUrl: 'https://yt3.ggpht.com/-Gd9lF_AqQPk/AAAAAAAAAAI/AAAAAAAAAAA/afbtVZjs18E/s88-c-k-no/photo.jpg'
+                    logoUrl: 'https://yt3.ggpht.com/-Gd9lF_AqQPk/AAAAAAAAAAI/AAAAAAAAAAA/afbtVZjs18E/s88-c-k-no/photo.jpg',
+                    categories: {
+                        sweat: {
+                            icon: 'http://findicons.com/files/icons/2020/2s_space_emotions/128/sweat.png'
+                        },
+                        cry: {
+                            icon: 'http://findicons.com/files/icons/2020/2s_space_emotions/128/cry.png'
+                        },
+                        love: {
+                            icon: 'http://findicons.com/files/icons/2020/2s_space_emotions/128/love.png'
+                        },
+                        startle: {
+                            icon: 'http://findicons.com/files/icons/2020/2s_space_emotions/128/startle.png'
+                        },
+                        fire: {
+                            icon: 'http://findicons.com/files/icons/2020/2s_space_emotions/128/fire.png'
+                        }
+                    }
                 },
                 
                 'localooxx': {
@@ -55,6 +72,14 @@
                     introUrl: 'http://www.google.com',
                     logoUrl: 'http://www.mrspeaker.net/images/wafty-icon.png'
                 }                
+            },
+
+            'iconObject': {
+                url: 'http://icons.iconarchive.com/icons/icons-land/vista-map-markers/256/Map-Marker-Flag-3-Right-Chartreuse-icon.png',
+                scaledSize: {
+                    width: 32,
+                    height: 32
+                }
             }
 
         };

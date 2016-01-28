@@ -11,15 +11,13 @@
     function PostListController($scope, UserCtrls, ChannelManager, PostManager) {
         var postListVM = this;
         postListVM.title = 'PostList';
-        postListVM.posts = [];
+        postListVM.posts = PostManager.posts;
 
         activate();
 
         ////////////////
 
-        function activate() {
-            var postPortal = ChannelManager.getPostPortal(UserCtrls.tunedInChannelID);
-            postListVM.posts = PostManager.getPost(postPortal);
+        function activate () {
         }
     }
 })();
