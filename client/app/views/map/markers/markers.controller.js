@@ -63,7 +63,7 @@
                 var marker = posts[i];
                 if(!marker.markerized){
                     marker.icon = getIcon(posts[i]);
-                    console.log(marker.icon);
+                    // console.log(marker.icon);
                     marker.markerized = true;
                 }
                 markersVM.markers.push(marker);

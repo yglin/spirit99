@@ -11,6 +11,7 @@
     function ChannelManager($q, $http, DEFAULTS, UserPrefs, UserCtrls, FakeData) {
         var self = this;
         self.channels = null;
+        self.promiseAddNewChannel = promiseAddNewChannel;
         self.promiseUpdateChannel = promiseUpdateChannel;
         self.getChannel = getChannel;
         self.getChannels = getChannels;
@@ -104,7 +105,20 @@
                     channel.isUpdating = false;
                 });
             }
-        };  
+        };
+
+        // TODO: Implement
+        function promiseAddNewChannel (portalUrl) {
+            var newChannel = {
+                id: 'fakeNewChannel',
+                title: '我想討老婆',
+                description: '但是魯蛇沒工作',
+                introUrl: 'http://www.google.com',
+                logoUrl: 'http://cdn.meme.am/instances/52602551.jpg'
+            }
+            self.channels[newChannel.id] = newChannel;
+            return $q.resolve(newChannel);
+        }  
 
         // TODO: Implement
         function getPostMeta(channelName, postName) {
