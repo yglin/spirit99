@@ -5,20 +5,28 @@
         .module('spirit99')
         .service('ChannelManager', ChannelManager);
 
-    ChannelManager.$inject = ['$q', '$http', 'DEFAULTS', 'UserPrefs', 'UserCtrls', 'FakeData'];
+    ChannelManager.$inject = ['$rootScope', '$q', '$http', 'DEFAULTS', 'UserPrefs', 'UserCtrls', 'FakeData'];
 
     /* @ngInject */
-    function ChannelManager($q, $http, DEFAULTS, UserPrefs, UserCtrls, FakeData) {
+    function ChannelManager($rootScope, $q, $http, DEFAULTS, UserPrefs, UserCtrls, FakeData) {
         var self = this;
         self.channels = null;
+        self.categories = {};
         self.promiseAddNewChannel = promiseAddNewChannel;
         self.promiseUpdateChannel = promiseUpdateChannel;
         self.getChannel = getChannel;
         self.getChannels = getChannels;
         self.loadChannels = loadChannels;
+        self.changeChannel = changeChannel;
         self.getCategories = getCategories;
         self.validateChannel = validateChannel;
         self.getPostMeta = getPostMeta;
+
+        activate();
+
+        function activate () {
+            self.changeChannel(UserCtrls.tunedInChannelID);        
+        }
 
         ////////////////
         function getChannel(channelID){
@@ -51,10 +59,23 @@
             return channels;
         }
 
+        function changeChannel (channelID) {
+        }
+
         function getCategories (channelID) {
+            if(self.categories && !(_.isEmpty(self.categories))){
+                return self.categories;
+            }
             var channel = getChannel(channelID);
             if(channel.categories){
-                return channel.categories;
+                self.categories = channel.categories;
+                if(!('misc' in self.categories)){
+                    self.categories['misc'] = {
+                        // icon: '',
+                        show: true
+                    };                    
+                }
+                return self.categories;
             }
             else{
                 return {};

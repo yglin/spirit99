@@ -38,10 +38,15 @@
                     logoUrl: 'https://yt3.ggpht.com/-Gd9lF_AqQPk/AAAAAAAAAAI/AAAAAAAAAAA/afbtVZjs18E/s88-c-k-no/photo.jpg',
                     categories: {
                         sweat: {
-                            icon: 'http://findicons.com/files/icons/2020/2s_space_emotions/128/sweat.png'
+                            icon: {
+                                url: 'http://findicons.com/files/icons/2020/2s_space_emotions/128/sweat.png'
+                            }
                         },
                         cry: {
-                            icon: 'http://findicons.com/files/icons/2020/2s_space_emotions/128/cry.png'
+                            title: '哭哭',
+                            icon: {
+                                url: 'http://findicons.com/files/icons/2020/2s_space_emotions/128/cry.png'
+                            }
                         },
                         love: {
                             icon: 'http://findicons.com/files/icons/2020/2s_space_emotions/128/love.png'
@@ -50,6 +55,7 @@
                             icon: 'http://findicons.com/files/icons/2020/2s_space_emotions/128/startle.png'
                         },
                         fire: {
+                            title: '龜藍波火',
                             icon: 'http://findicons.com/files/icons/2020/2s_space_emotions/128/fire.png'
                         }
                     }

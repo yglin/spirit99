@@ -12,7 +12,7 @@
         var markersVM = this;
         markersVM.title = 'MarkersController';
         markersVM.markers = [];
-        markersVM.options = {};
+        // markersVM.options = {};
         markersVM.iconObjects = {};
         markersVM.gMapApi = null;
         markersVM.refresh = refresh;
@@ -20,25 +20,19 @@
         markersVM.activate = activate;
 
         //////////////// Event Handlers ///////////////////
+        markersVM.handlerSearchChanged = handlerSearchChanged;
         markersVM.handlerDragend = handlerDragend;
 
         markersVM.activate();
-
 
         function activate() {
             // Wait until Google Maps API - google.maps object is available
             uiGmapGoogleMapApi.then(function (google_maps) {
                 markersVM.gMapApi = google_maps;
-                // In development we need the DOMs of markers to do some test
-                if(CONFIG.env && CONFIG.env === 'development'){
-                    markersVM.options.optimized = false;
-                }
-                else{
-                    markersVM.options.optimized = true;
-                }
-        
+
                 // Start listening to events
                 $scope.$on('map:dragend', markersVM.handlerDragend);
+                $scope.$on('search:changed', markersVM.handlerSearchChanged);
                 
                 // Load markers at the begining when map tiles loaded
                 var unbindTilesLoded = $scope.$on('map:tilesloaded', function (event, mapModel) {
@@ -57,21 +51,47 @@
             });
         }
 
+        function handlerDragend (event, mapModel) {
+            markersVM.refresh(mapModel);
+        }
+
+        function handlerSearchChanged () {
+            // console.log('I\'m called');
+            for (var i = 0; i < markersVM.markers.length; i++) {
+                if(markersVM.markers[i].category in ChannelManager.categories
+                && ChannelManager.categories[markersVM.markers[i].category].show === false){
+                    markersVM.markers[i].options.visible = false;
+                }
+                else{
+                    markersVM.markers[i].options.visible = true;                        
+                }
+            }
+        }
+
         function rebuildMarkers (posts) {
             markersVM.markers.length = 0;
             for (var i = 0; i < posts.length; i++) {
                 var marker = posts[i];
                 if(!marker.markerized){
+                    if(!marker.category || !(marker.category in ChannelManager.categories)){
+                        marker.category = 'misc';
+                    }
                     marker.icon = getIcon(posts[i]);
+                    marker.options = {};
+                    marker.options.visible = true;
+                    // In development we need the DOMs of markers to do some test
+                    if(CONFIG.env && CONFIG.env === 'development'){
+                        marker.options.optimized = false;
+                    }
+                    else{
+                        marker.options.optimized = true;
+                    }
+            
                     // console.log(marker.icon);
                     marker.markerized = true;
                 }
                 markersVM.markers.push(marker);
             }
-        }
-
-        function handlerDragend (event, mapModel) {
-            markersVM.refresh(mapModel);
         }
 
         function getIcon (post) {

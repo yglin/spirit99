@@ -31,7 +31,7 @@
             for (var i = 0; i < posts.length; i++) {
                 posts[i].latitude = 23.973875 + 2 * (0.5 - Math.random());
                 posts[i].longitude = 120.982024 + 2 * (0.5 - Math.random());
-                if(Math.random() > 0.5){
+                if(Math.random() > 0.2){
                     posts[i].category = _.sample(categories);
                 }
                 if(Math.random() > 0.5){
