@@ -3,7 +3,7 @@
         <label>搜尋標題</label>
         <input ng-model='postListVM.search.title' />
     </md-input-container>
-    <div ng-repeat="post in postListVM.posts | filter:postListVM.search">
+    <div ng-repeat="post in postListVM.posts | filter:postListVM.search | orderBy:'create_time':true ">
         <s99-post-item post='post'></s99-post-item>
         <md-divider layout-margin ng-if="!$last"></md-divider>
     </div>

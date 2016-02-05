@@ -31,6 +31,7 @@
             for (var i = 0; i < posts.length; i++) {
                 posts[i].latitude = 23.973875 + 2 * (0.5 - Math.random());
                 posts[i].longitude = 120.982024 + 2 * (0.5 - Math.random());
+                posts[i].create_time = pickRandomDate();
                 if(Math.random() > 0.2){
                     posts[i].category = _.sample(categories);
                 }
@@ -196,6 +197,33 @@
                 'http://c.share.photo.xuite.net/paling/1c29380/19749972/1113692204_o.jpg',
                 'http://c.share.photo.xuite.net/paling/1c29336/19749972/1113694946_o.jpg',
             ];
+        }
+
+
+        function pickRandomDate () {
+            if(!self.datePresets){
+                var dateObj = new Date();
+                self.datePresets = [0];
+                // a year ago
+                dateObj.setFullYear(dateObj.getFullYear()-1);
+                self.datePresets.push(dateObj.getTime());
+                // a month ago
+                dateObj.setTime(Date.now());
+                dateObj.setMonth(dateObj.getMonth()-1);
+                self.datePresets.push(dateObj.getTime());
+                // a week ago
+                dateObj.setTime(Date.now());
+                dateObj.setDate(dateObj.getDate()-7);
+                self.datePresets.push(dateObj.getTime());
+                // today
+                dateObj.setTime(Date.now());
+                dateObj.setHours(0, 0, 0, 0);
+                self.datePresets.push(dateObj.getTime());  
+            }
+
+            var start = _.sample(self.datePresets);
+            var offset = Math.floor(Math.random() * (Date.now() - start));
+            return start + offset;
         }
     }
 })();

@@ -14,6 +14,27 @@
         searchVM.keywords = [];
         searchVM.chipsReadonly = false;
         searchVM.categories = ChannelManager.getCategories();
+        searchVM.datePresets = {
+            today: {
+                title: '今天'
+            },
+            thisWeek: {
+                title: '本週'
+            },
+            thisMonth: {
+                title: '這個月'
+            },
+            thisYear: {
+                title: '今年'
+            },
+            anyTime: {
+                title: '不限時間'
+            },
+            custom: {
+                title: '自訂日期'
+            }
+        };
+        searchVM.datePresetKey = 'today';
         searchVM.toggleCategoryShow = toggleCategoryShow;
         searchVM.showAllCategories = showAllCategories;
         searchVM.hideAllCategories = hideAllCategories;

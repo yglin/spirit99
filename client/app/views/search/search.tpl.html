@@ -1,14 +1,32 @@
 <div ng-controller="SearchController as searchVM">
     <div style='margin: 20px 10px;'>
-        <div class='md-subhead'>使用關鍵字搜尋標題</div>
+        <md-subheader class='md-primary'>使用關鍵字搜尋標題</md-subheader>
         <md-chips
         ng-model='searchVM.keywords'
         readonly='searchVM.chipsReadonly'
         placeholder='增加關鍵字'
         secondary-placeholder='輸入關鍵字'>
         </md-chips>
+        <md-divider></md-divider>
         <br>
-        <div class='md-subhead'>切換分類顯示</div>
+        <md-subheader class='md-primary'>發佈日期</md-subheader>
+        <div ng-show='searchVM.datePresetKey=="custom"'>
+            <div layout='row'>
+                <span>從...</span>
+                <md-datepicker ng-model='searchVM.datePresets.custom.startDate' md-placeholder='開始日期'></md-datepicker>
+            </div>
+            <div layout='row'>
+                <span>到...</span>
+                <md-datepicker ng-model='searchVM.datePresets.custom.endDate' md-placeholder='結束日期'></md-datepicker>
+            </div>
+        </div>
+        <md-select ng-model='searchVM.datePresetKey' aria-label='介於...'>
+            <md-option ng-repeat='(key, datePreset) in searchVM.datePresets' value='{{key}}'>
+            {{datePreset.title}}
+            </md-option>
+        </md-select>
+        <br>
+        <md-subheader class='md-primary'>分類顯示</md-subheader>
         <div layout='row' layout-padding layout-wrap>
             <div ng-repeat="(key, category) in searchVM.categories">
                 <img class='s99-category-icon s99-click-no-outline'
