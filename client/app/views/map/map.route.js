@@ -13,8 +13,8 @@
             controller: 'MapController',
             controllerAs: 'mapVM',
             resolve: {
-                initMapArea: ['initUtils', function (initUtils) {
-                    return initUtils.promiseGetInitMapArea();
+                initMap: ['UserCtrls', function (UserCtrls) {
+                    return UserCtrls.promiseGetInitMapArea();
                 }]
             }
         });

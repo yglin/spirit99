@@ -33,14 +33,14 @@
                     create_time: {
                         preset: 'inTheWeek'
                     }
-                }
-            },
-            map: {
-                center: { latitude: 23.973875, longitude: 120.982024 },
-                zoom: zoomLevels().TAIWAN,
-                bounds: {
-                    southwest: {latitude: 0, longitude: 0},
-                    northeast: {latitude: 0, longitude: 0}
+                },
+                map: {
+                    center: { latitude: 23.973875, longitude: 120.982024 },
+                    zoom: zoomLevels().TAIWAN,
+                    bounds: {
+                        southwest: {latitude: 0, longitude: 0},
+                        northeast: {latitude: 0, longitude: 0}
+                    }
                 }
             },
             channels: {

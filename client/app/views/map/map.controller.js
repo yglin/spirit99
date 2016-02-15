@@ -5,13 +5,13 @@
     .module('spirit99')
     .controller('MapController', MapController);
 
-    MapController.$inject = ['CONFIG', '$scope', '$mdSidenav', '$mdDialog', 'UserCtrls', 'initMapArea'];
+    MapController.$inject = ['CONFIG', '$scope', '$mdSidenav', '$mdDialog', 'UserCtrls'];
 
     /* @ngInject */
-    function MapController(CONFIG, $scope, $mdSidenav, $mdDialog, UserCtrls, initMapArea) {
+    function MapController(CONFIG, $scope, $mdSidenav, $mdDialog, UserCtrls) {
         var mapVM = this;
         mapVM.title = 'MapController';
-        mapVM.map = getInitialMap();
+        mapVM.map = UserCtrls.map;
         mapVM.map.bounds = {};
         mapVM.isDragging = false;
         mapVM.showListButton = false;

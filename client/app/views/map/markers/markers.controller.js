@@ -22,6 +22,7 @@
         //////////////// Event Handlers ///////////////////
         markersVM.handlerSearchChanged = handlerSearchChanged;
         markersVM.handlerDragend = handlerDragend;
+        markersVM.handlerChannelChanged = handlerChannelChanged;
 
         markersVM.activate();
 
@@ -33,26 +34,32 @@
                 // Start listening to events
                 $scope.$on('map:dragend', markersVM.handlerDragend);
                 $scope.$on('search:changed', markersVM.handlerSearchChanged);
+                $scope.$on('channel:changed', markersVM.handlerChannelChanged);
                 
                 // Load markers at the begining when map tiles loaded
-                var unbindTilesLoded = $scope.$on('map:tilesloaded', function (event, mapModel) {
-                    markersVM.refresh(mapModel);
+                var unbindTilesLoded = $scope.$on('map:tilesloaded', function (event) {
+                    markersVM.refresh();
                     // One-time callback
                     unbindTilesLoded();                
                 });
             });
         }
 
-        function refresh (mapModel) {
+        function refresh () {
+            console.log(UserCtrls.map);
             var postMeta = ChannelManager.getPostMeta(UserCtrls.tunedInChannelID, UserCtrls.selectedPost);
-            PostManager.promiseLoadPosts(postMeta, mapModel.bounds).then(function (posts) {
+            PostManager.promiseLoadPosts(postMeta, UserCtrls.map.bounds).then(function (posts) {
                 markersVM.rebuildMarkers(posts);
                 $scope.$emit('markers:refresh', markersVM.markers);
             });
         }
 
-        function handlerDragend (event, mapModel) {
-            markersVM.refresh(mapModel);
+        function handlerDragend (event) {
+            markersVM.refresh();
+        }
+
+        function handlerChannelChanged (event) {
+            markersVM.refresh();
         }
 
         function handlerSearchChanged () {
