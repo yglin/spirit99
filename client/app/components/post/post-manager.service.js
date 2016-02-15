@@ -40,6 +40,21 @@
 
         function normalize(post) {
             post.matchSearch = true;
+            var categories = ChannelManager.categories;
+            if(post.category && post.category in categories && categories[post.category].icon){
+                if(typeof categories[post.category].icon === 'string'){
+                    post.categoryIcon = categories[post.category].icon;
+                }
+                else if('url' in categories[post.category].icon){
+                    post.categoryIcon = categories[post.category].icon.url;
+                }
+                else{
+                    post.categoryIcon = 'https://maps.gstatic.com/mapfiles/api-3/images/spotlight-poi_hdpi.png';
+                }
+            }
+            else{
+                post.categoryIcon = 'https://maps.gstatic.com/mapfiles/api-3/images/spotlight-poi_hdpi.png';                
+            }
         }
 
         function searchPosts () {
