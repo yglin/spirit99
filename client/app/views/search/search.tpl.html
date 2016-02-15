@@ -2,10 +2,12 @@
     <div style='margin: 20px 10px;'>
         <md-subheader class='md-primary'>使用關鍵字搜尋標題</md-subheader>
         <md-chips
-        ng-model='searchVM.keywords'
+        ng-model='searchVM.userCtrls.keywords'
         readonly='searchVM.chipsReadonly'
         placeholder='增加關鍵字'
-        secondary-placeholder='輸入關鍵字'>
+        secondary-placeholder='輸入關鍵字'
+        md-on-add='searchVM.onAddKeyword()'
+        md-on-remove='searchVM.onRemoveKeyword()'>
         </md-chips>
         <md-divider></md-divider>
         <br>

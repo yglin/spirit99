@@ -11,7 +11,6 @@
     function SearchController($scope, $rootScope, PRESETS, UserCtrls, ChannelManager, PostManager) {
         var searchVM = this;
         searchVM.title = 'Search';
-        searchVM.keywords = [];
         searchVM.chipsReadonly = false;
         searchVM.categories = ChannelManager.getCategories();
         searchVM.datePresets = PRESETS.periods;
@@ -20,6 +19,8 @@
         searchVM.showAllCategories = showAllCategories;
         searchVM.hideAllCategories = hideAllCategories;
         searchVM.onChangeDatePeriod = onChangeDatePeriod;
+        searchVM.onAddKeyword = onAddKeyword;
+        searchVM.onRemoveKeyword = onRemoveKeyword;
         
         activate();
 
@@ -53,6 +54,14 @@
         }
 
         function onChangeDatePeriod () {
+            PostManager.searchPosts();
+        }
+
+        function onAddKeyword () {
+            PostManager.searchPosts();
+        }
+
+        function onRemoveKeyword () {
             PostManager.searchPosts();
         }
     }

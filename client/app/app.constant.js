@@ -29,6 +29,7 @@
                     selectedSidenav: 'channel-list'
                 },
                 search: {
+                    keywords: [],
                     create_time: {
                         preset: 'inTheWeek'
                     }

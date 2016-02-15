@@ -11,6 +11,7 @@
     function UserCtrls(DEFAULTS, PRESETS) {
         var self = this;
         self.getSearchPeriod = getSearchPeriod;
+        self.getSearchKeywords = getSearchKeywords;
 
         activate();
 
@@ -24,7 +25,7 @@
             options = typeof options === 'undefined' ? {} : options;
             // options.optionArg = typeof options.optionArg === 'undefined' ? defaultValue : options.optionArg;
             self.tunedInChannelID = channelID;
-        };
+        }
 
         function getSearchPeriod () {
             if(self.search.create_time.preset in PRESETS.periods){
@@ -33,6 +34,10 @@
             else{
                 return PRESETS.periods['anyTime'];
             }
+        }
+
+        function getSearchKeywords () {
+            return self.search.keywords;
         }
     }
 })();

@@ -44,20 +44,21 @@
 
         function searchPosts () {
             var categories = ChannelManager.categories;
-            // console.log(categories);
+            var keywords = UserCtrls.getSearchKeywords();
+            // console.log(keywords);
             var period = UserCtrls.getSearchPeriod();
             // console.log(period);
             for (var i = 0; i < self.posts.length; i++) {
                 var post = self.posts[i];
                 post.matchSearch = true;
-                
-                if(post.category in categories){
-                    post.matchSearch = post.matchSearch && categories[post.category].show;
-                }
-                else{
-                    post.matchSearch = false;
-                }
 
+                for (var j = 0; j < keywords.length; j++) {
+                    if(post.title.indexOf(keywords[j]) < 0){
+                        post.matchSearch = false;
+                        break;
+                    }
+                };
+                
                 var createTime = new Date(post.create_time);
                 if(createTime >= period.start && createTime < period.end){
                     post.matchSearch = post.matchSearch && true;
@@ -65,6 +66,14 @@
                 else{
                     post.matchSearch = false;
                 }
+
+                if(post.category in categories){
+                    post.matchSearch = post.matchSearch && categories[post.category].show;
+                }
+                else{
+                    post.matchSearch = false;
+                }
+
             }
             $rootScope.$broadcast('search:changed');
         }
