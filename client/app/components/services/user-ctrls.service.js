@@ -17,8 +17,7 @@
 
         ////////////////
         function activate () {
-            angular.merge(self, DEFAULTS.userCtrls);
-            
+            angular.merge(self, DEFAULTS.userCtrls);            
         }
 
         function tuneInChannel (channelID, options) {

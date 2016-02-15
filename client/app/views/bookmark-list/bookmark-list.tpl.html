@@ -1,0 +1,11 @@
+<md-content ng-controller='BookmarkListController as bookmarkListVM'>
+    <md-button class='md-primary md-raised' aria-label='Add Bookmark'
+    ng-click='bookmarkListVM.addBookmark()'>
+        增加新書籤
+    </md-button>
+    <div ng-repeat="bookmark in bookmarkListVM.bookmarks">
+        <p>{{bookmark.channelTitle}}</p>
+        <p>{{bookmark.periodPresetTitle}}</p>
+        <span ng-repeat='keyword in bookmark.search.keywords'>{{keyword}}</span>
+    </div>
+</md-content>

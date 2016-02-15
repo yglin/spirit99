@@ -25,9 +25,9 @@
                 icon: 'search',
                 templateUrl: 'app/views/search/search.tpl.html'
             },
-            'bookmark': {
+            'bookmark-list': {
                 icon: 'bookmark',
-                templateUrl: 'app/views/bookmark/bookmark.tpl.html'
+                templateUrl: 'app/views/bookmark-list/bookmark-list.tpl.html'
             }
         };
 

@@ -17,7 +17,7 @@
         self.getChannel = getChannel;
         self.getChannels = getChannels;
         self.loadChannels = loadChannels;
-        self.changeChannel = changeChannel;
+        self.getChannelTitle = getChannelTitle;
         self.getCategories = getCategories;
         self.validateChannel = validateChannel;
         self.getPostMeta = getPostMeta;
@@ -25,7 +25,7 @@
         activate();
 
         function activate () {
-            self.changeChannel(UserCtrls.tunedInChannelID);        
+            // self.changeChannel(UserCtrls.tunedInChannelID);        
         }
 
         ////////////////
@@ -60,7 +60,9 @@
             return channels;
         }
 
-        function changeChannel (channelID) {
+        function getChannelTitle (channelID) {
+            var channel = getChannel(channelID);
+            return channel.title;
         }
 
         function getCategories (channelID) {
