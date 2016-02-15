@@ -34,7 +34,7 @@
                 channelID = UserCtrls.tunedInChannelID;
             }
             var channels = self.getChannels();
-            if(channelID in channels){
+            if(channels && channelID in channels){
                 return channels[channelID];
             }
             else{
@@ -51,11 +51,12 @@
 
         function loadChannels () {
             var channels = UserPrefs.get('channels');
-            for(var id in channels){
-                if(!self.validateChannel(channels[id])){
-                    delete channels[id];
-                }
-            }
+                        
+            // for(var id in channels){
+            //     if(!self.validateChannel(channels[id])){
+            //         delete channels[id];
+            //     }
+            // }
             return channels;
         }
 

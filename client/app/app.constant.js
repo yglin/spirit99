@@ -1,28 +1,42 @@
 (function() {
     'use strict';
 
-    var ZOOM_LEVELS = {
-        STREET: 15,
-        TAIWAN: 7
-    };
-
     angular
     .module('spirit99')
-    .constant('ZOOM_LEVELS', zoomLevelsProvider())
-    .constant('DEFAULTS', defaultsProvider());
+    .constant('CONFIG', CONFIG())
+    .constant('PRESETS', PRESETS())
+    .constant('DEFAULTS', DEFAULTS());
 
-    function zoomLevelsProvider () {
-        return ZOOM_LEVELS;
+    function CONFIG () {
+        return {
+            env: 'development',
+            MIN_POSTS_FOR_LIST: 10
+        };
     }
 
-    function defaultsProvider() {
+    function PRESETS () {
+        return {
+            zoomLevels: zoomLevels(),
+            periods: periods(),
+        };
+    }
+
+    function DEFAULTS () {
         return {
             userCtrls: {
-                selectedSidenav: 'channel-list'
+                tunedInChannelID: 'nuclear-waste',
+                userInterface: {
+                    selectedSidenav: 'channel-list'
+                },
+                search: {
+                    create_time: {
+                        preset: 'inTheWeek'
+                    }
+                }
             },
             map: {
                 center: { latitude: 23.973875, longitude: 120.982024 },
-                zoom: ZOOM_LEVELS.TAIWAN,
+                zoom: zoomLevels().TAIWAN,
                 bounds: {
                     southwest: {latitude: 0, longitude: 0},
                     northeast: {latitude: 0, longitude: 0}
@@ -90,5 +104,61 @@
 
         };
     }
+
+    function zoomLevels () {
+        return {
+            STREET: 15,
+            TAIWAN: 7
+        };
+    }
+
+    function periods () {
+        var periods = {
+            inTheDay: {
+                title: '一天內',
+            },
+            inTheWeek: {
+                title: '一週內'
+            },
+            inTheMonth: {
+                title: 'ㄧ個月內'
+            },
+            inTheYear: {
+                title: '一年內'
+            },
+            anyTime: {
+                title: '不限時間'
+            },
+            custom: {
+                title: '自訂日期'
+            }
+        };
+        // In the past day
+        periods.inTheDay.start = new Date();
+        periods.inTheDay.end = new Date();
+        periods.inTheDay.start.setDate(periods.inTheDay.end.getDate() - 1);
+
+        // In the past week
+        periods.inTheWeek.start = new Date();
+        periods.inTheWeek.end = new Date();
+        periods.inTheWeek.start.setDate(periods.inTheWeek.end.getDate() - 7);
+
+        // In the past month
+        periods.inTheMonth.start = new Date();
+        periods.inTheMonth.end = new Date();
+        periods.inTheMonth.start.setMonth(periods.inTheMonth.end.getMonth() - 1);
+
+        // In the past year
+        periods.inTheYear.start = new Date();
+        periods.inTheYear.end = new Date();
+        periods.inTheYear.start.setFullYear(periods.inTheYear.end.getFullYear() - 1);
+
+        // Any time from 1970
+        periods.anyTime.start = new Date(0);
+        periods.anyTime.end = new Date();
+
+        return periods;
+    }
+    
 
 })();

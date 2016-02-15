@@ -58,13 +58,8 @@
         function handlerSearchChanged () {
             // console.log('I\'m called');
             for (var i = 0; i < markersVM.markers.length; i++) {
-                if(markersVM.markers[i].category in ChannelManager.categories
-                && ChannelManager.categories[markersVM.markers[i].category].show === false){
-                    markersVM.markers[i].options.visible = false;
-                }
-                else{
-                    markersVM.markers[i].options.visible = true;                        
-                }
+                // console.log(markersVM.markers[i].matchSearch);
+                markersVM.markers[i].options.visible = markersVM.markers[i].matchSearch;
             }
         }
 
@@ -78,7 +73,8 @@
                     }
                     marker.icon = getIcon(posts[i]);
                     marker.options = {};
-                    marker.options.visible = true;
+                    marker.options.visible = posts[i].matchSearch;
+
                     // In development we need the DOMs of markers to do some test
                     if(CONFIG.env && CONFIG.env === 'development'){
                         marker.options.optimized = false;

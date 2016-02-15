@@ -5,21 +5,19 @@
         .module('spirit99')
         .service('UserCtrls', UserCtrls);
 
-    UserCtrls.$inject = ['DEFAULTS'];
+    UserCtrls.$inject = ['DEFAULTS', 'PRESETS'];
 
     /* @ngInject */
-    function UserCtrls(DEFAULTS) {
+    function UserCtrls(DEFAULTS, PRESETS) {
         var self = this;
-        self.tunedInChannelID = '';
-        self.tuneInChannel = tuneInChannel;
-        self.selectedSidenav = '';
+        self.getSearchPeriod = getSearchPeriod;
 
         activate();
 
         ////////////////
         function activate () {
-            self.tunedInChannelID = Object.keys(DEFAULTS.channels)[0];
-            self.selectedSidenav = DEFAULTS.userCtrls.selectedSidenav;
+            angular.merge(self, DEFAULTS.userCtrls);
+            
         }
 
         function tuneInChannel (channelID, options) {
@@ -28,6 +26,13 @@
             self.tunedInChannelID = channelID;
         };
 
-
+        function getSearchPeriod () {
+            if(self.search.create_time.preset in PRESETS.periods){
+                return PRESETS.periods[self.search.create_time.preset];
+            }
+            else{
+                return PRESETS.periods['anyTime'];
+            }
+        }
     }
 })();
