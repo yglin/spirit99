@@ -40,7 +40,7 @@
         <div layout='row' layout-padding layout-wrap>
             <div ng-repeat="(key, category) in searchVM.categories">
                 <img class='s99-category-icon s99-click-no-outline'
-                ng-class='{"s99-transparent-image": category.show === false}'
+                ng-class='{"s99-transparent-image": searchVM.userCtrls.categories[key].show === false}'
                 ng-src='{{(category.icon && category.icon.url) || category.icon
                 || "https://maps.gstatic.com/mapfiles/api-3/images/spotlight-poi_hdpi.png"}}'
                 ng-click='searchVM.toggleCategoryShow(key)'>

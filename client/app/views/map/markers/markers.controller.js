@@ -46,7 +46,7 @@
         }
 
         function refresh () {
-            console.log(UserCtrls.map);
+            // console.log(UserCtrls.map);
             var postMeta = ChannelManager.getPostMeta(UserCtrls.tunedInChannelID, UserCtrls.selectedPost);
             PostManager.promiseLoadPosts(postMeta, UserCtrls.map.bounds).then(function (posts) {
                 markersVM.rebuildMarkers(posts);

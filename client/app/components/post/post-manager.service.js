@@ -5,10 +5,10 @@
         .module('spirit99')
         .service('PostManager', PostManager);
 
-    PostManager.$inject = ['$rootScope', '$q', 'FakeData', 'UserCtrls', 'ChannelManager'];
+    PostManager.$inject = ['$rootScope', '$q', 'FakeData', 'UserCtrls', 'ChannelManager', 'Period'];
 
     /* @ngInject */
-    function PostManager($rootScope, $q, FakeData, UserCtrls, ChannelManager) {
+    function PostManager($rootScope, $q, FakeData, UserCtrls, ChannelManager, Period) {
         var self = this;
         self.posts = [];
         self.promiseLoadPosts = promiseLoadPosts;
@@ -32,6 +32,7 @@
                 for (var i = 0; i < self.posts.length; i++) {
                     normalize(self.posts[i]);
                 };
+                searchPosts();
                 return self.posts;
             }, function (error) {
                 console.debug(error);
@@ -58,11 +59,11 @@
         }
 
         function searchPosts () {
-            var categories = ChannelManager.categories;
-            var keywords = UserCtrls.getSearchKeywords();
+            var categories = UserCtrls.search.categories;
+            var keywords = UserCtrls.search.keywords;
             // console.log(keywords);
-            var period = UserCtrls.getSearchPeriod();
-            // console.log(period);
+            var startDate = Period.getPresetStart(UserCtrls.search.create_time.preset);
+            var endDate = Period.getPresetEnd(UserCtrls.search.create_time.preset);
             for (var i = 0; i < self.posts.length; i++) {
                 var post = self.posts[i];
                 post.matchSearch = true;
@@ -75,7 +76,7 @@
                 };
                 
                 var createTime = new Date(post.create_time);
-                if(createTime >= period.start && createTime < period.end){
+                if(Period.inBetween(createTime, startDate, endDate)){
                     post.matchSearch = post.matchSearch && true;
                 }
                 else{

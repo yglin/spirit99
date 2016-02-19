@@ -5,14 +5,15 @@
         .module('spirit99')
         .controller('BookmarkListController',BookmarkListController);
 
-    BookmarkListController.$inject = ['$scope', 'PRESETS', 'UserCtrls', 'ChannelManager'];
+    BookmarkListController.$inject = ['$scope', 'Bookmark', 'PRESETS', 'UserCtrls', 'ChannelManager', 'Period', '$mdDialog'];
 
     /* @ngInject */
-    function BookmarkListController($scope, PRESETS, UserCtrls, ChannelManager) {
+    function BookmarkListController($scope, Bookmark, PRESETS, UserCtrls, ChannelManager, Period, $mdDialog) {
         var bookmarkListVM = this;
         bookmarkListVM.title = 'BookmarkList';
         bookmarkListVM.bookmarks = [];
-        bookmarkListVM.addBookmark = addBookmark;
+        bookmarkListVM.addNew = addNew;
+        bookmarkListVM.apply = apply;
 
         activate();
 
@@ -26,18 +27,25 @@
         function loadBookmarks () {
         }
 
-        function addBookmark () {
-            var newBookmark = {};
-            newBookmark.channelID = UserCtrls.tunedInChannelID;
-            newBookmark.channelTitle = ChannelManager.getChannelTitle();
-            newBookmark.search = angular.copy(UserCtrls.search);
-            newBookmark.periodPresetTitle = PRESETS.periods[newBookmark.search.create_time.preset].title;
-            newBookmark.categories = ChannelManager.getCategories();
-            bookmarkListVM.bookmarks.push(newBookmark);
+        function addNew () {
+            $mdDialog.show({
+                controller: 'BookmarkAddController',
+                templateUrl: 'app/views/bookmark-list/bookmark-add.tpl.html',
+                controllerAs: 'bookmarkVM',
+                bindToController: true,
+                parent: angular.element(document.body),
+                clickOutsideToClose:true
+            }).then(function (bookmark) {
+                bookmarkListVM.bookmarks.push(bookmark);
+            }, function () {
+                console.debug('Canceled adding new bookmark');
+            });
         }
 
-        function applyBookmark (bookmark) {
-            
+        function apply (bookmark) {
+            UserCtrls.tuneInChannel(bookmark.channelID);
+            UserCtrls.applySearch(bookmark.search);
+            UserCtrls.applyCategories(bookmark.categories);
         }
     }
 })();

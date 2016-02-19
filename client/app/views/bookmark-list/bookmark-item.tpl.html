@@ -1,0 +1,14 @@
+<div layout='row' layout-align='start center'>
+    <div layout='row' layout-align='start center'
+    ng-click='bookmarkItemVM.apply()'>
+        <img class='s99-channel-logo' ng-src='{{bookmarkItemVM.bookmark.thumbnail}}'>
+        <div layout-fill>
+            <div>{{bookmarkItemVM.bookmark.title}}</div>
+            <div class='md-body-2'>{{bookmarkItemVM.bookmark.description}}</div>
+        </div>
+    </div>
+    <span flex></span>
+    <md-button class='md-icon-button' ng-click='bookmarkItemVM.remove()'>
+        <md-icon class='material-icon'>close</md-icon>
+    </md-button>
+</div>

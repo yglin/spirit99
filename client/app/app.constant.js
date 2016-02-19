@@ -16,8 +16,7 @@
 
     function PRESETS () {
         return {
-            zoomLevels: zoomLevels(),
-            periods: periods(),
+            zoomLevels: zoomLevels()
         };
     }
 
@@ -30,6 +29,7 @@
                 },
                 search: {
                     keywords: [],
+                    categories: {},
                     create_time: {
                         preset: 'inTheWeek'
                     }
@@ -112,54 +112,5 @@
             TAIWAN: 7
         };
     }
-
-    function periods () {
-        var periods = {
-            inTheDay: {
-                title: '一天內',
-            },
-            inTheWeek: {
-                title: '一週內'
-            },
-            inTheMonth: {
-                title: 'ㄧ個月內'
-            },
-            inTheYear: {
-                title: '一年內'
-            },
-            anyTime: {
-                title: '不限時間'
-            },
-            custom: {
-                title: '自訂日期'
-            }
-        };
-        // In the past day
-        periods.inTheDay.start = new Date();
-        periods.inTheDay.end = new Date();
-        periods.inTheDay.start.setDate(periods.inTheDay.end.getDate() - 1);
-
-        // In the past week
-        periods.inTheWeek.start = new Date();
-        periods.inTheWeek.end = new Date();
-        periods.inTheWeek.start.setDate(periods.inTheWeek.end.getDate() - 7);
-
-        // In the past month
-        periods.inTheMonth.start = new Date();
-        periods.inTheMonth.end = new Date();
-        periods.inTheMonth.start.setMonth(periods.inTheMonth.end.getMonth() - 1);
-
-        // In the past year
-        periods.inTheYear.start = new Date();
-        periods.inTheYear.end = new Date();
-        periods.inTheYear.start.setFullYear(periods.inTheYear.end.getFullYear() - 1);
-
-        // Any time from 1970
-        periods.anyTime.start = new Date(0);
-        periods.anyTime.end = new Date();
-
-        return periods;
-    }
-    
 
 })();

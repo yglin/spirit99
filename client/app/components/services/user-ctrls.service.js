@@ -5,13 +5,12 @@
         .module('spirit99')
         .service('UserCtrls', UserCtrls);
 
-    UserCtrls.$inject = ['$q', '$rootScope', 'DEFAULTS', 'PRESETS'];
+    UserCtrls.$inject = ['$q', '$rootScope', 'DEFAULTS', 'PRESETS', 'ChannelManager'];
 
     /* @ngInject */
-    function UserCtrls($q, $rootScope, DEFAULTS, PRESETS) {
+    function UserCtrls($q, $rootScope, DEFAULTS, PRESETS, ChannelManager) {
         var self = this;
         self.tuneInChannel = tuneInChannel;
-        self.getSearchPeriod = getSearchPeriod;
         self.getSearchKeywords = getSearchKeywords;
         self.INIT_MAP_AS_GEOLOCATION = 1;
         self.promiseGetInitMapArea = promiseGetInitMapArea;
@@ -20,21 +19,22 @@
 
         ////////////////
         function activate () {
-            angular.merge(self, DEFAULTS.userCtrls);            
+            angular.merge(self, DEFAULTS.userCtrls);
+            tuneInChannel(self.tunedInChannelID);
         }
 
         function tuneInChannel (channelID) {
-            self.tunedInChannelID = channelID;
+            if(self.tunedInChannelID != channelID){
+                self.tunedInChannelID = channelID;
+            }
+            self.search.categories = {};
+            angular.forEach(ChannelManager.getCategories(channelID),
+            function (category, categoryID) {
+                self.search.categories[categoryID] = {
+                    show: true
+                };
+            });
             $rootScope.$broadcast('channel:changed', channelID);
-        }
-
-        function getSearchPeriod () {
-            if(self.search.create_time.preset in PRESETS.periods){
-                return PRESETS.periods[self.search.create_time.preset];
-            }
-            else{
-                return PRESETS.periods['anyTime'];
-            }
         }
 
         function getSearchKeywords () {

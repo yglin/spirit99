@@ -9,6 +9,7 @@
     width:40px;
     height:40px;
     border-radius: 10%;
+    margin: 2px 5px;
 }
 
 .s99-channel-logo-offline {
@@ -68,5 +69,10 @@
 .s99-transparent-image {
     opacity: 0.3;
     filter: alpha(opacity=30); /* For IE8 and earlier */
+}
+
+.s99-input-hint {
+    color: grey;
+    font-size: 14px;
 }
 

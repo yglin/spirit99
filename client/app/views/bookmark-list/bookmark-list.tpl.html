@@ -1,5 +1,18 @@
 <md-content ng-controller='BookmarkListController as bookmarkListVM'>
-    <md-button class='md-primary md-raised' aria-label='Add Bookmark'
+    <div ng-repeat="bookmark in bookmarkListVM.bookmarks">
+        <s99-bookmark-item bookmark='bookmark'
+        remove='bookmarkListVM.bookmarks.splice($index, 1)'
+        apply='bookmarkListVM.apply(bookmark)'></s99-bookmark-item>
+        <md-divider layout-margin></md-divider>
+    </div>
+    <div layout='row'>
+        <span flex></span>
+        <md-button class='md-primary md-raised'
+        ng-click="bookmarkListVM.addNew()">
+            新增快速檢視書籤
+        </md-button>
+    </div>
+<!--     <md-button class='md-primary md-raised' aria-label='Add Bookmark'
     ng-click='bookmarkListVM.addBookmark()'>
         增加新書籤
     </md-button>
@@ -8,4 +21,4 @@
         <p>{{bookmark.periodPresetTitle}}</p>
         <span ng-repeat='keyword in bookmark.search.keywords'>{{keyword}}</span>
     </div>
-</md-content>
+ --></md-content>

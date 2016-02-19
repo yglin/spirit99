@@ -5,10 +5,10 @@
         .module('spirit99')
         .controller('ChannelListController',ChannelListController);
 
-    ChannelListController.$inject = ['$scope', 'ChannelManager'];
+    ChannelListController.$inject = ['$scope', 'UserCtrls', 'ChannelManager'];
 
     /* @ngInject */
-    function ChannelListController($scope, ChannelManager) {
+    function ChannelListController($scope, UserCtrls, ChannelManager) {
         var channelListVM = this;
         channelListVM.title = 'ChannelList';
         channelListVM.channels = ChannelManager.getChannels();

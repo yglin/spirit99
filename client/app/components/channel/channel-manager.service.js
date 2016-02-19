@@ -5,10 +5,10 @@
         .module('spirit99')
         .service('ChannelManager', ChannelManager);
 
-    ChannelManager.$inject = ['$rootScope', '$q', '$http', 'DEFAULTS', 'UserPrefs', 'UserCtrls', 'FakeData'];
+    ChannelManager.$inject = ['$rootScope', '$q', '$http', 'DEFAULTS', 'FakeData'];
 
     /* @ngInject */
-    function ChannelManager($rootScope, $q, $http, DEFAULTS, UserPrefs, UserCtrls, FakeData) {
+    function ChannelManager($rootScope, $q, $http, DEFAULTS, FakeData) {
         var self = this;
         self.channels = null;
         self.categories = {};
@@ -18,6 +18,7 @@
         self.getChannels = getChannels;
         self.loadChannels = loadChannels;
         self.getChannelTitle = getChannelTitle;
+        self.getChannelLogo = getChannelLogo;
         self.getCategories = getCategories;
         self.validateChannel = validateChannel;
         self.getPostMeta = getPostMeta;
@@ -25,14 +26,10 @@
         activate();
 
         function activate () {
-            // self.changeChannel(UserCtrls.tunedInChannelID);        
         }
 
         ////////////////
         function getChannel(channelID){
-            if(typeof channelID === 'undefined' || !channelID){
-                channelID = UserCtrls.tunedInChannelID;
-            }
             var channels = self.getChannels();
             if(channels && channelID in channels){
                 return channels[channelID];
@@ -49,20 +46,20 @@
             return self.channels;
         }
 
+        // TODO: Implement, load channels from local storage
         function loadChannels () {
-            var channels = UserPrefs.get('channels');
-                        
-            // for(var id in channels){
-            //     if(!self.validateChannel(channels[id])){
-            //         delete channels[id];
-            //     }
-            // }
+            var channels = DEFAULTS.channels;
             return channels;
         }
 
         function getChannelTitle (channelID) {
             var channel = getChannel(channelID);
             return channel.title;
+        }
+
+        function getChannelLogo (channelID) {
+            var channel = getChannel(channelID);
+            return channel.logoUrl;
         }
 
         function getCategories (channelID) {
@@ -74,8 +71,6 @@
                 self.categories = channel.categories;
                 if(!('misc' in self.categories)){
                     self.categories['misc'] = {
-                        // icon: '',
-                        show: true
                     };                    
                 }
                 return self.categories;
@@ -117,11 +112,6 @@
                 function (respond) {
                     angular.extend(channel, respond.data);
                     channel.portalUrl = options.portalUrl;
-                    if(channel.id === UserCtrls.tunedInChannelID){
-                        // if it's currently tuned in channel, refresh views by tuning in it again
-                        self.tuneInChannel(channel.id);
-                    }
-                    // console.debug(channel);
                 }, function (error) {
                     console.warn(error);
                 })

@@ -11,28 +11,6 @@
     function ToolbarController($scope, $location, $mdSidenav, $log, UserCtrls, ChannelManager) {
         var toolbarVM = this;
         toolbarVM.title = 'Toolbar';
-        // toolbarVM.viewButtons = {
-        //     'channels': {
-        //         icon: 'radio',
-        //         viewPath: 'channels',
-        //         hide: false
-        //     },
-        //     'map': {
-        //         icon: 'map',
-        //         viewPath: 'map',
-        //         hide: false
-        //     },
-        //     'search': {
-        //         icon: 'search',
-        //         viewPath: 'search',
-        //         hide: false
-        //     },
-        //     'settings': {
-        //         icon: 'settings',
-        //         viewPath: 'settings',
-        //         hide: false
-        //     }
-        // };
         toolbarVM.channel = {};
         toolbarVM.gotoView = gotoView;
         toolbarVM.readonly = false;
@@ -48,7 +26,7 @@
         ////////////////
 
         function activate() {
-            toolbarVM.channel = ChannelManager.getChannel();
+            toolbarVM.channel = ChannelManager.getChannel(UserCtrls.tunedInChannelID);
             hideCurrentViewButton();
         }
 
