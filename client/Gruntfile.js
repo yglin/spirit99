@@ -204,6 +204,19 @@ module.exports = function (grunt) {
             }
         },
 
+        // Automatically insert angular script files into index.html
+        includeSource: {
+            options: {
+                basePath: '<%= yeoman.app %>',
+                baseUrl: '<%= yeoman.app %>/'
+            },
+            target: {
+                files: {
+                    '<%= yeoman.root %>/index.html': '<%= yeoman.root %>/index.html'
+                }
+            }
+        },
+
         // Automatically inject Bower components into the app
         wiredep: {
             app: {
@@ -451,6 +464,7 @@ module.exports = function (grunt) {
         grunt.task.run([
             'clean:server',
             'wiredep',
+            'includeSource',
             'concurrent:server',
             'postcss:server',
             'connect:livereload',

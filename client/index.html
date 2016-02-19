@@ -9,27 +9,33 @@
     <title>Spirit99</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/normalize.css">
-    <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/main.css">
+    <!-- <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/normalize.css"> -->
+    <!-- <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/main.css"> -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="app/views/map/map.css">
-    <link rel="stylesheet" href="app/styles/spirit99.css">
     <link rel="stylesheet" href="/bower_components/angular-material/angular-material.css">
 
-    <script src="bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>
+    <!-- <script src="bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script> -->
+
+    <link rel="stylesheet" href="app/styles/spirit99.css">
 </head>
 <body>
-    <div ng-include='"app/layout/toolbar/toolbar.html"'></div>
-    <div ng-include='"app/layout/sidenav/sidenav.html"'></div>
+    <div ng-include='"app/layout/toolbar/toolbar.html"'
+    ng-controller="ToolbarController as toolbarVM"></div>
+    
+<!--     <div ng-include='"app/layout/sidenav/sidenav.html"'
+    ng-controller="SidenacController as sidenavVM"></div>
+ -->
+    <div ng-include='"app/layout/main/main.html"'
+    ng-controller="MainController as mainVM"></div>
     <!--[if lt IE 7]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 
-    <div style='position:relative'>
-    <!-- This containing div is for position:absolute needed in ng-view switch animations -->
+<!--     <div style='position:relative'>
+    This containing div is for position:absolute needed in ng-view switch animations
         <div class='s99-view-enter s99-view-leave' ng-view></div>
     </div>
-
+ -->
     <!-- In production use:
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
     -->
@@ -52,56 +58,20 @@
     <!-- endbuild -->
 
     <!-- build:js({.tmp,app}) scripts/scripts.js -->
+    <!-- include: "type": "js", "files": ["app.module.js", "**/*.js", "!obsolete/**/*.js", "!**/*.spec.js"] -->
     <script src="app/app.module.js"></script>
     <script src="app/app.config.js"></script>
-    <script src="app/app.constant.js"></script>
+    <script src="app/app.defaults.js"></script>
+    <script src="app/app.enums.js"></script>
     <script src="app/app.route.js"></script>
-
-    <!-- XXX This should be removed in production -->
-    <script src="app/components/services/fake-data.service.js"></script>
-
-    <!-- Compoents -->
-    <script src="app/components/services/period.service.js"></script>
-    <script src="app/components/services/map-navigator.service.js"></script>
-    <script src="app/components/services/init-utils.service.js"></script>
-    <script src="app/components/services/user-ctrls.service.js"></script>
-    <script src="app/components/services/user-prefs.service.js"></script>
-    <script src="app/components/services/icon-manager.service.js"></script>
-    <script src="app/components/services/bookmark.service.js"></script>
-
-    <script src="app/components/post/post-manager.service.js"></script>
-
     <script src="app/components/channel/channel-manager.service.js"></script>
-    <!-- end Components -->
-
-    <!-- Layouts -->
-    <script src="app/layout/toolbar/toolbar.controller.js"></script>
+    <script src="app/components/channel/listview/station-listview.directive.js"></script>
+    <script src="app/components/map/map.controller.js"></script>
+    <script src="app/components/post/post-manager.service.js"></script>
+    <script src="app/layout/main/main.controller.js"></script>
     <script src="app/layout/sidenav/sidenav.controller.js"></script>
-    <!-- end Layouts -->
-
-    <!-- Views -->
-    <script src="app/views/map/map.controller.js"></script>
-    <script src="app/views/map/map.config.js"></script>
-    <script src="app/views/map/map.route.js"></script>
-    <script src="app/views/map/markers/markers.controller.js"></script>
-
-    <script src="app/views/search/search.controller.js"></script>
-    
-    <script src="app/views/settings/settings.controller.js"></script>
-    <script src="app/views/settings/settings.route.js"></script>
-    <!-- end Views -->
-
-    <!-- Templates -->
-    <script src="app/views/channel-list/channel-item.directive.js"></script>
-    <script src="app/views/channel-list/channel-list.controller.js"></script>
-    <script src="app/views/post-list/post-item.directive.js"></script>
-    <script src="app/views/post-list/post-list.controller.js"></script>
-    <script src="app/views/bookmark-list/bookmark-add.controller.js"></script>
-    <script src="app/views/bookmark-list/bookmark-item.directive.js"></script>
-    <script src="app/views/bookmark-list/bookmark-list.controller.js"></script>
-    <script src="app/views/locater/locater.controller.js"></script>
-    <!-- end Templates -->
-    
+    <script src="app/layout/toolbar/toolbar.controller.js"></script>
+    <!-- /include -->
     <!-- endbuild -->
 </body>
 </html>

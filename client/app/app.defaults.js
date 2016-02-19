@@ -3,24 +3,14 @@
 
     angular
     .module('spirit99')
-    .constant('CONFIG', CONFIG())
-    .constant('PRESETS', PRESETS())
-    .constant('DEFAULTS', DEFAULTS());
+    .config(function ($provide) {
+        $provide.factory('DEFAULTS', DEFAULTS);
+    });
 
-    function CONFIG () {
-        return {
-            env: 'development',
-            MIN_POSTS_FOR_LIST: 10
-        };
-    }
+    DEFAULTS.$inject = ['MAP_ZOOM'];
 
-    function PRESETS () {
-        return {
-            zoomLevels: zoomLevels()
-        };
-    }
-
-    function DEFAULTS () {
+    function DEFAULTS (MAP_ZOOM) {
+        // console.debug(MAP_ZOOM);
         return {
             userCtrls: {
                 tunedInChannelID: 'nuclear-waste',
@@ -36,7 +26,7 @@
                 },
                 map: {
                     center: { latitude: 23.973875, longitude: 120.982024 },
-                    zoom: zoomLevels().TAIWAN,
+                    zoom: MAP_ZOOM.TAIWAN,
                     bounds: {
                         southwest: {latitude: 0, longitude: 0},
                         northeast: {latitude: 0, longitude: 0}
@@ -107,10 +97,6 @@
     }
 
     function zoomLevels () {
-        return {
-            STREET: 15,
-            TAIWAN: 7
-        };
     }
 
 })();
