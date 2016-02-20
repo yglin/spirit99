@@ -1,12 +1,12 @@
-<md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="sidenav-main">
-    <div ng-controller="SidenavController as sidenavVM" style='height:100vh;'>
-        <md-tabs md-selected='sidenavVM.selectedTabIndex' class='md-primary' layout-fill>
+<md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="sidenav-left">
+    <div style='height:100vh;'>
+        <md-tabs md-selected='sidenavVM.ctrl.tabIndex' class='md-primary' layout-fill>
             <md-tab ng-repeat='tab in sidenavVM.tabs'>
                 <md-tab-label>
                     <md-icon class='material-icons'>{{tab.icon}}</md-icon>
                 </md-tab-label>
                 <md-tab-body>
-                    <md-content ng-include="tab.templateUrl"></md-content>
+                    <div ng-include="tab.templateUrl"></div>
                 </md-tab-body>
             </md-tab>
         </md-tabs>

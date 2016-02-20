@@ -16,15 +16,18 @@
 
     <!-- <script src="bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script> -->
 
-    <link rel="stylesheet" href="app/styles/spirit99.css">
+    <!-- include: "type": "css", "files": ["styles/spirit99.css", "components/**/*.css", "!obsolete/**/*.css"] -->
+    <link href="app/styles/spirit99.css" rel="stylesheet" type="text/css">
+    <link href="app/components/map/map.css" rel="stylesheet" type="text/css">
+    <!-- /include -->
 </head>
 <body>
     <div ng-include='"app/layout/toolbar/toolbar.html"'
     ng-controller="ToolbarController as toolbarVM"></div>
     
-<!--     <div ng-include='"app/layout/sidenav/sidenav.html"'
-    ng-controller="SidenacController as sidenavVM"></div>
- -->
+    <div ng-include='"app/layout/sidenav/sidenav.html"'
+    ng-controller="SidenavController as sidenavVM"></div>
+
     <div ng-include='"app/layout/main/main.html"'
     ng-controller="MainController as mainVM"></div>
     <!--[if lt IE 7]>
@@ -66,10 +69,14 @@
     <script src="app/app.route.js"></script>
     <script src="app/components/channel/channel-manager.service.js"></script>
     <script src="app/components/channel/listview/station-listview.directive.js"></script>
+    <script src="app/components/map/map-settings.controller.js"></script>
+    <script src="app/components/map/map.config.js"></script>
     <script src="app/components/map/map.controller.js"></script>
+    <script src="app/components/map/map.service.js"></script>
     <script src="app/components/post/post-manager.service.js"></script>
     <script src="app/layout/main/main.controller.js"></script>
     <script src="app/layout/sidenav/sidenav.controller.js"></script>
+    <script src="app/layout/sidenav/sidenav.service.js"></script>
     <script src="app/layout/toolbar/toolbar.controller.js"></script>
     <!-- /include -->
     <!-- endbuild -->

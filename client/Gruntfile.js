@@ -40,18 +40,18 @@ module.exports = function (grunt) {
                 tasks: ['wiredep']
             },
             js: {
-                files: ['<%= yeoman.app %>/{,*/}*.js'],
+                files: ['<%= yeoman.app %>/**/*.js'],
                 tasks: ['newer:jshint:all', 'newer:jscs:all'],
                 options: {
                     livereload: '<%= connect.options.livereload %>'
                 }
             },
             jsTest: {
-                files: ['<%= yeoman.app %>/{,*/}*.spec.js', '<%= yeoman.app %>/{,*/}*.test.js'],
+                files: ['<%= yeoman.app %>/**/*.spec.js', '<%= yeoman.app %>/**/*.test.js'],
                 tasks: ['newer:jshint:test', 'newer:jscs:test', 'karma']
             },
             styles: {
-                files: ['<%= yeoman.app %>/{,*/}*.css'],
+                files: ['<%= yeoman.app %>/**/*.css'],
                 tasks: ['newer:copy:styles', 'postcss'],
                 options: {
                     livereload: '<%= connect.options.livereload %>'
@@ -65,9 +65,9 @@ module.exports = function (grunt) {
                     livereload: '<%= connect.options.livereload %>'
                 },
                 files: [
-                    '<%= yeoman.app %>/{,*/}*.html',
-                    '.tmp/styles/{,*/}*.css',
-                    '<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
+                    '<%= yeoman.app %>/**/*.html',
+                    '.tmp/styles/**/*.css',
+                    '<%= yeoman.app %>/images/**/*.{png,jpg,jpeg,gif,webp,svg}'
                 ]
             }
         },
@@ -133,14 +133,14 @@ module.exports = function (grunt) {
             all: {
                 src: [
                     'Gruntfile.js',
-                    '<%= yeoman.app %>/{,*/}*.js'
+                    '<%= yeoman.app %>/**/*.js'
                 ]
             },
             test: {
                 options: {
                     jshintrc: '.jshintrc'
                 },
-                src: ['<%= yeoman.app %>/{,*/}*.spec.js', '<%= yeoman.app %>/{,*/}*.test.js']
+                src: ['<%= yeoman.app %>/**/*.spec.js', '<%= yeoman.app %>/**/*.test.js']
             }
         },
 
@@ -153,11 +153,11 @@ module.exports = function (grunt) {
             all: {
                 src: [
                     'Gruntfile.js',
-                    '<%= yeoman.app %>/{,*/}*.js'
+                    '<%= yeoman.app %>/**/*.js'
                 ]
             },
             test: {
-                src: ['<%= yeoman.app %>/{,*/}*.spec.js', '<%= yeoman.app %>/{,*/}*.test.js']
+                src: ['<%= yeoman.app %>/**/*.spec.js', '<%= yeoman.app %>/**/*.test.js']
             }
         },
 

@@ -5,17 +5,17 @@
         .module('spirit99')
         .controller('ToolbarController', ToolbarController);
 
-    ToolbarController.$inject = ['$scope'];
+    ToolbarController.$inject = ['$scope', 'Sidenav'];
 
     /* @ngInject */
-    function ToolbarController($scope) {
+    function ToolbarController($scope, Sidenav) {
         var toolbarVM = this;
         toolbarVM.title = 'Toolbar';
     //     toolbarVM.channel = {};
     //     toolbarVM.gotoView = gotoView;
     //     toolbarVM.readonly = false;
     //     toolbarVM.keywords = [];
-    //     toolbarVM.openSidenav = openSidenav;
+        toolbarVM.open = Sidenav.open;
 
     //     $scope.$on('channel:changed', function (event, channelID) {
     //         toolbarVM.channel = ChannelManager.getChannel(channelID);
@@ -46,9 +46,5 @@
     //         }
     //     }
 
-    //     function openSidenav (sidenavName) {
-    //         UserCtrls.selectedSidenav = sidenavName;
-    //         $mdSidenav('sidenav-main').open();
-    //     }
     }
 })();

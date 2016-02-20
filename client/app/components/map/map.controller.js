@@ -5,10 +5,10 @@
     .module('spirit99')
     .controller('MapController', MapController);
 
-    MapController.$inject = [];
+    MapController.$inject = ['$rootScope', '$log', 'Map'];
 
     /* @ngInject */
-    function MapController() {
+    function MapController($rootScope, $log, Map) {
         var mapVM = this;
         mapVM.title = 'MapController';
         // mapVM.map = Map.map;
@@ -16,11 +16,11 @@
         // mapVM.showListButton = false;
         // mapVM.locate = locate;
         // Map events
-        // mapVM.events = {
-        //     'tilesloaded': broadcastMapEvent,
-        //     'dragstart': handlerDragStart,
-        //     'dragend': handlerDragEnd,
-        // };
+        mapVM.events = {
+            'idle': broadcastMapEvent,
+            // 'dragstart': handlerDragStart,
+            // 'dragend': handlerDragEnd,
+        };
         // // Publish-Subscribe events
         // $scope.$on('markers:refresh', handlerMarkersRefresh);
         // // UI controlls
@@ -29,6 +29,9 @@
         activate();
 
         function activate () {
+            Map.prmsInitMap().then(function () {
+                mapVM.map = Map.map;
+            });
         }
 
         //////////////// Custom Event Handlers ///////////////////
@@ -41,11 +44,12 @@
         //     }
         // };
 
-        // //////////////// Map Event Handlers ///////////////////
-        // // Do nothing but broadcast map event
-        // function broadcastMapEvent(mapObject, eventName){
-        //     $scope.$broadcast('map:' + eventName, mapVM.map);            
-        // }
+        //////////////// Map Event Handlers ///////////////////
+        // Do nothing but broadcast map event
+        function broadcastMapEvent(mapObject, eventName){
+            $log.debug(eventName);
+            $rootScope.$broadcast('map:' + eventName, mapVM.map);            
+        }
 
         // function handlerDragStart (mapObject, eventName) {
         //     // options = typeof options === 'undefined' ? {} : options;
@@ -54,8 +58,6 @@
         // }
 
         // function handlerDragEnd (mapObject, eventName) {
-        //     // options = typeof options === 'undefined' ? {} : options;
-        //     // options.optionArg = typeof options.optionArg === 'undefined' ? defaultValue : options.optionArg;
         //     mapVM.isDragging = false;
         //     broadcastMapEvent(mapObject, eventName);
         // }

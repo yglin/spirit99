@@ -1,0 +1,20 @@
+<div>
+    <div id='init-map-scheme'>
+        <h4>開啟網站時，顯示的地圖範圍：</h4>
+        <md-radio-group ng-model='mapSettingsVM.ctrl.initMapScheme'
+        ng-change='mapSettingsVM.setInitMapScheme(mapSettingsVM.ctrl.initMapScheme)'>
+            <md-radio-button ng-value='mapSettingsVM.initMapSchemes.GEOLOCATION'>
+                自動定位我的位置
+            </md-radio-button>
+            <md-radio-button ng-value='mapSettingsVM.initMapSchemes.LAST'>
+                上ㄧ次瀏覽的地圖
+            </md-radio-button>
+            <div layout='row'>
+                <md-radio-button ng-value='mapSettingsVM.initMapSchemes.HOME_MAP'>
+                    使用地圖首頁
+                </md-radio-button>
+                <md-button class='md-primary md-raised' ng-click='setHomeMap()'>設定首頁</md-button>
+            </div>
+        </md-radio-group>        
+    </div>
+</div>
