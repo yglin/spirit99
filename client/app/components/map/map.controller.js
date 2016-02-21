@@ -5,10 +5,10 @@
     .module('spirit99')
     .controller('MapController', MapController);
 
-    MapController.$inject = ['$rootScope', '$log', 'Map'];
+    MapController.$inject = ['$scope', '$timeout', '$rootScope', '$log', 'Map'];
 
     /* @ngInject */
-    function MapController($rootScope, $log, Map) {
+    function MapController($scope, $timeout, $rootScope, $log, Map) {
         var mapVM = this;
         mapVM.title = 'MapController';
         // mapVM.map = Map.map;
@@ -47,8 +47,12 @@
         //////////////// Map Event Handlers ///////////////////
         // Do nothing but broadcast map event
         function broadcastMapEvent(mapObject, eventName){
-            $log.debug(eventName);
-            $rootScope.$broadcast('map:' + eventName, mapVM.map);            
+            // $log.debug(eventName);
+            // console.debug(mapVM.map.center);
+            $rootScope.$broadcast('map:' + eventName, mapVM.map);
+            // $timeout(function () {
+            //     console.debug(mapVM.map.center);
+            // }, 0, false);
         }
 
         // function handlerDragStart (mapObject, eventName) {

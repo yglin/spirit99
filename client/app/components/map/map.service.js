@@ -5,10 +5,10 @@
         .module('spirit99')
         .service('Map', Map);
 
-    Map.$inject = ['$q', '$log', '$rootScope', 'localStorageService', 'DEFAULTS', 'MAP_ZOOM', 'INIT_MAP_SCHEMES'];
+    Map.$inject = ['$q', '$log', '$rootScope', '$timeout', 'localStorageService', 'DEFAULTS', 'MAP_ZOOM', 'INIT_MAP_SCHEMES'];
 
     /* @ngInject */
-    function Map($q, $log, $rootScope, localStorage, DEFAULTS, MAP_ZOOM, INIT_MAP_SCHEMES) {
+    function Map($q, $log, $rootScope, $timeout, localStorage, DEFAULTS, MAP_ZOOM, INIT_MAP_SCHEMES) {
         var self = this;
         self.map = angular.copy(DEFAULTS.map);
         self.initMapScheme = INIT_MAP_SCHEMES.GEOLOCATION;
@@ -24,6 +24,9 @@
         function activate () {
             var initMapScheme = localStorage.get('init-map-scheme');
             self.initMapScheme = initMapScheme ? initMapScheme : self.initMapScheme;
+            if(self.initMapScheme == INIT_MAP_SCHEMES.LAST){
+                activaSavingLastMap();
+            }
         }
 
         function setInitMapScheme (scheme) {
@@ -32,11 +35,7 @@
             localStorage.set('init-map-scheme', self.initMapScheme);
             if(scheme == INIT_MAP_SCHEMES.LAST){
                 self.saveMap('last-map');
-                // Save map whenever map view is panned or zoomed
-                self.unbindHandlerSaveMap = $rootScope.$on('map:idle',
-                function (event, data) {
-                    self.saveMap('last-map');
-                });
+                activaSavingLastMap();
             }
             else if(typeof self.unbindHandlerSaveMap === 'function'){
                 self.unbindHandlerSaveMap();
@@ -45,6 +44,20 @@
 
         function saveMap (key) {
             localStorage.set(key, self.map);
+        }
+
+        function activaSavingLastMap () {
+            // Save map whenever map view is changed
+            if(typeof self.unbindHandlerSaveMap === 'function'){
+                self.unbindHandlerSaveMap();
+            }
+            self.unbindHandlerSaveMap = $rootScope.$on('map:idle',
+            function (event, data) {
+                // Wait until map data is update(After Angular digest cycle complete)
+                $timeout(function () {
+                    self.saveMap('last-map');
+                }, 0, false);
+            });            
         }
 
         function prmsInitMap() {
