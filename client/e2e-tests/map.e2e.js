@@ -32,6 +32,22 @@ describe('Spirit99 app', function() {
                 var lastMap = browser.executeScript('return window.localStorage.getItem("spirit99.last-map")');
                 expect(lastMap).not.toBeNull();
             });
+
+            it(' - Set init map to HOME_MAP', function () {
+                element(by.id('s99-map-settings-init-map-home-map')).click();
+                expect(element(by.id('s99-map-settings-init-map-home-map')).getAttribute('aria-checked')).toEqual('true');
+                var initMapScheme = browser.executeScript('return window.localStorage.getItem("spirit99.init-map-scheme")');
+                expect(initMapScheme).toEqual('3');
+            });
+
+            it(' - Save home-map to local storage', function () {
+                element(by.id('s99-map-settings-init-map-home-map')).click();
+                element(by.id('s99-map-settings-button-save-home-map')).click();
+                element(by.id('s99-dialog-confirm-button-confirm')).click();
+                browser.sleep(1000);
+                var homeMap = browser.executeScript('return window.localStorage.getItem("spirit99.home-map")');
+                expect(homeMap).not.toBeNull();                       
+            });
         });
     });
 

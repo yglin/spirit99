@@ -17,9 +17,10 @@
                 ng-value='mapSettingsVM.initMapSchemes.HOME_MAP'>
                     使用地圖首頁
                 </md-radio-button>
-                <md-button class='md-primary md-raised'
+                <md-button id='s99-map-settings-button-save-home-map'
+                class='md-primary md-raised'
                 ng-disabled='mapSettingsVM.ctrl.initMapScheme != mapSettingsVM.initMapSchemes.HOME_MAP'
-                ng-click='mapSettingsVM.setHomeMap()'>設定首頁</md-button>
+                ng-click='mapSettingsVM.saveHomeMap()'>設定首頁</md-button>
             </div>
         </md-radio-group>        
     </div>

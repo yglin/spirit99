@@ -4,6 +4,7 @@
 angular.module('spirit99', [
   'ngRoute',
   'ngResource',
+  'ngSanitize',
   'ngAnimate',
   'ngMessages',
   'ngMaterial',

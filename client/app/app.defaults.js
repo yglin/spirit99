@@ -7,19 +7,10 @@
         $provide.factory('DEFAULTS', DEFAULTS);
     });
 
-    DEFAULTS.$inject = ['MAP_ZOOM'];
+    DEFAULTS.$inject = [];
 
-    function DEFAULTS (MAP_ZOOM) {
-        // console.debug(MAP_ZOOM);
+    function DEFAULTS () {
         return {
-            map: {
-                center: { latitude: 23.973875, longitude: 120.982024 },
-                zoom: MAP_ZOOM.TAIWAN,
-                bounds: {
-                    southwest: {latitude: 0, longitude: 0},
-                    northeast: {latitude: 0, longitude: 0}
-                }
-            },
             userCtrls: {
                 tunedInChannelID: 'nuclear-waste',
                 userInterface: {
@@ -95,8 +86,4 @@
 
         };
     }
-
-    function zoomLevels () {
-    }
-
 })();

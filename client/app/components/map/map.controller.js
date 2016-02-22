@@ -5,10 +5,10 @@
     .module('spirit99')
     .controller('MapController', MapController);
 
-    MapController.$inject = ['$scope', '$timeout', '$rootScope', '$log', 'Map'];
+    MapController.$inject = ['Map'];
 
     /* @ngInject */
-    function MapController($scope, $timeout, $rootScope, $log, Map) {
+    function MapController(Map) {
         var mapVM = this;
         mapVM.title = 'MapController';
         // mapVM.map = Map.map;
@@ -17,7 +17,7 @@
         // mapVM.locate = locate;
         // Map events
         mapVM.events = {
-            'idle': broadcastMapEvent,
+            'idle': Map.broadcastEvent,
             // 'dragstart': handlerDragStart,
             // 'dragend': handlerDragEnd,
         };
@@ -43,17 +43,6 @@
         //         mapVM.showListButton = false;                
         //     }
         // };
-
-        //////////////// Map Event Handlers ///////////////////
-        // Do nothing but broadcast map event
-        function broadcastMapEvent(mapObject, eventName){
-            // $log.debug(eventName);
-            // console.debug(mapVM.map.center);
-            $rootScope.$broadcast('map:' + eventName, mapVM.map);
-            // $timeout(function () {
-            //     console.debug(mapVM.map.center);
-            // }, 0, false);
-        }
 
         // function handlerDragStart (mapObject, eventName) {
         //     // options = typeof options === 'undefined' ? {} : options;
