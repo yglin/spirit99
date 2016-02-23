@@ -29,7 +29,7 @@
         activate();
 
         function activate () {
-            Map.prmsInitMap().then(function () {
+            Map.prmsGetInitMap().then(function () {
                 mapVM.map = Map.map;
             });
         }

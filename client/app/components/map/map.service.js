@@ -5,34 +5,26 @@
         .module('spirit99')
         .service('Map', Map);
 
-    Map.$inject = ['$q', '$log', '$rootScope', '$timeout', 'localStorageService', 'Dialog'];
+    Map.$inject = ['$q', '$log', '$rootScope', '$timeout', '$window', 'localStorageService', 'Dialog'];
 
     /* @ngInject */
-    function Map($q, $log, $rootScope, $timeout, localStorage, Dialog) {
+    function Map($q, $log, $rootScope, $timeout, $window, localStorage, Dialog) {
         var self = this;
-        self.MAP_ZOOM = MAP_ZOOM();
+        // Properties
+        self.ZOOMS = ZOOMS();
         self.INIT_MAP_SCHEMES = INIT_MAP_SCHEMES();
         self.map = defaultMap();
         self.initMapScheme = self.INIT_MAP_SCHEMES.GEOLOCATION;
+        // Member functions
         self.broadcastEvent = broadcastEvent;
-        self.setInitMapScheme = setInitMapScheme;
         self.saveMap = saveMap;
         self.saveHomeMap = saveHomeMap;
-        self.prmsInitMap = prmsInitMap;
-
-        activate();
+        self.setInitMapScheme = setInitMapScheme;
+        self.prmsGotoGeolocation = prmsGotoGeolocation;
+        self.prmsGetInitMap = prmsGetInitMap;
 
         ////////////////
         
-
-        function activate () {
-            var initMapScheme = localStorage.get('init-map-scheme');
-            self.initMapScheme = initMapScheme ? initMapScheme : self.initMapScheme;
-            if(self.initMapScheme == self.INIT_MAP_SCHEMES.LAST){
-                activaSavingLastMap();
-            }
-        }
-
         function broadcastEvent (gMapObj, event) {
             $rootScope.$broadcast('map:' + event, self.map);
         }
@@ -44,14 +36,14 @@
             
             if(scheme == self.INIT_MAP_SCHEMES.LAST){
                 self.saveMap('last-map');
-                activaSavingLastMap();
+                activateSavingLastMap();
             }
             else if(typeof self.unbindHandlerSaveMap === 'function'){
                 self.unbindHandlerSaveMap();
             }
 
             if(scheme == self.INIT_MAP_SCHEMES.HOME_MAP && !localStorage.get('home-map')){
-                saveHomeMap();
+                self.saveHomeMap();
             }
         }
 
@@ -63,15 +55,16 @@
             }
             Dialog.confirm(title, desc)
             .then(function () {
-                saveMap('home-map');
+                self.saveMap('home-map');
             });
         }
 
         function saveMap (key) {
+            // console.debug('Save map - ' + key + ' ~!!');
             localStorage.set(key, self.map);
         }
 
-        function activaSavingLastMap () {
+        function activateSavingLastMap () {
             // Save map whenever map view is changed
             if(typeof self.unbindHandlerSaveMap === 'function'){
                 self.unbindHandlerSaveMap();
@@ -87,8 +80,8 @@
 
         function prmsGetGeolocation () {
             var deferred = $q.defer();
-            if(navigator.geolocation){
-                navigator.geolocation.getCurrentPosition(
+            if($window.navigator && $window.navigator.geolocation){
+                $window.navigator.geolocation.getCurrentPosition(
                 function(position){
                     deferred.resolve(position);
                 },
@@ -110,18 +103,23 @@
                     latitude: position.coords.latitude,
                     longitude: position.coords.longitude
                 };
-                self.map.zoom = self.MAP_ZOOM.STREET;
+                self.map.zoom = self.ZOOMS.STREET;
             });
         }
 
-        function prmsInitMap() {
+        function prmsGetInitMap() {
             // Get init-map-scheme from local storage
+            var initMapScheme = localStorage.get('init-map-scheme');
+            self.initMapScheme = initMapScheme ? initMapScheme : self.initMapScheme;
+            if(self.initMapScheme == self.INIT_MAP_SCHEMES.LAST){
+                activateSavingLastMap();
+            }
             var lastMap = localStorage.get('last-map');
             var homeMap = localStorage.get('home-map');
             
             // Resolve initMap from geolocation
             if(self.initMapScheme === self.INIT_MAP_SCHEMES.GEOLOCATION){
-                return prmsGotoGeolocation().then(function () {
+                return self.prmsGotoGeolocation().then(function () {
                     return $q.resolve(self.map);
                 });
             }
@@ -142,7 +140,7 @@
 
         //////////////////// Functions for initialize CONSTANTS
         
-        function MAP_ZOOM () {
+        function ZOOMS () {
             return {
                 STREET: 15,
                 TAIWAN: 7
@@ -161,7 +159,7 @@
             // An overview of Taiwan
             return {
                 center: { latitude: 23.973875, longitude: 120.982024 },
-                zoom: MAP_ZOOM().TAIWAN,
+                zoom: ZOOMS().TAIWAN,
                 bounds: {
                     southwest: {latitude: 0, longitude: 0},
                     northeast: {latitude: 0, longitude: 0}

@@ -19,9 +19,11 @@ module.exports = function(config){
             'bower_components/angular-local-storage/dist/angular-local-storage.js',
             'bower_components/angular-sanitize/angular-sanitize.js',
             // endbower
+            
             'app/app.module.js',
+            'app/app.*.js',
             '.tmp/templateCache.js',
-            'app/**/*.js',
+            'app/components/**/*.js',
             // 'app/app.constant.js',
             // 'app/app.route.js',
             // 'app/services/fake-data.service.js',
@@ -31,12 +33,16 @@ module.exports = function(config){
             // 'app/**/*.test.js'
         ],
 
+        exclude: [
+            'app/obsolete/**/*.js'
+        ],
+
         autoWatch : true,
 
         frameworks: ['jasmine'],
 
         browsers: [
-            'PhantomJS',
+            'PhantomJS'
             // 'PhantomJS_custom'
         ],
 
