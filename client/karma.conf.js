@@ -18,6 +18,7 @@ module.exports = function(config){
             'bower_components/angular-material/angular-material.js',
             'bower_components/angular-local-storage/dist/angular-local-storage.js',
             'bower_components/angular-sanitize/angular-sanitize.js',
+            'bower_components/angular.validators/angular.validators.js',
             // endbower
             
             'app/app.module.js',

@@ -18,9 +18,11 @@
 
         function panels () {
             return {
-            'channel': {
+            'channels': {
                 icon: 'radio',
-                templateUrl: 'app/components/channel/channel-list.tpl.html'
+                templateUrl: 'app/components/channel/channel-list.tpl.html',
+                controller: 'ChannelListController',
+                controllerAs: 'channelListVM'
             },
             // 'post-list': {
             //     icon: 'list_view',

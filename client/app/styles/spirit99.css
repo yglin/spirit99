@@ -2,6 +2,7 @@
 @import 'spirit99-animate.css';
 
 .s99-channel-item {
+    margin: 10px 5px;
     min-height: 80px;
 }
 

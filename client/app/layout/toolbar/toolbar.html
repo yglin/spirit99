@@ -1,13 +1,22 @@
 <md-toolbar>
     <div class='md-toolbar-tools' ng-cloak>
-    <p>{{toolbarVM.title}}</p>
-<!--             <div layout='row' ng-click='toolbarVM.openSidenav("channel-list")'>
-                <img class='s99-channel-logo s99-button'
-                ng-class='{"s99-channel-logo-offline": channelListviewVM.channel.isOffline}'
-                ng-src='{{toolbarVM.channel.logoUrl}}'>
-                <p layout-margin hide-xs class='s99-channel-title'>{{toolbarVM.channel.title}}</p>
-            </div>
-            <div hide-xs flex>
+        <div ng-if='!(toolbarVM.channel)' layout='row' layout-align='start center'
+        class='s99-click-no-outline' id='s99-open-sidenav-channels'
+        ng-click='toolbarVM.openSidenav("channels")'>
+            <md-button class='md-icon-button'>
+                <md-icon class='material-icons'>radio</md-icon>
+            </md-button>
+            <p hide-xs>請選擇電台</p>
+        </div>
+        <div ng-if='toolbarVM.channel' layout='row' layout-align='start center'
+        class='s99-click-no-outline' id='s99-open-sidenav-channels'
+        ng-click='toolbarVM.openSidenav("channels")'>
+            <img class='s99-channel-logo s99-button'
+            ng-class='{"s99-channel-logo-offline": toolbarVM.channel.isOffline}'
+            ng-src='{{toolbarVM.channel.logoUrl}}'>
+            <p layout-margin hide-xs class='s99-channel-title'>{{toolbarVM.channel.title}}</p>
+        </div>
+<!--            <div hide-xs flex>
                 <md-chips ng-model='toolbarVM.keywords' readonly='toolbarVM.readonly' placeholder='增加關鍵字' secondary-placeholder='搜尋標題'></md-chips>
             </div>
             <div flex></div>

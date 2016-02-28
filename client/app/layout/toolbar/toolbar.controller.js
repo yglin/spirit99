@@ -5,21 +5,21 @@
         .module('spirit99')
         .controller('ToolbarController', ToolbarController);
 
-    ToolbarController.$inject = ['$scope', 'Sidenav'];
+    ToolbarController.$inject = ['$scope', 'Channel', 'Sidenav'];
 
     /* @ngInject */
-    function ToolbarController($scope, Sidenav) {
+    function ToolbarController($scope, Channel, Sidenav) {
         var toolbarVM = this;
-        toolbarVM.title = 'Toolbar';
-    //     toolbarVM.channel = {};
+        // toolbarVM.title = 'Toolbar';
+        toolbarVM.channel = Channel.getTunedInChannel();
     //     toolbarVM.gotoView = gotoView;
     //     toolbarVM.readonly = false;
     //     toolbarVM.keywords = [];
-        toolbarVM.open = Sidenav.open;
+        toolbarVM.openSidenav = Sidenav.open;
 
-    //     $scope.$on('channel:changed', function (event, channelID) {
-    //         toolbarVM.channel = ChannelManager.getChannel(channelID);
-    //     });
+        $scope.$on('channel:tuned', function () {
+            toolbarVM.channel = Channel.getTunedInChannel();
+        });
 
     //     activate();
 

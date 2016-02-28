@@ -2,7 +2,7 @@
 
 describe('Spirit99 app', function() {
 
-    describe(' - Map view', function () {
+    describe(' - Map', function () {
 
         beforeEach(function() {
             browser.get('/');
