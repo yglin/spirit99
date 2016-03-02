@@ -102,6 +102,7 @@ module.exports = function (grunt) {
             test: {
                 options: {
                     port: 9001,
+                    livereload: false,
                     // keepalive: true,
                     middleware: function (connect) {
                         return [

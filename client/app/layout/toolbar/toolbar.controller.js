@@ -12,9 +12,6 @@
         var toolbarVM = this;
         // toolbarVM.title = 'Toolbar';
         toolbarVM.channel = Channel.getTunedInChannel();
-    //     toolbarVM.gotoView = gotoView;
-    //     toolbarVM.readonly = false;
-    //     toolbarVM.keywords = [];
         toolbarVM.openSidenav = Sidenav.open;
 
         $scope.$on('channel:tuned', function () {
@@ -35,16 +32,6 @@
     //         hideCurrentViewButton();
     //     }
 
-    //     function hideCurrentViewButton () {
-    //         for(var key in toolbarVM.viewButtons){
-    //             if(('/' + toolbarVM.viewButtons[key].viewPath) === $location.path()){
-    //                 toolbarVM.viewButtons[key].hide = true;
-    //             }
-    //             else{
-    //                 toolbarVM.viewButtons[key].hide = false;
-    //             }
-    //         }
-    //     }
 
     }
 })();

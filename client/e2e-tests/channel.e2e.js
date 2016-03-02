@@ -1,20 +1,26 @@
 'use strict';
 
 var fakeData = require('./fake-data.js');
+var mockGeolocation = require('./mock-geolocation.js');
 
 describe('Spirit99 app', function() {
 
     beforeEach(function() {
+        browser.executeScript(mockGeolocation.mockGeoLocationSuccess(23.973875, 120.982024));
         browser.get('/');
     });
 
-    describe(' - Channel', function() {
+    describe(' - Channel', function () {
         
-        beforeEach(function() {
+        beforeEach(function () {
             // Fake data stored in local storage
             browser.executeScript(function (fakeChannels) {
-                window.localStorage.setItem("channels", JSON.stringify(fakeChannels));
+                window.localStorage.setItem("spirit99.channels", JSON.stringify(fakeChannels));
             }, fakeData.channels);
+            // browser.pause();
+        });
+
+        beforeEach(function () {
 
             // Mock data from channel server
             function addMockServer (fakeData) {
@@ -25,6 +31,7 @@ describe('Spirit99 app', function() {
                         $httpBackend.when('GET', fakeData.channels[key]['portal-url'])
                         .respond(200, fakeData.channels[key]);
                     }
+                    $httpBackend.when('GET', /.*/).passThrough();
                 }
                 angular.module('mockServer', ['ngMockE2E']).run(mockHttpBackend);
             }
@@ -38,15 +45,15 @@ describe('Spirit99 app', function() {
         describe(' - Tune in first channel', function() {
 
             beforeEach(function() {
-                // // Clear last tuned-in channel ID
-                // browser.executeScript('window.localStorage.removeItem("last-channel-id")');
-                // browser.get('/');
+                // Clear last tuned-in channel ID
+                browser.executeScript('window.localStorage.removeItem("last-channel-id")');
+                browser.refresh();
 
                 var firstChennlID = Object.keys(fakeData.channels)[0];
                 // Tune in channel test-1
                 // browser.sleep(5000);
                 element(by.id('s99-open-sidenav-channels')).click();
-                // element(by.id('s99-button-tune-in-' + firstChennlID)).click();
+                element(by.id('s99-button-tune-in-' + firstChennlID)).click();
             });
             
             it(' - Should see 10 post markers of first channel on map', function() {
