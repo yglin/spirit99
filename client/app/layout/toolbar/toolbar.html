@@ -11,10 +11,12 @@
         <div ng-if='toolbarVM.channel' layout='row' layout-align='start center'
         class='s99-click-no-outline' id='s99-open-sidenav-channels'
         ng-click='toolbarVM.openSidenav("channels")'>
-            <img class='s99-channel-logo s99-button'
+            <img class='s99-channel-logo s99-button' id='s99-channel-logo'
             ng-class='{"s99-channel-logo-offline": toolbarVM.channel.isOffline}'
-            ng-src='{{toolbarVM.channel.logoUrl}}'>
-            <p layout-margin hide-xs class='s99-channel-title'>{{toolbarVM.channel.title}}</p>
+            ng-src='{{toolbarVM.channel["logo-url"]}}'>
+            <p layout-margin hide-xs class='s99-channel-title' id='s99-channel-title'>
+                {{toolbarVM.channel.title}}
+            </p>
         </div>
 <!--            <div hide-xs flex>
                 <md-chips ng-model='toolbarVM.keywords' readonly='toolbarVM.readonly' placeholder='增加關鍵字' secondary-placeholder='搜尋標題'></md-chips>

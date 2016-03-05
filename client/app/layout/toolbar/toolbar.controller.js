@@ -11,11 +11,11 @@
     function ToolbarController($scope, Channel, Sidenav) {
         var toolbarVM = this;
         // toolbarVM.title = 'Toolbar';
-        toolbarVM.channel = Channel.getTunedInChannel();
+        toolbarVM.channel = Channel.getChannel();
         toolbarVM.openSidenav = Sidenav.open;
 
         $scope.$on('channel:tuned', function () {
-            toolbarVM.channel = Channel.getTunedInChannel();
+            toolbarVM.channel = Channel.getChannel();
         });
 
     //     activate();

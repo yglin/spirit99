@@ -22,6 +22,7 @@
         self.setInitMapScheme = setInitMapScheme;
         self.prmsGotoGeolocation = prmsGotoGeolocation;
         self.prmsGetInitMap = prmsGetInitMap;
+        self.getBounds = getBounds;
 
         ////////////////
         
@@ -136,6 +137,10 @@
             else{
                 return $q.resolve(self.map);
             }
+        }
+
+        function getBounds () {
+            return self.map.bounds;
         }
 
         //////////////////// Functions for initialize CONSTANTS

@@ -126,9 +126,9 @@ describe('Channel', function () {
                 description: '我魯魯魯魯魯魯',
             }
             expect(Channel.validate(channel)).toBe(false);
-            channel['post-url'] = 'This.is.not.a valid/url';
+            channel['query-url'] = 'This.is.not.a valid/url';
             expect(Channel.validate(channel)).toBe(false);
-            channel['post-url'] = 'http://www.9493.tw/nuclear-waste/post';
+            channel['query-url'] = 'http://www.9493.tw/nuclear-waste/post';
             expect(Channel.validate(channel)).toBe(true);
         });
     });
@@ -145,7 +145,7 @@ describe('Channel', function () {
                 id: 'test',
                 title: '我是魯蛇',
                 description: '我魯魯魯魯魯魯',
-                'post-url': 'http://www.9493.tw/nuclear-waste/post'
+                'query-url': 'http://www.9493.tw/nuclear-waste/post'
             };
             Channel.normalize(channel);
             for (var key in normalized_fields) {
@@ -248,4 +248,19 @@ describe('Channel', function () {
             expect(onChannelTuned).toHaveBeenCalled();
         });
     });
+
+    describe(' - getCategories()', function() {
+        it(' - Given no channel id, should return categories of current tuned-in channel', function() {
+            Channel.tunedInChannelID = Object.keys(Channel.channels)[0];
+            var categories = Channel.channels[Channel.tunedInChannelID].categories;
+            expect(Channel.getCategories()).toBe(categories);
+        });
+
+        it(' - Given channel id, should return categories of the channel', function() {
+            var channelID = Object.keys(Channel.channels)[0];
+            var categories = Channel.channels[channelID].categories;
+            expect(Channel.getCategories(channelID)).toBe(categories);
+        });
+    });
+
 });

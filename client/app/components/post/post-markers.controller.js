@@ -10,17 +10,13 @@
     /* @ngInject */
     function PostMarkersController(Post) {
         var postMarkersVM = this;
-        postMarkersVM.posts = undefined;
+        postMarkersVM.posts = Post.posts;
 
         activate();
 
         ////////////////
 
         function activate() {
-            Post.prmsInitPosts()
-            .then(function () {
-                postMarkersVM.posts = Post.posts;
-            });
         }
     }
 })();

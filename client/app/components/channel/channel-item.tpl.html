@@ -1,8 +1,9 @@
 <div layout='row' layout-align='start start' class='s99-channel-item'>
     <img class='s99-channel-logo s99-click-no-outline'
-        ng-class='{"s99-channel-logo-offline": channelItemVM.channel.isOffline}'
-        ng-src='{{channelItemVM.channel.logoUrl}}' layout-margin
-        ng-click="channelItemVM.toggleFocus()"/>
+    id='s99-channel-item-logo-{{channelItemVM.channel.id}}'
+    ng-class='{"s99-channel-logo-offline": channelItemVM.channel.isOffline}'
+    ng-src='{{channelItemVM.channel["logo-url"]}}' layout-margin
+    ng-click="channelItemVM.toggleFocus()"/>
     <div layout='column' flex class='s99-click-no-outline'
     ng-click="channelItemVM.toggleFocus()">
         <div class='s99-channel-title'>{{channelItemVM.channel.title}}</div>

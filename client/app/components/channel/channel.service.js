@@ -19,7 +19,9 @@
         self.tuneIn = tuneIn;
         self.markChannelOffline = markChannelOffline;
         // self.prmsInitChannels = prmsInitChannels;
-        self.getTunedInChannel = getTunedInChannel;
+        self.getChannel = getChannel;
+        self.getCategories = getCategories;
+        self.getQueryUrl = getQueryUrl;
 
         activate();
 
@@ -32,12 +34,34 @@
             }
         }
 
-        function getTunedInChannel() {
-            if (self.tunedInChannelID in self.channels) {
-                return self.channels[self.tunedInChannelID];
+        function getChannel(channelID) {
+            channelID = typeof channelID === 'undefined' ? self.tunedInChannelID : channelID;
+            if (channelID in self.channels) {
+                return self.channels[channelID];
             }
             else {
                 return null;
+            }
+        }
+
+        function getCategories (channelID) {
+            var channel = self.getChannel(channelID);
+            if (channel && channel.categories) {
+                return channel.categories;
+            }
+            else {
+                return null;
+            }
+        }
+
+        function getQueryUrl (channelID) {
+            var channel = self.getChannel(channelID);
+            if(!channel || !('query-url' in channel)){
+                $log.error('Can not find "query-url" in channel: ' + channel);
+                return null;
+            }
+            else{
+                return channel['query-url'];
             }
         }
 
@@ -46,7 +70,7 @@
                 id: 'string',
                 title: 'string',
                 description: 'string',
-                'post-url': 'url'
+                'query-url': 'url'
             };
             for (var key in required_fields) {
                 if (!(key in channel)) {
@@ -138,7 +162,7 @@
                 self.prmsIsOnline(channel)
                 .then(function () {
                     self.tunedInChannelID = channelID;
-                    $rootScope.$broadcast('channel:tuned', channelID);                    
+                    $rootScope.$broadcast('channel:tuned', channelID);
                 }, function (error) {
                     self.markChannelOffline(channelID);
                     Dialog.alert('頻道無法連線', '頻道目前無法連線，請稍候再嘗試看看');
