@@ -32,6 +32,9 @@
             for (var id in self.channels){
                 self.normalize(self.channels[id]);
             }
+            if (self.tunedInChannelID in self.channels) {
+                self.tuneIn(self.tunedInChannelID);
+            };
         }
 
         function getChannel(channelID) {
@@ -103,6 +106,7 @@
         }
 
         function prmsUpdate (channel) {
+            // console.debug('stop update, you fucking moron ' + channel['portal-url']);
             if (!('portal-url' in channel)) {
                 $log.error('Not found portal url in channel: ' + channel.id);
                 return $q.reject();
@@ -132,6 +136,7 @@
             if (!('portal-url' in channel)) {
                 return $q.reject();
             }
+            // console.debug("is online? " + channel['portal-url']);
             return $http.get(channel['portal-url'])
             .then(function (response) {
                 channel.runtime.isOffline = false;
@@ -140,30 +145,35 @@
                 channel.runtime.isOffline = true;
                 return $q.reject();
             });
-
         }
 
         function tuneIn (channelID) {
-            if (!(channelID in self.channels)) {
+            var channel = self.getChannel(channelID);
+            if (!channel) {
                 Dialog.alert('找不到頻道', '找不到頻道, ID = ' + channelID);
                 return;
             }
             
-            var channel = self.channels[channelID];
-            var prmsUpdated;
-            if(!channel.runtime.isUpdated){
-                prmsUpdated = self.prmsUpdate(channel);
+            var prmsChannelUpdated;
+            if(channel.runtime.isUpdated){
+                // console.debug('channel.runtime.isUpdated should be fucking true')
+                prmsChannelUpdated = $q.resolve();
             }
             else{
-                prmsUpdated = $q.resolve();
+                prmsChannelUpdated = self.prmsUpdate(channel);
             }
             
-            prmsUpdated.then(function () {
+            // console.debug('Fuck 2~!!!');
+            // console.debug(prmsChannelUpdated.$$state);
+            prmsChannelUpdated.then(function () {
+                // console.debug('Fuck 3~!!!');
                 self.prmsIsOnline(channel)
                 .then(function () {
                     self.tunedInChannelID = channelID;
-                    $rootScope.$broadcast('channel:tuned', channelID);
+                    $rootScope.$broadcast('channel:tuned', self.tunedInChannelID);
+                    localStorage.set('last-channel-id', self.tunedInChannelID);
                 }, function (error) {
+                    // console.debug('Don\'t screw me please');
                     self.markChannelOffline(channelID);
                     Dialog.alert('頻道無法連線', '頻道目前無法連線，請稍候再嘗試看看');
                 });

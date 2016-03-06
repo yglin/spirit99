@@ -81,7 +81,6 @@ describe('Spirit99 app', function() {
             
             it(' - Should see post markers of first channel on map', function() {
                 markers.then(function (markers) {
-                    // browser.pause();
                     expect(markers.length).toBe(fakePosts.length);          
                 });
             });
@@ -101,9 +100,12 @@ describe('Spirit99 app', function() {
                 })
             });
 
-            // it(' - Should remember last tuned-in channel', function() {
-                
-            // });
+            it(' - Should auto-tuning to last tuned-in channel at begining', function() {
+                browser.refresh();
+                // browser.pause();
+                expect(element(by.id('s99-channel-logo')).getAttribute('src')).toEqual(firstChannel['logo-url']);
+                expect(element(by.id('s99-channel-title')).getText()).toEqual(firstChannel.title);                
+            });
         });
 
         describe(' - From test-1, tune in to test-2', function() {

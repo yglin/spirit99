@@ -1,10 +1,18 @@
 'use strict';
 
+var mockGeolocation = require('./mock-geolocation.js');
+
 describe('Spirit99 app', function() {
 
     describe(' - Map', function () {
 
+        var fakeGeolocation;
         beforeEach(function() {
+            fakeGeolocation = {
+                latitude: 23.973875,
+                longitude: 120.982024
+            };
+            browser.executeScript(mockGeolocation.mockGeoLocationSuccess(fakeGeolocation.latitude, fakeGeolocation.longitude));
             browser.get('/');
         });
 
@@ -20,9 +28,12 @@ describe('Spirit99 app', function() {
                 element(by.css('md-tab-item md-icon#s99-sidenav-tab-icon-settings')).click();                
             });
 
-            it(' - Default inital map options should be GEOLOCATION', function() {
-                expect(element(by.id('s99-map-settings-init-map-geolocation')).getAttribute('aria-checked')).toEqual('true');
-            });
+            // it(' - Set init map to GEOLOCATION', function() {
+            //     element(by.id('s99-map-settings-init-map-geolocation')).click();
+            //     expect(element(by.id('s99-map-settings-init-map-geolocation')).getAttribute('aria-checked')).toEqual('true');
+            //     var initMapScheme = browser.executeScript('return window.localStorage.getItem("spirit99.init-map-scheme")');
+            //     expect(initMapScheme).toEqual('1');
+            // });
 
             it(' - Set init map to LAST', function () {
                 element(by.id('s99-map-settings-init-map-last')).click();

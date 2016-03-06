@@ -18,6 +18,34 @@ describe('Channel', function () {
                 });
             }
         });
+
+        module(function($provide) {
+            $provide.service('Post', mockPost);
+        
+            mockPost.$inject = [];
+        
+            function mockPost () {
+                var self = this;
+                // self.property = {};
+                // self.method = jasmine.createSpy('method')
+                // .and.callFake(function () {
+                // });
+            }
+        });
+
+        module(function($provide) {
+            $provide.service('Category', mockCategory);
+        
+            mockCategory.$inject = [];
+        
+            function mockCategory () {
+                var self = this;
+                // self.property = {};
+                // self.method = jasmine.createSpy('method')
+                // .and.callFake(function () {
+                // });
+            }
+        });
     });
 
     // Fake data into local storage
@@ -25,15 +53,20 @@ describe('Channel', function () {
     beforeEach(inject(function (FakeData, localStorageService) {
         localStorageService.set('channels', FakeData.fakeChannels);
     }));
+    afterEach(inject(function (localStorageService) {
+        localStorageService.clearAll();
+    }));
 
-    var Channel, $q, $rootScope, Dialog, scope, $httpBackend;
-    beforeEach(inject(function (_Channel_, _$q_, _$rootScope_, _Dialog_, _$httpBackend_) {
+    // Initizlize global variables
+    var Channel, $q, $rootScope, Dialog, scope, $httpBackend, localStorage;
+    beforeEach(inject(function (_Channel_, _$q_, _$rootScope_, _Dialog_, _$httpBackend_, localStorageService) {
         Channel = _Channel_;
         $q = _$q_;
         $rootScope = _$rootScope_;
         Dialog = _Dialog_;
         scope = $rootScope.$new();
         $httpBackend = _$httpBackend_;
+        localStorage = localStorageService;
     }));
 
     describe(' - prmsUpdate()', function() {
@@ -203,10 +236,8 @@ describe('Channel', function () {
         
         beforeEach(function() {
             // Mock prmsUpdate()
-            spyOn(Channel, 'prmsUpdate').and.callFake(function (channel) {
-                channel.prmsUpdated = $q.resolve();
-                return channel.prmsUpdated;
-            });
+            spyOn(Channel, 'prmsUpdate').and.returnValue($q.resolve());
+            spyOn(Channel, 'prmsIsOnline').and.returnValue($q.resolve());
             Channel.channels['nuclear-waste'].runtime.isUpdated = true;
         });
 
@@ -217,21 +248,18 @@ describe('Channel', function () {
 
         it(' - If channel not updated, call prmsUpdate() upon it', function() {
             delete Channel.channels['nuclear-waste'].runtime.isUpdated;
-            spyOn(Channel, 'prmsIsOnline').and.callFake(function () {
-                return $q.resolve();
-            });
             Channel.tuneIn('nuclear-waste');
             $rootScope.$digest();
             expect(Channel.prmsUpdate).toHaveBeenCalled();
         });
 
         it(' - Should alert user if not online , and mark channel as offline', function () {
-            spyOn(Channel, 'prmsIsOnline').and.callFake(function () {
-                return $q.reject();
-            });
+            Channel.prmsIsOnline.and.returnValue($q.reject());
             spyOn(Channel, 'markChannelOffline');
+            // console.debug('Fuck 1~!!!');
             Channel.tuneIn('nuclear-waste');
             $rootScope.$digest();
+            // console.debug('Shit~!!!');
             expect(Dialog.alert).toHaveBeenCalled();
             expect(Channel.markChannelOffline).toHaveBeenCalledWith('nuclear-waste');
         });
@@ -239,13 +267,16 @@ describe('Channel', function () {
         it(' - Should change tuned-in channelID and broadcast event "channel:tuned" on success', function() {
             var onChannelTuned = jasmine.createSpy('onChannelTuned');
             scope.$on('channel:tuned', onChannelTuned);
-            spyOn(Channel, 'prmsIsOnline').and.callFake(function () {
-                return $q.resolve();
-            });
             Channel.tuneIn('nuclear-waste');
             $rootScope.$digest();
             expect(Channel.tunedInChannelID).toEqual('nuclear-waste');
             expect(onChannelTuned).toHaveBeenCalled();
+        });
+
+        it(' - Should set last-channel-id in local storage', function() {
+            Channel.tuneIn('nuclear-waste');
+            $rootScope.$digest();
+            expect(localStorage.get('last-channel-id')).toEqual('nuclear-waste');
         });
     });
 
