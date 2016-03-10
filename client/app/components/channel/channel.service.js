@@ -12,8 +12,9 @@
         var self = this;
         self.channels = localStorage.get('channels');
         self.tunedInChannelID = localStorage.get('last-channel-id');
-        self.prmsUpdate = prmsUpdate;
         self.prmsAdd = prmsAdd;
+        self.prmsUpdate = prmsUpdate;
+        self.prmsDelete = prmsDelete;
         self.prmsIsOnline = prmsIsOnline;
         self.validate = validate;
         self.normalize = normalize;
@@ -54,7 +55,7 @@
                 return channel.categories;
             }
             else {
-                return null;
+                return {};
             }
         }
 
@@ -149,6 +150,13 @@
         }
 
         function tuneIn (channelID) {
+            // If not given channelID, tune off
+            if (typeof channelID === 'undefined' || !channelID) {
+                self.tunedInChannelID = null;
+                $rootScope.$broadcast('channel:tuned', self.tunedInChannelID);                
+                return;
+            }
+
             var channel = self.getChannel(channelID);
             if (!channel) {
                 Dialog.alert('找不到頻道', '找不到頻道, ID = ' + channelID);
@@ -205,6 +213,25 @@
                 Dialog.alert('連線錯誤', '無法連線到以下網址：<br>' + portalUrl);
                 $log.warn('Fail to add channel with poratl url: ' + portalUrl);
                 return $q.reject(error.data);
+            });
+        }
+
+        function prmsDelete (channelID) {
+            var channel = self.getChannel(channelID);
+            if (!channel) {
+                return $q.reject();
+            }
+
+            return Dialog.confirm('刪除頻道', '確定要刪除以下頻道？<br><b>' + channel.title + '</b>')
+            .then(function () {
+                delete self.channels[channelID];
+                if (channelID == self.tunedInChannelID) {
+                    self.tuneIn();
+                }
+                $rootScope.$broadcast('channel:deleted', channelID);
+                return $q.resolve();
+            }, function (error) {
+                return $q.reject(error);
             });
         }
         

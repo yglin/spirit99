@@ -18,7 +18,7 @@ class='s99-channel-item'>
         ng-show='channelItemVM.focusOn == channelItemVM.channel.id'>
             <md-button class='md-icon-button'
             id='s99-button-delete-channel-{{channelItemVM.channel.id}}'
-            ng-click="$event.stopPropagation();">
+            ng-click="$event.stopPropagation(); channelItemVM.delete(channelItemVM.channel.id)">
                 <md-icon class='material-icons'>close</md-icon>
             </md-button>
             <md-button class='md-icon-button'

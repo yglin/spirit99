@@ -199,14 +199,21 @@ describe('Spirit99 app', function() {
                 element(by.id('s99-channel-item-logo-' + deleteChannelID)).click();
             });
 
+            it(' - Sould raise confirm dialog', function() {
+                element(by.id('s99-button-delete-channel-' + deleteChannelID)).click();
+                expect(element(by.id('s99-dialog-confirm')).isDisplayed()).toBe(true);
+            });
+
             it(' - Should delete channel', function() {
                 element(by.id('s99-button-delete-channel-' + deleteChannelID)).click();
+                element(by.id('s99-dialog-confirm-button-confirm')).click();
                 expect(element(by.id('s99-channel-item-' + deleteChannelID)).isPresent()).toBe(false);
             });
 
             it(' - Should revert to no channel tuned state if current channel deleted', function() {
                 element(by.id('s99-button-tune-in-' + deleteChannelID)).click();
                 element(by.id('s99-button-delete-channel-' + deleteChannelID)).click();
+                element(by.id('s99-dialog-confirm-button-confirm')).click();
                 expect(element(by.id('s99-no-channel-tuned-prompt')).isDisplayed()).toBe(true);
             });
         });

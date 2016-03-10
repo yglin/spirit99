@@ -38,6 +38,7 @@
         var channelItemVM = this;
         channelItemVM.tuneIn = Channel.tuneIn;
         channelItemVM.toggleFocus = toggleFocus;
+        channelItemVM.delete = Channel.prmsDelete;
 
         function toggleFocus () {
             channelItemVM.focusOn = channelItemVM.focusOn == channelItemVM.channel.id ? '' : channelItemVM.channel.id;

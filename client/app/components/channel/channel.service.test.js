@@ -10,14 +10,14 @@ describe('Channel', function () {
         angular.mock.module(function($provide) {
             $provide.service('Dialog', mockDialog);
         
-            mockDialog.$inject = [];
+            mockDialog.$inject = ['$q'];
         
-            function mockDialog () {
+            function mockDialog ($q) {
                 var self = this;
                 self.alert = jasmine.createSpy('alert')
-                .and.callFake(function () {
-                    return
-                });
+                .and.returnValue($q.resolve());
+                self.confirm = jasmine.createSpy('confirm')
+                .and.returnValue($q.resolve());
             }
         });
 
@@ -278,6 +278,14 @@ describe('Channel', function () {
             $rootScope.$digest();
             expect(localStorage.get('last-channel-id')).toEqual('nuclear-waste');
         });
+
+        it(' - Tune in to no channel, should revert to no channel tuned-in state', function() {
+            Channel.tuneIn('nuclear-waste');
+            $rootScope.$digest();
+            Channel.tuneIn();
+            $rootScope.$digest();
+            expect(Channel.tunedInChannelID).toBeNull();
+        });
     });
 
     describe(' - getCategories()', function() {
@@ -346,6 +354,47 @@ describe('Channel', function () {
             $httpBackend.flush();
             $rootScope.$digest();
             expect(Channel.channels[newChannel.id]).toEqual(newChannel);
+        });
+    });
+
+    describe(' - prmsDelete', function() {
+        var deleteChannel, deleteChannelID;
+        beforeEach(function() {
+            spyOn(Channel, 'prmsUpdate').and.returnValue($q.resolve());
+            spyOn(Channel, 'prmsIsOnline').and.returnValue($q.resolve());
+            deleteChannelID = Object.keys(FakeData.channels)[0];
+            deleteChannel = FakeData.channels[deleteChannelID];
+        });
+
+        it(' - Should raise dialog to confirm deletion', function() {
+            Channel.prmsDelete(deleteChannelID);
+            $rootScope.$digest();
+            expect(Dialog.confirm).toHaveBeenCalled();
+        });
+
+        it(' - Should delete channel in Channel.channels', function() {
+            Channel.prmsDelete(deleteChannelID);
+            $rootScope.$digest();
+            expect(Channel.channels[deleteChannelID]).toBeUndefined();
+        });
+
+        it(' - Should call Channel.tuneIn() without given channel id, if current tuned-in channel is deleted', function() {
+            Channel.tuneIn(deleteChannelID);
+            $rootScope.$digest();
+            spyOn(Channel, 'tuneIn');
+            Channel.prmsDelete(deleteChannelID);
+            $rootScope.$digest();
+            expect(Channel.tuneIn).toHaveBeenCalledWith();
+        });
+
+        it(' - Should broadcast "channel:deleted" event with deleted channel id', function() {
+            var onChannelDeleted = jasmine.createSpy('onChannelDeleted');
+            scope.$on('channel:deleted', function (event, data) {
+                onChannelDeleted(data);
+            });
+            Channel.prmsDelete(deleteChannelID);
+            $rootScope.$digest();
+            expect(onChannelDeleted).toHaveBeenCalledWith(deleteChannelID);
         });
     });
 
