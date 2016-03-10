@@ -1,11 +1,13 @@
 'use strict';
-        
+
+var FakeData = require('../../../mocks/data.js');
+
 describe('Category', function () {
-    beforeEach(module('spirit99'));
+    beforeEach(angular.mock.module('spirit99'));
 
     // Mock dependencies
     beforeEach(function() {
-        module(function($provide) {
+        angular.mock.module(function($provide) {
             $provide.factory('uiGmapGoogleMapApi', mockUiGmapGoogleMapApi);
         
             mockUiGmapGoogleMapApi.$inject = ['$q'];
@@ -20,28 +22,27 @@ describe('Category', function () {
             }
         });
 
-        module(function($provide) {
+        angular.mock.module(function($provide) {
             $provide.service('Channel', mockChannel);
         
-            mockChannel.$inject = ['FakeData'];
+            mockChannel.$inject = [];
         
-            function mockChannel (FakeData) {
+            function mockChannel () {
                 var self = this;
                 self.property = {};
                 self.getCategories = jasmine.createSpy('getCategories')
                 .and.callFake(function () {
-                    return FakeData.fakeCategories;
+                    return FakeData.categories;
                 });
             }
         });
 
     });
 
-    var Category, $rootScope, FakeData;
-    beforeEach(inject(function (_Category_, _$rootScope_, _FakeData_) {
+    var Category, $rootScope;
+    beforeEach(inject(function (_Category_, _$rootScope_) {
         Category = _Category_;
         $rootScope = _$rootScope_;
-        FakeData = _FakeData_;
     }));
 
     it(' - Should call rebuildCategories() on event channel:tuned', function() {
@@ -80,9 +81,9 @@ describe('Category', function () {
         });
 
         it(' - Should get categories from Channel', function() {
-            FakeData.fakeCategories.misc = Category.CATEGORY_MISC;
+            FakeData.categories.misc = Category.CATEGORY_MISC;
             Category.rebuildCategories();
-            expect(Category.categories).toEqual(FakeData.fakeCategories);
+            expect(Category.categories).toEqual(FakeData.categories);
         });
 
         it(' - Should call vaildate() upon categories', function() {

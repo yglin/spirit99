@@ -2,11 +2,11 @@
         
 describe('MarkersController', function () {
 
-    beforeEach(module('spirit99'));
+    beforeEach(angular.mock.module('spirit99'));
 
     // <<<<<<<<<<<<<<<<<<<<<<<<< Mock Dependencies <<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     beforeEach(function () {
-        module(function($provide) {
+        angular.mock.module(function($provide) {
             $provide.service('ChannelManager', mockChannelManager);
         
             mockChannelManager.$inject = [];
@@ -23,7 +23,7 @@ describe('MarkersController', function () {
             }
         });
 
-        module(function($provide) {
+        angular.mock.module(function($provide) {
             $provide.service('PostManager', mockPostManager);
         
             mockPostManager.$inject = ['$q'];
@@ -38,7 +38,7 @@ describe('MarkersController', function () {
             }
         });
 
-        module(function($provide) {
+        angular.mock.module(function($provide) {
             $provide.service('IconManager', mockIconManager);
         
             mockIconManager.$inject = [];
@@ -53,7 +53,7 @@ describe('MarkersController', function () {
             }
         });
 
-        module(function($provide) {
+        angular.mock.module(function($provide) {
             $provide.service('UserCtrls', mockUserCtrls);
         
             mockUserCtrls.$inject = [];

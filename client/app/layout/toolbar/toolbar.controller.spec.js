@@ -2,10 +2,10 @@
         
 describe('ToolbarController', function () {
 
-    beforeEach(module('spirit99'));
+    beforeEach(angular.mock.module('spirit99'));
 
     beforeEach(function () {
-        module(function($provide) {
+        angular.mock.module(function($provide) {
             $provide.service('ChannelManager', mockChannelManager);
         
             mockChannelManager.$inject = ['DEFAULTS'];

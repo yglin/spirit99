@@ -1,17 +1,19 @@
 'use strict';
         
+var FakeData = require('../../../mocks/data.js');
+
 describe('Post', function () {
-    beforeEach(module('spirit99'));
+    beforeEach(angular.mock.module('spirit99'));
 
     // Mock depemdencies
     var queryUrl = 'http://www.9493.tw/fake-channel/posts';
     beforeEach(function() {
-        module(function($provide) {
+        angular.mock.module(function($provide) {
             $provide.service('Channel', mockChannel);
         
-            mockChannel.$inject = ['FakeData'];
+            mockChannel.$inject = [];
         
-            function mockChannel (FakeData) {
+            function mockChannel () {
                 var self = this;
                 self.channels = {};
                 self.getQueryUrl = jasmine.createSpy('getQueryUrl')
@@ -21,7 +23,7 @@ describe('Post', function () {
             }
         });
 
-        module(function($provide) {
+        angular.mock.module(function($provide) {
             $provide.service('Category', mockCategory);
         
             mockCategory.$inject = [];
@@ -35,14 +37,13 @@ describe('Post', function () {
     });
 
 
-    var Post, FakeData, $rootScope, $httpBackend;
+    var Post, $rootScope, $httpBackend;
     var fakePost;
-    beforeEach(inject(function (_Post_, _FakeData_, _$rootScope_, _$httpBackend_) {
+    beforeEach(inject(function (_Post_, _$rootScope_, _$httpBackend_) {
         Post = _Post_;
-        FakeData = _FakeData_;
         $rootScope = _$rootScope_;
         $httpBackend = _$httpBackend_;
-        fakePost = FakeData.genFakePosts({count: 1})[0];
+        fakePost = FakeData.genPosts({count: 1})[0];
     }));
 
     it(' - Should call reloadPosts() on event "channel:tuned"', function() {
@@ -87,7 +88,7 @@ describe('Post', function () {
         var fakePosts;
         beforeEach(function() {
             // Mock $http call for posts
-            fakePosts = FakeData.genFakePosts({count: 11});
+            fakePosts = FakeData.genPosts({count: 11});
             var queryUrlRegex = queryUrl.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
             var urlRegex = new RegExp(queryUrlRegex + '.*');
             $httpBackend.when('GET', urlRegex).respond(200, fakePosts);

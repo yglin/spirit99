@@ -40,7 +40,16 @@ module.exports = function(config){
 
         autoWatch : true,
 
-        frameworks: ['jasmine'],
+        frameworks: ['jasmine', 'browserify'],
+
+        preprocessors: {
+            'mocks/**/*.mock.js': ['browserify'],
+            'app/**/*.{spec,test}.js': ['browserify'],
+        },
+
+        browserify: {
+            debug: true
+        },
 
         browsers: [
             'PhantomJS'
@@ -50,7 +59,8 @@ module.exports = function(config){
         plugins : [
             'karma-jasmine',
             'karma-phantomjs-launcher',
-            'karma-junit-reporter'
+            'karma-junit-reporter',
+            'karma-browserify'
         ],
 
         junitReporter : {

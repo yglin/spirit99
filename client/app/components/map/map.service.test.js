@@ -1,11 +1,11 @@
 'use strict';
         
 describe('Map', function () {
-    beforeEach(module('spirit99'));
+    beforeEach(angular.mock.module('spirit99'));
 
     // Mock dependencies
     beforeEach(function() {
-        module(function($provide) {
+        angular.mock.module(function($provide) {
             $provide.service('Dialog', mockDialog);
         
             mockDialog.$inject = ['$q'];

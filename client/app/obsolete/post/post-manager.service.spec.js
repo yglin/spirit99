@@ -2,7 +2,7 @@
 
 // describe('PostManager', function () {
 
-//     beforeEach(module('spirit99'));
+//     beforeEach(angular.mock.module('spirit99'));
 
 //     var PostManager, FakeData;
 //     beforeEach(inject(function (_PostManager_, _FakeData_) {

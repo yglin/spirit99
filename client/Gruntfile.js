@@ -481,6 +481,7 @@ module.exports = function (grunt) {
     grunt.registerTask('test', [
         'clean:server',
         'wiredep',
+        'includeSource',
         'concurrent:test',
         'postcss',
         'ngtemplates:test',
@@ -491,6 +492,7 @@ module.exports = function (grunt) {
     grunt.registerTask('e2e-test', [
         'clean:server',
         'wiredep',
+        'includeSource',
         'concurrent:test',
         'postcss',
         'connect:test',

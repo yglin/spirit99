@@ -11,6 +11,7 @@
     function FakeData($q) {
         var self = this;
         self.fakeChannels = fakeChannels();
+        self.fakeNewChannel = fakeNewChannel();
         self.fakeCategories = fakeCategories();
         self.genFakePosts = genFakePosts;
 
@@ -154,17 +155,20 @@
                     'intro-url': 'http://www.google.com',
                     'logo-url': 'https://www.evansville.edu/residencelife/images/greenLogo.png',
                     'query-url': 'http://localhost:3000/localooxx/post/',
-                },
+                }
+            };
+        }
 
-                'birdy-go-home': {
-                    'portal-url': 'http://localhost:3000/birdy-go-home/portal/',
-                    id: 'birdy-go-home',
-                    title: '小小鳥兒要回家',
-                    description: '幫助在外流浪的鳥兒回到鳥奴身邊',
-                    'intro-url': 'http://www.google.com',
-                    'logo-url': 'http://www.mrspeaker.net/images/wafty-icon.png',
-                    'query-url': 'http://localhost:3000/birdy-go-home/post/',
-                }                
+        function fakeNewChannel () {
+            return {
+                'portal-url': 'http://houston.ready.to.go',
+                id: 'birdy-go-home',
+                title: '小小鳥兒要回家',
+                description: '幫助在外流浪的鳥兒回到鳥奴身邊',
+                'intro-url': 'http://www.google.com',
+                'logo-url': 'http://www.mrspeaker.net/images/wafty-icon.png',
+                'query-url': 'http://localhost:3000/birdy-go-home/post/',
+                categories: fakeCategories()
             };
         }
     }

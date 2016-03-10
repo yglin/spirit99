@@ -3,15 +3,15 @@
 
     angular
         .module('spirit99')
-        .controller('DialogConfirmController', DialogConfirmController);
+        .controller('DialogAlertController', DialogAlertController);
 
-    DialogConfirmController.$inject = ['$mdDialog'];
+    DialogAlertController.$inject = ['$mdDialog'];
 
     /* @ngInject */
-    function DialogConfirmController($mdDialog) {
-        var dialogConfirmVM = this;
-        dialogConfirmVM.cancel = cancel;
-        dialogConfirmVM.confirm = confirm;
+    function DialogAlertController($mdDialog) {
+        var dialogAlertVM = this;
+        dialogAlertVM.cancel = cancel;
+        dialogAlertVM.confirm = confirm;
 
         activate();
 

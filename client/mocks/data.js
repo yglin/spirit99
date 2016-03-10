@@ -6,6 +6,7 @@ var _ = require('lodash');
 
 exports.channels = channels();
 exports.newChannel = newChannel();
+exports.categories = categories();
 exports.mapTaiwan = mapTaiwan();
 exports.genPosts = genPosts;
 
@@ -19,7 +20,7 @@ function channels () {
             'intro-url': 'http://www.google.com',
             'logo-url': 'https://yt3.ggpht.com/-Gd9lF_AqQPk/AAAAAAAAAAI/AAAAAAAAAAA/afbtVZjs18E/s88-c-k-no/photo.jpg',
             'query-url': 'http://in.these.arms',
-            categories: fakeCategories()
+            categories: categories()
         },
         
         'localooxx': {
@@ -43,7 +44,7 @@ function newChannel () {
         'intro-url': 'http://www.google.com',
         'logo-url': 'http://www.mrspeaker.net/images/wafty-icon.png',
         'query-url': 'http://localhost:3000/birdy-go-home/post/',
-        categories: fakeCategories()
+        categories: categories()
     };
 }
 
@@ -52,7 +53,7 @@ function genPosts(options) {
     options = typeof options === 'undefined' ? {} : options;
     options.count = typeof options.count === 'undefined' ? 10 : options.count;
     var count = Math.min(options.count, 100);
-    var categories = Object.keys(fakeCategories());
+    var categoryIDs = Object.keys(categories());
     var thumbnails = fakeThumbnails();
     var fakeTitles = fakePostTitles(count);
     var posts = [];
@@ -63,8 +64,8 @@ function genPosts(options) {
         post.latitude = 23.973875 + 2 * (0.5 - Math.random());
         post.longitude = 120.982024 + 2 * (0.5 - Math.random());
         post.create_time = pickRandomDate();
-        if((i % categories.length + 1) != 0){
-            post.category = categories[i % categories.length];
+        if((i % categoryIDs.length + 1) != 0){
+            post.category = categoryIDs[i % categoryIDs.length];
         }
         if(Math.random() > 0.5){
             post.thumbnail = _.sample(thumbnails);
@@ -74,7 +75,7 @@ function genPosts(options) {
     return posts;
 }
 
-function fakeCategories () {
+function categories () {
     return {
         sweat: {
             icon: {

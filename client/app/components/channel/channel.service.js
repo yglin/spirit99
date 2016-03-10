@@ -5,14 +5,15 @@
         .module('spirit99')
         .service('Channel', Channel);
 
-    Channel.$inject = ['$q', '$log', '$http', '$rootScope', 'localStorageService', 'Dialog', 'nodeValidator', 'FakeData'];
+    Channel.$inject = ['$q', '$log', '$http', '$rootScope', 'localStorageService', 'Dialog', 'nodeValidator'];
 
     /* @ngInject */
-    function Channel($q, $log, $http, $rootScope, localStorage, Dialog, nodeValidator, FakeData) {
+    function Channel($q, $log, $http, $rootScope, localStorage, Dialog, nodeValidator) {
         var self = this;
         self.channels = localStorage.get('channels');
         self.tunedInChannelID = localStorage.get('last-channel-id');
         self.prmsUpdate = prmsUpdate;
+        self.prmsAdd = prmsAdd;
         self.prmsIsOnline = prmsIsOnline;
         self.validate = validate;
         self.normalize = normalize;
@@ -102,7 +103,7 @@
 
             if (!channel.runtime || typeof channel.runtime != 'object') {
                 channel.runtime = {};
-            };
+            }
         }
 
         function prmsUpdate (channel) {
@@ -186,6 +187,27 @@
         function markChannelOffline (channelID) {
             self.channels[channelID].runtime.isOffline = true;
         }
+
+        function prmsAdd (portalUrl) {
+            return $http.get(portalUrl)
+            .then(function (response) {
+                var channel = response.data;
+                if(self.validate(channel)){
+                    self.normalize(channel);
+                    self.channels[channel.id] = channel;
+                    return $q.resolve(channel);
+                }
+                else{
+                    Dialog.alert('資料錯誤', '頻道資料錯誤：<br><p>' + JSON.stringify(channel) + '</p>');
+                    return $q.reject('Fail on validating channel ' + response.data);
+                }
+            }, function (error) {
+                Dialog.alert('連線錯誤', '無法連線到以下網址：<br>' + portalUrl);
+                $log.warn('Fail to add channel with poratl url: ' + portalUrl);
+                return $q.reject(error.data);
+            });
+        }
+        
         // function prmsInitChannels () {
         //     var channels = localStorage.get('channels');
         //     if(channels && !_.isEmpty(channels)){

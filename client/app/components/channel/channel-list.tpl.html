@@ -6,11 +6,11 @@
         </div>
         <div layout='row'>
             <md-input-container class='md-block' flex>
-                <input ng-model='channelListVM.newPortalUrl' placeholder='連結新的電台'>
+                <input id='s99-input-add-channel' ng-model='channelListVM.newPortalUrl' placeholder='連結新的電台'>
                 <div class='s99-input-hint'>請輸入電台傳送門網址</div>
             </md-input-container>
-            <md-button class='md-fab md-mini'
-            ng-click="channelListVM.addNewChannel()">
+            <md-button class='md-fab md-mini' id='s99-button-add-channel'
+            ng-click="channelListVM.addChannel(channelListVM.newPortalUrl)">
                 <md-icon class='material-icons'>cast_connected</md-icon>
             </md-button>
         </div>

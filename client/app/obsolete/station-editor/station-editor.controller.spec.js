@@ -2,7 +2,7 @@
         
 describe('ChannelEditorController', function () {
 
-    beforeEach(module('spirit99'));
+    beforeEach(angular.mock.module('spirit99'));
 
     var channelEditorVM;
     beforeEach(inject(function ($controller) {

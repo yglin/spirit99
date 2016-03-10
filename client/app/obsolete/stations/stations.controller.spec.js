@@ -2,11 +2,11 @@
         
 describe('ChannelsContrller', function () {
 
-    beforeEach(module('spirit99'));
+    beforeEach(angular.mock.module('spirit99'));
 
     // Mock dependencies
     beforeEach(function() {
-        module(function($provide) {
+        angular.mock.module(function($provide) {
             $provide.service('ChannelsManager', mockChannelsManager);
         
             mockChannelsManager.$inject = ['DEFAULTS'];

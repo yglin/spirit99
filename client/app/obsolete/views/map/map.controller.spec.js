@@ -1,7 +1,7 @@
 'use strict';
 
 describe('MapController', function () {
-    beforeEach(module('spirit99'));
+    beforeEach(angular.mock.module('spirit99'));
 
     // <<<<<<<<<<<<<<<<<<<<< Initialize MapController and some global dependencies
     var controller;

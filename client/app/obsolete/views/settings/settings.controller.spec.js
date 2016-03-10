@@ -2,7 +2,7 @@
         
 describe('SettingsController', function () {
 
-    beforeEach(module('spirit99'));
+    beforeEach(angular.mock.module('spirit99'));
 
     var controller;
     beforeEach(inject(function ($controller) {

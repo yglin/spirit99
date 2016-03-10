@@ -1,22 +1,22 @@
-<md-dialog id='s99-dialog-confirm' aria-label="Confirm" ng-cloak>
+<md-dialog id='s99-dialog-alert' aria-label="Alert"  ng-cloak>
 <md-toolbar>
     <div class="md-toolbar-tools">
-        <h2>{{dialogConfirmVM.title}}</h2>
+        <h2>{{dialogAlertVM.title}}</h2>
         <span flex></span>
-        <md-button class="md-icon-button" ng-click="dialogConfirmVM.cancel()">
+        <md-button class="md-icon-button" ng-click="dialogAlertVM.cancel()">
             <md-icon class="material-icons">close</md-icon>
         </md-button>
     </div>
 </md-toolbar>
 <md-dialog-content layout-padding>
-    <div ng-bind-html="dialogConfirmVM.description"></div>
+    <div ng-bind-html="dialogAlertVM.description"></div>
 </md-dialog-content>
 <md-dialog-actions layout="row">
     <span flex></span>
-    <md-button id='s99-dialog-confirm-button-confirm'
+    <md-button id='s99-dialog-alert-button-confirm'
     class='md-primary md-raised'
-    ng-click="dialogConfirmVM.confirm()">
-    確定
+    ng-click="dialogAlertVM.confirm()">
+     知道了
     </md-button>
 </md-dialog-actions>
 </md-dialog>

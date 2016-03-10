@@ -1,7 +1,7 @@
 'use strict';
         
 describe('FakeData', function () {
-    beforeEach(module('spirit99'));
+    beforeEach(angular.mock.module('spirit99'));
     var FakeData, DEFAULTS;
     beforeEach(inject(function (_FakeData_, _DEFAULTS_) {
         FakeData = _FakeData_;

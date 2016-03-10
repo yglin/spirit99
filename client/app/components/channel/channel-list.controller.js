@@ -12,13 +12,19 @@
         var channelListVM = this;
         channelListVM.focusOn = '';
         channelListVM.channels = Channel.channels;
-        channelListVM.addNewChannel = Channel.addNew;
+        channelListVM.addChannel = addChannel;
 
         activate();
 
         ////////////////
 
         function activate() {
+        }
+
+        function addChannel (portalUrl) {
+            Channel.prmsAdd(portalUrl).then(function (newChannel) {
+                Channel.tuneIn(newChannel.id);
+            });
         }
     }
 })();

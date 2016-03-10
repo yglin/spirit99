@@ -4,7 +4,7 @@
 
 //     var compile, scope, s99ChannelListviewElem;
 //     beforeEach(function(){
-//         module('spirit99');
+//         angular.mock.module('spirit99');
 
 //         inject(function($compile, $rootScope){
 //             compile = $compile;

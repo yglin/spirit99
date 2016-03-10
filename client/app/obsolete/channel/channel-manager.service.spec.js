@@ -1,12 +1,12 @@
 // 'use strict';
         
 // describe('ChannelManager', function () {
-//     beforeEach(module('spirit99'));
+//     beforeEach(angular.mock.module('spirit99'));
 
 //     // Mock dependencies
 //     beforeEach(function() {
 
-//         module(function($provide) {
+//         angular.mock.module(function($provide) {
 //             $provide.service('UserPrefs', mockUserPrefs);
         
 //             mockUserPrefs.$inject = ['DEFAULTS'];
@@ -26,7 +26,7 @@
 //             }
 //         });
 
-//         module(function($provide) {
+//         angular.mock.module(function($provide) {
 //             $provide.service('UserCtrls', mockUserCtrls);
         
 //             mockUserCtrls.$inject = [];

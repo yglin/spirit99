@@ -2,7 +2,7 @@
 
 describe('Service initUtils', function () {
 
-    beforeEach(module('spirit99'));
+    beforeEach(angular.mock.module('spirit99'));
 
     // Fake data
     var fakeUserLocation;
@@ -13,7 +13,7 @@ describe('Service initUtils', function () {
     // Mock dependencies
     beforeEach(function () {
 
-        module(function($provide) {
+        angular.mock.module(function($provide) {
             $provide.service('MapNavigator', mockMapNavigator);
         
             mockMapNavigator.$inject = ['$q'];

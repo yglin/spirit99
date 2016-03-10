@@ -1,11 +1,13 @@
 'use strict';
-        
+
+var FakeData = require('../../../mocks/data.js');
+
 describe('Channel', function () {
-    beforeEach(module('spirit99'));
+    beforeEach(angular.mock.module('spirit99'));
 
     // Mock Dependencies
     beforeEach(function() {
-        module(function($provide) {
+        angular.mock.module(function($provide) {
             $provide.service('Dialog', mockDialog);
         
             mockDialog.$inject = [];
@@ -19,7 +21,7 @@ describe('Channel', function () {
             }
         });
 
-        module(function($provide) {
+        angular.mock.module(function($provide) {
             $provide.service('Post', mockPost);
         
             mockPost.$inject = [];
@@ -33,7 +35,7 @@ describe('Channel', function () {
             }
         });
 
-        module(function($provide) {
+        angular.mock.module(function($provide) {
             $provide.service('Category', mockCategory);
         
             mockCategory.$inject = [];
@@ -50,8 +52,8 @@ describe('Channel', function () {
 
     // Fake data into local storage
     var fakeChannels;
-    beforeEach(inject(function (FakeData, localStorageService) {
-        localStorageService.set('channels', FakeData.fakeChannels);
+    beforeEach(inject(function (localStorageService) {
+        localStorageService.set('channels', FakeData.channels);
     }));
     afterEach(inject(function (localStorageService) {
         localStorageService.clearAll();
@@ -256,10 +258,8 @@ describe('Channel', function () {
         it(' - Should alert user if not online , and mark channel as offline', function () {
             Channel.prmsIsOnline.and.returnValue($q.reject());
             spyOn(Channel, 'markChannelOffline');
-            // console.debug('Fuck 1~!!!');
             Channel.tuneIn('nuclear-waste');
             $rootScope.$digest();
-            // console.debug('Shit~!!!');
             expect(Dialog.alert).toHaveBeenCalled();
             expect(Channel.markChannelOffline).toHaveBeenCalledWith('nuclear-waste');
         });
@@ -291,6 +291,61 @@ describe('Channel', function () {
             var channelID = Object.keys(Channel.channels)[0];
             var categories = Channel.channels[channelID].categories;
             expect(Channel.getCategories(channelID)).toBe(categories);
+        });
+    });
+
+    describe(' - prmsAdd()', function() {
+        var newChannel, onSuccess, onFail;
+        beforeEach(function() {
+            newChannel = FakeData.newChannel;
+            
+            $httpBackend.when('GET', 'http://houston.ready.to.go')
+            .respond(200, newChannel);
+            $httpBackend.when('GET', 'http://highway.to.hell')
+            .respond(404, 'I\'ll be there for you');
+
+            onSuccess = jasmine.createSpy('onSuccess');
+            onFail = jasmine.createSpy('onFail');
+
+            spyOn(Channel, 'validate').and.returnValue(true);
+            spyOn(Channel, 'normalize');
+        });
+
+        it(' - Should raise alert dialog on http fail', function() {
+            Channel.prmsAdd('http://highway.to.hell').then(onSuccess, onFail);
+            $httpBackend.flush();
+            $rootScope.$digest();
+            expect(onFail).toHaveBeenCalled();
+            expect(Dialog.alert).toHaveBeenCalled();
+        });
+
+        it(' - Should call validate() upon new channel', function() {
+            Channel.prmsAdd('http://houston.ready.to.go').then(onSuccess, onFail);
+            $httpBackend.flush();
+            $rootScope.$digest();
+            expect(Channel.validate).toHaveBeenCalledWith(newChannel);
+        });
+
+        it(' - Should raise alert dialog on validate fail', function() {
+            Channel.validate.and.returnValue(false);
+            Channel.prmsAdd('http://houston.ready.to.go').then(onSuccess, onFail);
+            $httpBackend.flush();
+            $rootScope.$digest();
+            expect(Dialog.alert).toHaveBeenCalled();                        
+        });
+
+        it(' - Should call normalize() upon new channel', function() {
+            Channel.prmsAdd('http://houston.ready.to.go').then(onSuccess, onFail);
+            $httpBackend.flush();
+            $rootScope.$digest();
+            expect(Channel.normalize).toHaveBeenCalledWith(newChannel);
+        });
+
+        it(' - Should add new channel into Channel.channels on success', function() {
+            Channel.prmsAdd('http://houston.ready.to.go').then(onSuccess, onFail);
+            $httpBackend.flush();
+            $rootScope.$digest();
+            expect(Channel.channels[newChannel.id]).toEqual(newChannel);
         });
     });
 
