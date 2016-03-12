@@ -8,6 +8,7 @@
     }])
     .constant('CONFIG', {
         env: 'development',
+        debug: true,
         MIN_POSTS_FOR_LIST: 10
     });
 

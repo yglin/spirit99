@@ -203,6 +203,7 @@
                 if(self.validate(channel)){
                     self.normalize(channel);
                     self.channels[channel.id] = channel;
+                    localStorage.set('channels', self.channels);
                     return $q.resolve(channel);
                 }
                 else{
@@ -228,6 +229,7 @@
                 if (channelID == self.tunedInChannelID) {
                     self.tuneIn();
                 }
+                localStorage.set('channels', self.channels);
                 $rootScope.$broadcast('channel:deleted', channelID);
                 return $q.resolve();
             }, function (error) {

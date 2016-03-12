@@ -355,6 +355,14 @@ describe('Channel', function () {
             $rootScope.$digest();
             expect(Channel.channels[newChannel.id]).toEqual(newChannel);
         });
+
+        it(' - Should save channels on success', function() {
+            spyOn(localStorage, 'set');
+            Channel.prmsAdd('http://houston.ready.to.go').then(onSuccess, onFail);
+            $httpBackend.flush();
+            $rootScope.$digest();
+            expect(localStorage.set).toHaveBeenCalledWith('channels', Channel.channels);
+        });
     });
 
     describe(' - prmsDelete', function() {
@@ -396,6 +404,14 @@ describe('Channel', function () {
             $rootScope.$digest();
             expect(onChannelDeleted).toHaveBeenCalledWith(deleteChannelID);
         });
+
+        it(' - Should save channels on success', function() {
+            spyOn(localStorage, 'set');
+            Channel.prmsDelete(deleteChannelID);
+            $rootScope.$digest();
+            expect(localStorage.set).toHaveBeenCalledWith('channels', Channel.channels);
+        });
+
     });
 
 });

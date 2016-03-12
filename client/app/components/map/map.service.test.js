@@ -1,7 +1,11 @@
 'use strict';
+
+var mockGeolocation = require('../../../mocks/geolocation.js');
         
 describe('Map', function () {
     beforeEach(angular.mock.module('spirit99'));
+
+    var fakePosition;
 
     // Mock dependencies
     beforeEach(function() {
@@ -19,10 +23,25 @@ describe('Map', function () {
                 });
             }
         });
+        
+        mockGeolocation.addMockGeolocation(fakePosition);
+        // angular.mock.module(function($provide) {
+        //     $provide.service('Geolocation', mockGeolocation);
+        
+        //     mockGeolocation.$inject = ['$q'];
+        
+        //     function mockGeolocation ($q) {
+        //         var self = this;
+        //         self.property = {};
+        //         self.prmsGetCurrentPosition = jasmine.createSpy('prmsGetCurrentPosition')
+        //         .and.callFake(function () {
+        //             return $q.resolve(fakePosition);
+        //         });
+        //     }
+        // });
     });
 
     var Map, localStorage, $rootScope, $timeout, scope, Dialog, $q, $window;
-    var fakePosition;
     beforeEach(inject(function (_Map_, _$rootScope_, _$timeout_, _Dialog_, localStorageService, _$q_, _$window_) {
         Map = _Map_;
         localStorage = localStorageService;
@@ -45,11 +64,7 @@ describe('Map', function () {
                 }
             };
         }
-        fakePosition = { coords: { latitude: 22.2222222, longitude: 33.3333333 }};
-        spyOn($window.navigator.geolocation, 'getCurrentPosition')
-        .and.callFake(function () {
-            return arguments[0](fakePosition);
-        });      
+        fakePosition = { coords: { latitude: 22.12121212, longitude: 33.32112321 }};
     }));
 
     describe(' - broadcastEvent()', function() {
@@ -123,7 +138,6 @@ describe('Map', function () {
         it(' - Should update map model with geolocation result', function() {
             Map.prmsGotoGeolocation();
             $rootScope.$digest();
-            expect($window.navigator.geolocation.getCurrentPosition).toHaveBeenCalled();
             expect(Map.map.center).toEqual(fakePosition.coords);
             expect(Map.map.zoom).toEqual(Map.ZOOMS.STREET);
         });

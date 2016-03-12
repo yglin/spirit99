@@ -9,11 +9,6 @@ describe('Spirit99 app', function() {
 
         var fakePosts;
         
-        beforeEach(function() {
-            // browser.executeScript(mockGeolocation.mockGeoLocationSuccess(23.973875, 120.982024));
-            browser.get('/');
-        });
-
         beforeEach(function () {
             // Mock data from channel server
             function addMockServer (fakeData, fakePosts) {
@@ -56,6 +51,12 @@ describe('Spirit99 app', function() {
             browser.removeMockModule('mockServer');
         });
 
+        var EC;
+        beforeEach(function() {
+            EC = protractor.ExpectedConditions;
+            browser.get('/');
+        });
+
         beforeEach(function () {
             // Fake data stored in local storage
             browser.executeScript(function (fakeData) {
@@ -77,11 +78,11 @@ describe('Spirit99 app', function() {
         });
 
         describe(' - Tune in first channel', function() {
-            var firstChannel, firstChannelID, markers;
+            var firstChannel, firstChannelID, numOfPosts;
             beforeEach(function() {
+                numOfPosts = element(by.id('s99-debug-number-posts'));
                 firstChannelID = Object.keys(fakeData.channels)[0];
                 firstChannel = fakeData.channels[firstChannelID];
-                markers = element.all(by.xpath("//div[@class=\"gmnoprint\" and @title]"));
                 // Tune in channel test-1
                 // browser.sleep(5000);
                 element(by.id('s99-channel-item-logo-' + firstChannelID)).click();
@@ -90,7 +91,6 @@ describe('Spirit99 app', function() {
                     return tuneInButton.isDisplayed();
                 }, 1000);
                 tuneInButton.click();
-                // browser.sleep(1000);
             });
 
             it(' - Logo and title on toolbar should change to first channel\'s', function() {
@@ -99,26 +99,26 @@ describe('Spirit99 app', function() {
             });
             
             it(' - Should see post markers of first channel on map', function() {
-                markers.then(function (markers) {
-                    expect(markers.length).toBe(fakePosts.length);          
-                });
+                browser.wait(function () {
+                    return numOfPosts.getText().then(function (numText) {
+                        return numText == fakePosts.length.toString();
+                    });
+                }, 5000);
             });
 
             it(' - Should see category icons of markers from first channel', function() {
-                markers.then(function () {
-                    // browser.pause();
-                    for (var key in firstChannel.categories) {
-                        var category = firstChannel.categories[key];
-                        var iconUrl = '';
-                        if (category.icon && category.icon.url) {
-                            iconUrl = category.icon.url;
-                        } else if (category.icon) {
-                            iconUrl = category.icon;
-                        }
-                        // console.log(iconUrl);
-                        expect(element(by.xpath('//img[@src="' + iconUrl + '"]')).isPresent()).toBe(true);
+                for (var key in firstChannel.categories) {
+                    var category = firstChannel.categories[key];
+                    var iconUrl = '';
+                    if (category.icon && category.icon.url) {
+                        iconUrl = category.icon.url;
+                    } else if (category.icon) {
+                        iconUrl = category.icon;
                     }
-                })
+                    browser.wait(function () {
+                        return element(by.xpath('//img[@src="' + iconUrl + '"]')).isPresent();
+                    }, 1000);
+                }
             });
 
             it(' - Should auto-tuning to last tuned-in channel at begining', function() {
@@ -166,28 +166,33 @@ describe('Spirit99 app', function() {
             beforeEach(function() {
                 newChannel = fakeData.newChannel;
                 addChannelInput = element(by.id('s99-input-add-channel'));
+                addChannelButton = element(by.id('s99-button-add-channel'));
                 addChannelInput.clear();
             });
 
             it(' - Should add new channel to the channel list', function() {
                 addChannelInput.sendKeys(newChannel['portal-url']);
-                addChannelButton = element(by.id('s99-button-add-channel'));
                 addChannelButton.click();
                 expect(element(by.id('s99-channel-item-' + newChannel.id)).isPresent()).toBe(true);
             });
 
             it(' - Should raise alert dialog on fail', function() {
-                addChannelInput.sendKeys(newChannel['portal-url']);
-                addChannelButton = element(by.id('s99-button-add-channel'));
+                addChannelInput.sendKeys('http://highway.to.hell');
                 addChannelButton.click();
-                expect(element(by.id('s99-channel-item-' + newChannel.id)).isPresent()).toBe(true);
+                expect(element(by.id('s99-dialog-alert')).isPresent()).toBe(true);
             });
 
             it(' - Should tune in to new channel automatically', function() {
                 addChannelInput.sendKeys(newChannel['portal-url']);
-                addChannelButton = element(by.id('s99-button-add-channel'));
                 addChannelButton.click();
                 expect(element(by.id('s99-channel-title')).getText()).toEqual(newChannel.title);
+            });
+
+            it(' - Should remember added channel afterwards', function() {
+                addChannelInput.sendKeys(newChannel['portal-url']);
+                addChannelButton.click();
+                browser.refresh();
+                expect(element(by.id('s99-channel-item-' + newChannel.id)).isPresent()).toBe(true);                                
             });
         });
 
@@ -215,6 +220,14 @@ describe('Spirit99 app', function() {
                 element(by.id('s99-button-delete-channel-' + deleteChannelID)).click();
                 element(by.id('s99-dialog-confirm-button-confirm')).click();
                 expect(element(by.id('s99-no-channel-tuned-prompt')).isDisplayed()).toBe(true);
+            });
+
+            it(' - Deleted channel should not be there afterwards', function() {
+                element(by.id('s99-button-delete-channel-' + deleteChannelID)).click();
+                element(by.id('s99-dialog-confirm-button-confirm')).click();
+                browser.wait(EC.invisibilityOf($('#s99-dialog-confirm')), 2000);
+                browser.refresh();
+                expect(element(by.id('s99-channel-item-' + deleteChannelID)).isPresent()).toBe(false);                
             });
         });
     });

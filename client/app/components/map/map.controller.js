@@ -5,16 +5,13 @@
     .module('spirit99')
     .controller('MapController', MapController);
 
-    MapController.$inject = ['Map'];
+    MapController.$inject = ['Map', 'CONFIG'];
 
     /* @ngInject */
-    function MapController(Map) {
+    function MapController(Map, CONFIG) {
         var mapVM = this;
         mapVM.title = 'MapController';
-        // mapVM.map = Map.map;
-        // mapVM.isDragging = false;
-        // mapVM.showListButton = false;
-        // mapVM.locate = locate;
+        mapVM.debug = CONFIG.debug;
         // Map events
         mapVM.events = {
             'idle': Map.broadcastEvent,

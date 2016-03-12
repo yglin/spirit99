@@ -5,16 +5,16 @@
         .module('spirit99')
         .service('Map', Map);
 
-    Map.$inject = ['$q', '$log', '$rootScope', '$timeout', '$window', 'localStorageService', 'Dialog'];
+    Map.$inject = ['$q', '$log', '$rootScope', '$timeout', '$window', 'localStorageService', 'Dialog', 'Geolocation'];
 
     /* @ngInject */
-    function Map($q, $log, $rootScope, $timeout, $window, localStorage, Dialog) {
+    function Map($q, $log, $rootScope, $timeout, $window, localStorage, Dialog, Geolocation) {
         var self = this;
         // Properties
         self.ZOOMS = ZOOMS();
         self.INIT_MAP_SCHEMES = INIT_MAP_SCHEMES();
         self.map = defaultMap();
-        self.initMapScheme = self.INIT_MAP_SCHEMES.GEOLOCATION;
+        self.initMapScheme = localStorage.get('init-map-scheme');
         // Member functions
         self.broadcastEvent = broadcastEvent;
         self.saveMap = saveMap;
@@ -25,6 +25,13 @@
         self.getBounds = getBounds;
 
         ////////////////
+        activate();
+
+        function activate () {
+            if (!self.initMapScheme) {
+                self.setInitMapScheme(self.INIT_MAP_SCHEMES.GEOLOCATION);
+            }
+        }
         
         function broadcastEvent (gMapObj, event) {
             $rootScope.$broadcast('map:' + event, self.map);
@@ -79,27 +86,27 @@
             });            
         }
 
-        function prmsGetGeolocation () {
-            var deferred = $q.defer();
-            if($window.navigator && $window.navigator.geolocation){
-                $window.navigator.geolocation.getCurrentPosition(
-                function(position){
-                    deferred.resolve(position);
-                },
-                function (error) {
-                    $log.warn(error);
-                    deferred.reject(error);
-                });
-            }
-            else{
-                $log.warn('Browser not support geolocation');
-                deferred.reject('Browser not support geolocation');
-            }
-            return deferred.promise;
-        }
+        // function prmsGetGeolocation () {
+        //     var deferred = $q.defer();
+        //     if($window.navigator && $window.navigator.geolocation){
+        //         $window.navigator.geolocation.getCurrentPosition(
+        //         function(position){
+        //             deferred.resolve(position);
+        //         },
+        //         function (error) {
+        //             $log.warn(error);
+        //             deferred.reject(error);
+        //         });
+        //     }
+        //     else{
+        //         $log.warn('Browser not support geolocation');
+        //         deferred.reject('Browser not support geolocation');
+        //     }
+        //     return deferred.promise;
+        // }
 
         function prmsGotoGeolocation () {
-            return prmsGetGeolocation().then(function (position) {
+            return Geolocation.prmsGetCurrentPosition().then(function (position) {
                 self.map.center = {
                     latitude: position.coords.latitude,
                     longitude: position.coords.longitude
