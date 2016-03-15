@@ -1,22 +1,35 @@
 <md-toolbar>
     <div class='md-toolbar-tools' ng-cloak>
-        <div ng-if='!(toolbarVM.channel)' layout='row' layout-align='start center'
-        class='s99-click-no-outline' id='s99-open-sidenav-channels'
+        <div class='s99-click-no-outline' id='s99-open-sidenav-channels'
         ng-click='toolbarVM.openSidenav("channels")'>
-            <md-button class='md-icon-button'>
-                <md-icon class='material-icons'>radio</md-icon>
-            </md-button>
-            <p id='s99-no-channel-tuned-prompt' hide-xs>請選擇電台</p>
-        </div>
-        <div ng-if='toolbarVM.channel' layout='row' layout-align='start center'
-        class='s99-click-no-outline' id='s99-open-sidenav-channels'
-        ng-click='toolbarVM.openSidenav("channels")'>
-            <img class='s99-channel-logo s99-button' id='s99-channel-logo'
-            ng-class='{"s99-channel-logo-offline": toolbarVM.channel.isOffline}'
-            ng-src='{{toolbarVM.channel["logo-url"]}}'>
-            <p layout-margin hide-xs class='s99-channel-title' id='s99-channel-title'>
-                {{toolbarVM.channel.title}}
-            </p>
+            <div layout='row' layout-align='start center'>
+                <div ng-show="toolbarVM.isLoading"
+                id='s99-progress-loading-posts'>
+                    <md-progress-circular md-mode="indeterminate"
+                    class='md-warn'>
+                    </md-progress-circular>
+                </div>
+                <div ng-hide="toolbarVM.isLoading">
+                    <div ng-if='!(toolbarVM.channel)'>
+                        <md-button class='md-icon-button'>
+                            <md-icon class='material-icons'>radio</md-icon>
+                        </md-button>
+                    </div>
+                    <div ng-if='toolbarVM.channel'>
+                        <img class='s99-channel-logo s99-button' id='s99-channel-logo'
+                        ng-class='{"s99-channel-logo-offline": toolbarVM.channel.isOffline}'
+                        ng-src='{{toolbarVM.channel["logo-url"]}}'>
+                    </div>                    
+                </div>
+                <div hide-xs>
+                    <p ng-if='!(toolbarVM.channel)'
+                    id='s99-no-channel-tuned-prompt'>請選擇頻道</p>
+                    <p ng-if='toolbarVM.channel'
+                    class='s99-channel-title' id='s99-channel-title'>
+                        {{toolbarVM.channel.title}}
+                    </p>                    
+                </div>
+            </div>
         </div>
 <!--            <div hide-xs flex>
                 <md-chips ng-model='toolbarVM.keywords' readonly='toolbarVM.readonly' placeholder='增加關鍵字' secondary-placeholder='搜尋標題'></md-chips>

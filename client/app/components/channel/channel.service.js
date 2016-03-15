@@ -24,6 +24,7 @@
         self.getChannel = getChannel;
         self.getCategories = getCategories;
         self.getQueryUrl = getQueryUrl;
+        self.getCreateUrl = getCreateUrl;
 
         activate();
 
@@ -62,11 +63,22 @@
         function getQueryUrl (channelID) {
             var channel = self.getChannel(channelID);
             if(!channel || !('query-url' in channel)){
-                $log.error('Can not find "query-url" in channel: ' + channel);
+                // $log.error('Can not find "query-url" in channel: ' + channel);
                 return null;
             }
             else{
                 return channel['query-url'];
+            }
+        }
+
+        function getCreateUrl (channelID) {
+            var channel = self.getChannel(channelID);
+            if(!channel || !('create-url' in channel)){
+                // $log.error('Can not find "query-url" in channel: ' + channel);
+                return null;
+            }
+            else{
+                return channel['create-url'];
             }
         }
 
@@ -75,18 +87,22 @@
                 id: 'string',
                 title: 'string',
                 description: 'string',
-                'query-url': 'url'
+                'query-url': 'url',
+                'create-url': 'url'
             };
             for (var key in required_fields) {
                 if (!(key in channel)) {
+                    $log.warn('Can not find property "' + key + '" in channel portal');
                     return false;
                 }
                 if (required_fields[key] == 'url') {
                     if (!nodeValidator.isURL(channel[key])) {
+                        $log.warn('"' + key + '" is not an url');
                         return false;
                     };
                 }
                 else if (typeof channel[key] !== required_fields[key]) {
+                    $log.warn('"' + key + '" is not type of ' + required_fields[key]);
                     return false;
                 };
             }

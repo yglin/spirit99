@@ -5,27 +5,37 @@
         .module('spirit99')
         .controller('ToolbarController', ToolbarController);
 
-    ToolbarController.$inject = ['$scope', 'Channel', 'Sidenav'];
+    ToolbarController.$inject = ['$scope', '$timeout', 'Channel', 'Sidenav'];
 
     /* @ngInject */
-    function ToolbarController($scope, Channel, Sidenav) {
+    function ToolbarController($scope, $timeout, Channel, Sidenav) {
         var toolbarVM = this;
         // toolbarVM.title = 'Toolbar';
+        toolbarVM.isLoading = false;
         toolbarVM.channel = Channel.getChannel();
         toolbarVM.openSidenav = Sidenav.open;
 
-        $scope.$on('channel:tuned', function () {
-            toolbarVM.channel = Channel.getChannel();
-        });
+        activate();
 
-    //     activate();
-
-    //     ////////////////
-
-    //     function activate() {
-    //         toolbarVM.channel = ChannelManager.getChannel(UserCtrls.tunedInChannelID);
-    //         hideCurrentViewButton();
-    //     }
+        function activate() {
+            $scope.$on('channel:tuned', function () {
+                toolbarVM.channel = Channel.getChannel();
+            });
+            $scope.$on('post:loadStart', function () {
+                toolbarVM.isLoading = true;                    
+            });
+            $scope.$on('post:loadEnd', function () {
+                // toggle isLoading after current digest cycle
+                $timeout(function () {
+                    toolbarVM.isLoading = false;                    
+                }, 0);
+            });
+            // $scope.$on('post:loadEnd', function () {
+            //     $timeout(function () {
+            //         toolbarVM.isLoading = false;                    
+            //     }, 1000);
+            // });
+        }
 
     //     function gotoView (viewPath) {
     //         $location.path(viewPath);

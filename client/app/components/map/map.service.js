@@ -33,8 +33,16 @@
             }
         }
         
-        function broadcastEvent (gMapObj, event) {
-            $rootScope.$broadcast('map:' + event, self.map);
+        function broadcastEvent (gMapObj, event, mouseEvents) {
+            if (event == 'idle') {
+                $rootScope.$broadcast('map:' + event, self.map);
+            }
+            else if (event == 'click') {
+                var location = {};
+                location.latitude = mouseEvents[0].latLng.lat();
+                location.longitude = mouseEvents[0].latLng.lng();
+                $rootScope.$broadcast('map:' + event, location);                
+            }
         }
 
         function setInitMapScheme (scheme) {
@@ -173,8 +181,8 @@
                 center: { latitude: 23.973875, longitude: 120.982024 },
                 zoom: ZOOMS().TAIWAN,
                 bounds: {
-                    southwest: {latitude: 0, longitude: 0},
-                    northeast: {latitude: 0, longitude: 0}
+                    southwest: {latitude: 21.117985, longitude: 115.2966},
+                    northeast: {latitude: 26.767849, longitude: 126.667449}
                 }
             };
         }

@@ -1,6 +1,7 @@
 'use strict';
 
 var fakeData = require('../mocks/data.js');
+var mockServer = require('../mocks/server.js');
 // var mockGeolocation = require('./mock-geolocation.js');
 
 describe('Spirit99 app', function() {
@@ -11,40 +12,7 @@ describe('Spirit99 app', function() {
         
         beforeEach(function () {
             // Mock data from channel server
-            function addMockServer (fakeData, fakePosts) {
-                mockHttpBackend.$inject = ['$httpBackend'];
-
-                function mockHttpBackend ($httpBackend) {
-                    var channelIDs = Object.keys(fakeData.channels);
-                    // Mock channels
-                    for (var key in fakeData.channels) {
-                        var channel = fakeData.channels[key];
-                        if(channel['portal-url'] == 'http://highway.to.hell'){
-                            // Make second channel offline
-                            $httpBackend.when('GET', channel['portal-url'])
-                            .respond(404, 'Channel is offline');
-                        }
-                        else{
-                            $httpBackend.when('GET', channel['portal-url'])
-                            .respond(200, channel);
-                        }
-                        var queryUrlRegex = channel['query-url'].replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
-                        var urlRegex = new RegExp(queryUrlRegex + '.*');
-                        $httpBackend.when('GET', urlRegex)
-                        .respond(200, fakePosts);
-                    }
-
-                    // Mock new channel
-                    var newChannel = fakeData.newChannel;
-                    $httpBackend.when('GET', newChannel['portal-url'])
-                    .respond(200, newChannel);
-
-                    $httpBackend.when('GET', /.*/).passThrough();
-                }
-                angular.module('mockServer', ['ngMockE2E']).run(mockHttpBackend);
-            }
-            fakePosts = fakeData.genPosts({count: 23});
-            browser.addMockModule('mockServer', addMockServer, fakeData, fakePosts);
+            browser.addMockModule('mockServer', mockServer.addMockServer, fakeData);
         });
 
         afterEach(function() {
@@ -63,7 +31,13 @@ describe('Spirit99 app', function() {
                 // Set init map to show Taiwan
                 window.localStorage.setItem("spirit99.init-map-scheme", 3);
                 window.localStorage.setItem("spirit99.home-map", JSON.stringify(fakeData.mapTaiwan));
-                window.localStorage.setItem("spirit99.channels", JSON.stringify(fakeData.channels));
+
+                // Init app with fake channels
+                var channels = {};
+                for (var id in fakeData.channels) {
+                    channels[id] = fakeData.channels[id].portal;
+                }
+                window.localStorage.setItem("spirit99.channels", JSON.stringify(channels));
             }, fakeData);
             browser.refresh();
         });
@@ -78,13 +52,11 @@ describe('Spirit99 app', function() {
         });
 
         describe(' - Tune in first channel', function() {
-            var firstChannel, firstChannelID, numOfPosts;
+            var firstChannel, firstChannelID;
             beforeEach(function() {
-                numOfPosts = element(by.id('s99-debug-number-posts'));
                 firstChannelID = Object.keys(fakeData.channels)[0];
-                firstChannel = fakeData.channels[firstChannelID];
-                // Tune in channel test-1
-                // browser.sleep(5000);
+                firstChannel = fakeData.channels[firstChannelID].portal;
+
                 element(by.id('s99-channel-item-logo-' + firstChannelID)).click();
                 var tuneInButton = element(by.id('s99-button-tune-in-' + firstChannelID));
                 browser.wait(function () {
@@ -98,29 +70,6 @@ describe('Spirit99 app', function() {
                 expect(element(by.id('s99-channel-title')).getText()).toEqual(firstChannel.title);
             });
             
-            it(' - Should see post markers of first channel on map', function() {
-                browser.wait(function () {
-                    return numOfPosts.getText().then(function (numText) {
-                        return numText == fakePosts.length.toString();
-                    });
-                }, 5000);
-            });
-
-            it(' - Should see category icons of markers from first channel', function() {
-                for (var key in firstChannel.categories) {
-                    var category = firstChannel.categories[key];
-                    var iconUrl = '';
-                    if (category.icon && category.icon.url) {
-                        iconUrl = category.icon.url;
-                    } else if (category.icon) {
-                        iconUrl = category.icon;
-                    }
-                    browser.wait(function () {
-                        return element(by.xpath('//img[@src="' + iconUrl + '"]')).isPresent();
-                    }, 1000);
-                }
-            });
-
             it(' - Should auto-tuning to last tuned-in channel at begining', function() {
                 browser.refresh();
                 // browser.pause();
@@ -133,7 +82,7 @@ describe('Spirit99 app', function() {
             var secondChannelID, secondChannel, tuneInButton;
             beforeEach(function() {
                 secondChannelID = Object.keys(fakeData.channels)[1];
-                secondChannel = fakeData.channels[secondChannelID];
+                secondChannel = fakeData.channels[secondChannelID].portal;
                 // Tune in channel test-1
                 // browser.sleep(5000);
                 element(by.id('s99-channel-item-logo-' + secondChannelID)).click();
@@ -164,7 +113,7 @@ describe('Spirit99 app', function() {
         describe(' - Add new channel', function() {
             var newChannel, addChannelInput, addChannelButton;
             beforeEach(function() {
-                newChannel = fakeData.newChannel;
+                newChannel = fakeData.newChannel.portal;
                 addChannelInput = element(by.id('s99-input-add-channel'));
                 addChannelButton = element(by.id('s99-button-add-channel'));
                 addChannelInput.clear();
@@ -200,7 +149,7 @@ describe('Spirit99 app', function() {
             var deleteChannel, deleteChannelID;
             beforeEach(function() {
                 deleteChannelID = Object.keys(fakeData.channels)[0];
-                deleteChannel = fakeData.channels[deleteChannelID];
+                deleteChannel = fakeData.channels[deleteChannelID].portal;
                 element(by.id('s99-channel-item-logo-' + deleteChannelID)).click();
             });
 
@@ -230,5 +179,6 @@ describe('Spirit99 app', function() {
                 expect(element(by.id('s99-channel-item-' + deleteChannelID)).isPresent()).toBe(false);                
             });
         });
+
     });
 });

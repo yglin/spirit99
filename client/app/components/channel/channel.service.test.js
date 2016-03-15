@@ -163,7 +163,9 @@ describe('Channel', function () {
             expect(Channel.validate(channel)).toBe(false);
             channel['query-url'] = 'This.is.not.a valid/url';
             expect(Channel.validate(channel)).toBe(false);
-            channel['query-url'] = 'http://www.9493.tw/nuclear-waste/post';
+            channel['create-url'] = 'http://www.9493.tw/nuclear-waste/create';
+            expect(Channel.validate(channel)).toBe(false);
+            channel['query-url'] = 'http://www.9493.tw/nuclear-waste/query';
             expect(Channel.validate(channel)).toBe(true);
         });
     });

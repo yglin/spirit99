@@ -23,31 +23,33 @@ describe('Map', function () {
                 });
             }
         });
+
+        angular.mock.module(function($provide) {
+            $provide.service('Post', mockPost);
+        
+            mockPost.$inject = ['$q'];
+        
+            function mockPost ($q) {
+                var self = this;
+                // self.property = {};
+                self.prmsCreate = jasmine.createSpy('prmsCreate')
+                .and.callFake(function () {
+                    return $q.resolve();
+                });
+            }
+        });
         
         mockGeolocation.addMockGeolocation(fakePosition);
-        // angular.mock.module(function($provide) {
-        //     $provide.service('Geolocation', mockGeolocation);
-        
-        //     mockGeolocation.$inject = ['$q'];
-        
-        //     function mockGeolocation ($q) {
-        //         var self = this;
-        //         self.property = {};
-        //         self.prmsGetCurrentPosition = jasmine.createSpy('prmsGetCurrentPosition')
-        //         .and.callFake(function () {
-        //             return $q.resolve(fakePosition);
-        //         });
-        //     }
-        // });
     });
 
-    var Map, localStorage, $rootScope, $timeout, scope, Dialog, $q, $window;
-    beforeEach(inject(function (_Map_, _$rootScope_, _$timeout_, _Dialog_, localStorageService, _$q_, _$window_) {
+    var Map, localStorage, $rootScope, $timeout, scope, Post, Dialog, $q, $window;
+    beforeEach(inject(function (_Map_, _$rootScope_, _$timeout_, _Post_, _Dialog_, localStorageService, _$q_, _$window_) {
         Map = _Map_;
         localStorage = localStorageService;
         $rootScope = _$rootScope_;
         $timeout = _$timeout_;
         scope = $rootScope.$new();
+        Post = _Post_;
         Dialog = _Dialog_;
         $q = _$q_;
         $window = _$window_;
@@ -68,16 +70,36 @@ describe('Map', function () {
     }));
 
     describe(' - broadcastEvent()', function() {
-        var eventData;
-        beforeEach(function() {
-            scope.$on('map:test', function (event, data) {
-                eventData = data;
+
+        it(' - Given "idle" event, should broadcast with map\'s model', function() {
+            var onMapIdle = jasmine.createSpy('onMapIdle');
+            scope.$on('map:idle',  function (event, data) {
+                onMapIdle(data);
             });
-            Map.broadcastEvent(null, 'test');
+            Map.broadcastEvent(null, 'idle');
+            expect(onMapIdle).toHaveBeenCalledWith(Map.map);
         });
 
-        it(' - Should receive event and map\'s model', function() {
-            expect(eventData).toEqual(Map.map);
+        it(' - Given "click" event, should broadcast with clicked location', function() {
+            var onMapClick = jasmine.createSpy('onMapClick');
+            scope.$on('map:click',  function (event, data) {
+                onMapClick(data);
+            });
+            var location = {
+                latitude: 23.456789,
+                longitude: 135.797531
+            };
+            Map.broadcastEvent(null, 'click', [{
+                latLng: {
+                    lat: function () {
+                        return location.latitude;
+                    },
+                    lng: function () {
+                        return location.longitude;
+                    }
+                }
+            }]);
+            expect(onMapClick).toHaveBeenCalledWith(location);
         });
     });
 

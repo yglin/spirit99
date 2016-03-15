@@ -13,38 +13,50 @@ exports.genPosts = genPosts;
 function channels () {
     return {
         'nuclear-waste': {
-            'portal-url': 'http://houston.good.to.go',
-            id: 'nuclear-waste',
-            title: '核廢料掩埋場',
-            description: '創造非核家園',
-            'intro-url': 'http://www.google.com',
-            'logo-url': 'https://yt3.ggpht.com/-Gd9lF_AqQPk/AAAAAAAAAAI/AAAAAAAAAAA/afbtVZjs18E/s88-c-k-no/photo.jpg',
-            'query-url': 'http://in.these.arms',
-            categories: categories()
+            portal: {
+                'portal-url': 'http://houston.good.to.go',
+                id: 'nuclear-waste',
+                title: '核廢料掩埋場',
+                description: '創造非核家園',
+                'intro-url': 'http://www.google.com',
+                'logo-url': 'https://yt3.ggpht.com/-Gd9lF_AqQPk/AAAAAAAAAAI/AAAAAAAAAAA/afbtVZjs18E/s88-c-k-no/photo.jpg',
+                'query-url': 'http://in.these.arms',
+                'create-url': 'http://www.google.com.tw',
+                categories: categories()
+            },
+            posts: genPosts({count: 23})
         },
         
         'localooxx': {
-            'portal-url': 'http://highway.to.hell',
-            id: 'localooxx',
-            title: '呆呆要不要借醬油',
-            description: '要不要要不不要要不要要要要不要要不要ㄚ呆呆',
-            'intro-url': 'http://www.google.com',
-            'logo-url': 'https://www.evansville.edu/residencelife/images/greenLogo.png',
-            'query-url': 'http://these.days/the/stars/seem/out/of/reach'
+            portal: {
+                'portal-url': 'http://highway.to.hell',
+                id: 'localooxx',
+                title: '呆呆要不要借醬油',
+                description: '要不要要不不要要不要要要要不要要不要ㄚ呆呆',
+                'intro-url': 'http://www.google.com',
+                'logo-url': 'https://www.evansville.edu/residencelife/images/greenLogo.png',
+                'query-url': 'http://these.days/the/stars/seem/out/of/reach',
+                'create-url': 'http://channels.9493.tw/localooxx/create',
+            },
+            posts: genPosts({count: 29})
         }
     };
 }
 
 function newChannel () {
     return {
-        'portal-url': 'http://Im.alittle.usedto.calling.outside.yourname',
-        id: 'birdy-go-home',
-        title: '小小鳥兒要回家',
-        description: '幫助在外流浪的鳥兒回到鳥奴身邊',
-        'intro-url': 'http://www.google.com',
-        'logo-url': 'http://www.mrspeaker.net/images/wafty-icon.png',
-        'query-url': 'http://localhost:3000/birdy-go-home/post/',
-        categories: categories()
+        portal: {
+            'portal-url': 'http://Im.alittle.usedto.calling.outside.yourname',
+            id: 'birdy-go-home',
+            title: '小小鳥兒要回家',
+            description: '幫助在外流浪的鳥兒回到鳥奴身邊',
+            'intro-url': 'http://www.google.com',
+            'logo-url': 'http://www.mrspeaker.net/images/wafty-icon.png',
+            'query-url': 'http://localhost:3000/birdy-go-home/post/',
+            'create-url': 'http://channels.9493.tw/birdy-go-home/create',
+            categories: categories()
+        },
+        posts: genPosts({count: 31})
     };
 }
 

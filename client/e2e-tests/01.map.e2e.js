@@ -95,7 +95,6 @@ describe('Spirit99 app', function() {
                 browser.actions().dragAndDrop(map, {x:-200, y:200}).perform();
                 browser.wait(waitMapPanned, 5000).then(function () {
                     homeMap = JSON.parse(JSON.stringify(lastMap));
-                    // console.log(homeMap);
                 });
                 element(by.id('s99-button-open-menu')).click();
                 element(by.css('md-tab-item md-icon#s99-sidenav-tab-icon-settings')).click();                
@@ -126,15 +125,6 @@ describe('Spirit99 app', function() {
                 browser.wait(EC.visibilityOf($('#s99-dialog-confirm')), 2000);
                 element(by.id('s99-dialog-confirm-button-confirm')).click();
                 browser.wait(EC.invisibilityOf($('#s99-dialog-confirm')), 2000);
-                // element(by.id('s99-button-open-menu')).click();
-                // element(by.css('md-tab-item md-icon#s99-sidenav-tab-icon-settings')).click();                
-                // element(by.id('s99-map-settings-init-map-home-map')).click();
-                // element(by.id('s99-map-settings-button-save-home-map')).click();
-                // browser.sleep(1000);
-                // element(by.id('s99-dialog-confirm-button-confirm')).click();
-                // browser.sleep(1000);
-                // var homeMap = browser.executeScript('return window.localStorage.getItem("spirit99.home-map")');
-                // expect(homeMap).not.toBeNull();                       
             });
         });
     });

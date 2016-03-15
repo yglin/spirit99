@@ -15,6 +15,7 @@
         // Map events
         mapVM.events = {
             'idle': Map.broadcastEvent,
+            'click': Map.broadcastEvent
             // 'dragstart': handlerDragStart,
             // 'dragend': handlerDragEnd,
         };
