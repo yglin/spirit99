@@ -39,6 +39,8 @@
     <div style='position:relative'>
     <!-- This containing div is for position:absolute needed in ng-view switch animations -->
         <div class='s99-view-enter s99-view-leave' ng-view></div>
+        <div style='position:absolute;top:0px;right:0px;'
+        ng-include='"app/layout/floating/floating.html"'></div>
     </div>
 
     <!-- In production use:
@@ -83,8 +85,13 @@
     <script src="app/components/map/map.config.js"></script>
     <script src="app/components/map/map.controller.js"></script>
     <script src="app/components/map/map.service.js"></script>
+    <script src="app/components/post/filter/post-filter.controller.js"></script>
+    <script src="app/components/post/filter/post-filter.service.js"></script>
+    <script src="app/components/post/post-item.directive.js"></script>
+    <script src="app/components/post/post-list.controller.js"></script>
     <script src="app/components/post/post-markers.controller.js"></script>
     <script src="app/components/post/post.service.js"></script>
+    <script src="app/components/shortcuts/shortcuts.controller.js"></script>
     <script src="app/layout/main/main.controller.js"></script>
     <script src="app/layout/sidenav/sidenav.controller.js"></script>
     <script src="app/layout/sidenav/sidenav.service.js"></script>

@@ -1,6 +1,6 @@
 <div style='position:relative;'>
 <ui-gmap-google-map center='mapVM.map.center' zoom='mapVM.map.zoom'
-bounds='mapVM.map.bounds' events='mapVM.events'>
+bounds='mapVM.map.bounds' events='mapVM.events' options='mapVM.options'>
     <div ng-include='"app/components/post/post-markers.tpl.html"'
     ng-controller="PostMarkersController as postMarkersVM">
     </div>

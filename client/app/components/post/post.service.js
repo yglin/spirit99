@@ -5,10 +5,10 @@
         .module('spirit99')
         .service('Post', Post);
 
-    Post.$inject = ['$rootScope', '$window', '$timeout', '$q', '$log', '$http', 'CONFIG', 'Channel', 'Map', 'Category'];
+    Post.$inject = ['$rootScope', '$window', '$timeout', '$q', '$log', '$http', 'CONFIG', 'Channel', 'Map', 'Category', 'PostFilter'];
 
     /* @ngInject */
-    function Post($rootScope, $window, $timeout, $q, $log, $http, CONFIG, Channel, Map, Category) {
+    function Post($rootScope, $window, $timeout, $q, $log, $http, CONFIG, Channel, Map, Category, PostFilter) {
         var self = this;
         self.posts = [];
         self.REQUIRED_FIELDS = REQUIRED_FIELDS();
@@ -16,6 +16,7 @@
         self.validate = validate;
         self.normalize = normalize;
         self.reloadPosts = reloadPosts;
+        self.applyFilters = applyFilters;
         self.prmsCreate = prmsCreate;
 
         activate();
@@ -28,9 +29,12 @@
             $rootScope.$on('map:idle', function () {
                 self.reloadPosts();                    
             });
+            $rootScope.$on('post:filterChanged', function () {
+                self.applyFilters();
+            });
             $rootScope.$on('map:click', function (event, location) {
                 self.prmsCreate(location);
-            })
+            });
         }
 
         function validate (post) {
@@ -47,6 +51,7 @@
             if (!post.category) {
                 post.category = 'misc';
             }
+
             if (!post.options) {
                 post.options = {};
             }
@@ -55,6 +60,8 @@
             if (CONFIG.env == 'development') {
                 post.options.optimized = false;
             }
+
+            post.options.visible = PostFilter.filter(post);
         }
 
         function reloadPosts () {
@@ -96,6 +103,15 @@
             }
             $window.location.replace(createUrl + '?latitude=' + location.latitude + '&longitude=' + location.longitude);
             return $q.resolve();
+        }
+
+        function applyFilters () {
+            for (var i = 0; i < self.posts.length; i++) {
+                if (!self.posts[i].options) {
+                    self.posts[i].options = {};
+                }
+                self.posts[i].options.visible = PostFilter.filter(self.posts[i]);
+            }            
         }
 
         //////////////////// Functions for initialize default CONSTANTS

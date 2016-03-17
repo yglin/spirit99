@@ -24,14 +24,14 @@
                 controller: 'ChannelListController',
                 controllerAs: 'channelListVM'
             },
-            // 'post-list': {
-            //     icon: 'list_view',
-            //     templateUrl: 'app/views/post-list/post-list.tpl.html'
-            // },
-            // 'search': {
-            //     icon: 'search',
-            //     templateUrl: 'app/views/search/search.tpl.html'
-            // },
+            'posts': {
+                icon: 'list_view',
+                templateUrl: 'app/components/post/post-list.tpl.html'
+            },
+            'filter': {
+                icon: 'search',
+                templateUrl: 'app/components/post/filter/post-filter.tpl.html'
+            },
             // 'bookmark-list': {
             //     icon: 'bookmark',
             //     templateUrl: 'app/views/bookmark-list/bookmark-list.tpl.html'

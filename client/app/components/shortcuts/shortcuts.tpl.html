@@ -1,0 +1,20 @@
+<div layout='column'>
+    <!-- <h1>{{shortcutsVM.title}}</h1> -->
+    <md-button ng-repeat='(key, button) in shortcutsVM.buttons'
+    id='{{button.domId}}'
+    class='md-fab md-mini md-accent s99-show-flipInX'
+    ng-show='button.show'
+    ng-click='button.click()'>
+        <md-icon class='material-icons'>{{button.icon}}</md-icon>
+    </md-button>
+<!--     <md-button class='md-fab md-mini md-accent s99-show-flipInX'
+    ng-hide='mapVM.isDragging'
+    ng-click="mapVM.locate($event)">
+        <md-icon class='material-icons'>my_location</md-icon>
+    </md-button>
+    <md-button class='md-fab md-mini md-accent s99-show-flipInX'
+    ng-hide='mapVM.isDragging || !mapVM.showListButton'
+    ng-click="mapVM.openPostList()">
+        <md-icon class='material-icons'>view_list</md-icon>
+    </md-button>    
+ --></div>

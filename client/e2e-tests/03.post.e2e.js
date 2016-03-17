@@ -43,16 +43,10 @@ describe(' - Spirit99', function() {
             browser.executeScript('window.localStorage.clear()');
         });
 
-        // Wait for google map loaded
-        // beforeEach(function() {
-        //     browser.wait(function () {
-                // return element(by.css('.gmnoprint')).isDisplayed();
-        //     }, 5000);
-        // });
-
         // Tune in to first channel
-        var firstChannel, firstChannelID, posts, numOfPosts;
+        var firstChannel, firstChannelID, posts, markers, numOfPosts;
         beforeEach(function() {
+            markers = element.all(by.xpath('//div[@class="gmnoprint" and @title and img]'));
             numOfPosts = element(by.id('s99-debug-number-posts'));
             firstChannelID = Object.keys(fakeData.channels)[0];
             firstChannel = fakeData.channels[firstChannelID].portal;
@@ -67,19 +61,14 @@ describe(' - Spirit99', function() {
             tuneInButton.click();
             element(by.css('md-backdrop')).click();
         });
-        
+
         describe(' - Query posts', function() {
 
-            it(' - Should query posts of first channel on map', function() {
-                browser.wait(function () {
-                    return numOfPosts.getText().then(function (numText) {
-                        return numText == posts.length.toString();
-                    });
-                }, 5000);
+            it(' - Should see posts of first channel on map', function() {
+                expect(markers.count()).toBe(posts.length);
             });
 
             it(' - Should see category icons of markers from first channel', function() {
-                var conditions = [];
                 for (var key in firstChannel.categories) {
                     var category = firstChannel.categories[key];
                     var iconUrl = '';
@@ -88,13 +77,8 @@ describe(' - Spirit99', function() {
                     } else if (category.icon) {
                         iconUrl = category.icon;
                     }
-                    conditions.push(function () {
-                        return element(by.xpath('//img[@src="' + iconUrl + '"]')).isPresent();                        
-                    });
+                    expect(element(by.xpath('//div[@class="gmnoprint" and @title]/img[@src="' + iconUrl + '"]')).isPresent()).toBe(true);
                 }
-                var allIconPresent = EC.and.apply(EC, conditions);
-                // browser.pause();
-                browser.wait(allIconPresent, 5000);
             });
 
             // Protractor dragAndDrop() not always working due to below issue
@@ -114,19 +98,54 @@ describe(' - Spirit99', function() {
             // });
 
             it(' - Should query posts when map zoomed', function() {
-                browser.wait(function () {
-                    return numOfPosts.getText().then(function (numText) {
-                        return numText == posts.length.toString();
-                    });
-                }, 5000);
+                zoomIn.click();
+                zoomIn.click();
                 zoomIn.click();
                 zoomIn.click();
                 zoomIn.click();
                 browser.wait(function () {
-                    return numOfPosts.getText().then(function (numText) {
-                        return parseInt(numText) < posts.length;
+                    return markers.count().then(function (count) {
+                        return count < posts.length;
                     });
                 }, 5000);
+            });
+        });
+
+
+        describe(' - Sidenav post list', function() {
+            
+            it(' - Should show posts in posts sidenav', function() {
+                expect(element(by.id('s99-open-sidenav-posts')).isDisplayed()).toBe(true);
+                element(by.id('s99-open-sidenav-posts')).click();
+                expect(element(by.id('s99-post-list')).isDisplayed()).toBe(true);
+                expect(element.all(by.css('.s99-post-item')).count()).toBe(posts.length);
+            });
+
+            it(' - Can search title in post list', function() {
+                element(by.id('s99-open-sidenav-posts')).click();
+                element(by.model('postListVM.search.title')).sendKeys('你');
+                expect(element.all(by.css('.s99-post-item')).count()).toBe(5);
+            });
+        });
+
+        describe(' - Filter posts', function() {
+            var inputKeywords = element(by.xpath('//*[@id="s99-input-post-filter-keywords"]//input'));
+            beforeEach(function() {
+                element(by.id('s99-open-sidenav-filter')).click();
+                expect(element(by.id('s99-post-filter')).isDisplayed()).toBe(true);
+            });
+            
+            it(' - Filter title by keywords', function() {
+                inputKeywords.sendKeys('你');
+                inputKeywords.sendKeys(protractor.Key.ENTER);
+                element(by.css('md-backdrop')).click();
+                expect(markers.count()).toBe(5);
+                element(by.id('s99-open-sidenav-filter')).click();
+                expect(element(by.id('s99-post-filter')).isDisplayed()).toBe(true);
+                inputKeywords.sendKeys('我');
+                inputKeywords.sendKeys(protractor.Key.ENTER);
+                element(by.css('md-backdrop')).click();
+                expect(markers.count()).toBe(1);
             });
         });
 
@@ -143,11 +162,10 @@ describe(' - Spirit99', function() {
                         browser.ignoreSynchronization = false;
                     }, function () {
                         browser.ignoreSynchronization = false;
-                    });                
-                });                
+                    });
+                });
             });
         });
 
-    });
-    
+    });  
 });

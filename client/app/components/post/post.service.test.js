@@ -35,13 +35,29 @@ describe('Post', function () {
                 .and.returnValue({});
             }
         });
+
+        angular.mock.module(function($provide) {
+            $provide.service('PostFilter', mockPostFilter);
+        
+            mockPostFilter.$inject = [];
+        
+            function mockPostFilter () {
+                var self = this;
+                // self.property = {};
+                self.filter = jasmine.createSpy('filter')
+                .and.callFake(function () {
+                    return true;
+                });
+            }
+        });
     });
 
 
-    var Post, $rootScope, scope, $httpBackend, $window;
+    var Post, PostFilter, $rootScope, scope, $httpBackend, $window;
     var fakePost;
-    beforeEach(inject(function (_Post_, _$rootScope_, _$httpBackend_, _$window_) {
+    beforeEach(inject(function (_Post_, _PostFilter_, _$rootScope_, _$httpBackend_, _$window_) {
         Post = _Post_;
+        PostFilter = _PostFilter_;
         $rootScope = _$rootScope_;
         scope = $rootScope.$new();
         $httpBackend = _$httpBackend_;
@@ -59,6 +75,12 @@ describe('Post', function () {
         spyOn(Post, 'reloadPosts');
         $rootScope.$broadcast('map:idle');
         expect(Post.reloadPosts).toHaveBeenCalled();
+    });
+
+    it(' - Should call applyFilters() on event "post:filterChanged"', function() {
+        spyOn(Post, 'applyFilters');
+        $rootScope.$broadcast('post:filterChanged');
+        expect(Post.applyFilters).toHaveBeenCalled();        
     });
 
     it(' - Should call prmsCreate() on event "map:click" with clicked location', function() {
@@ -93,13 +115,14 @@ describe('Post', function () {
         });
 
         it(' - Normalized post should has fields: catagory, options', function() {
-            expect('category' in post).toBe(true);
-            expect('options' in post).toBe(true);
+            expect(typeof post.category).toEqual('string');
+            expect(typeof post.options).toEqual('object');
         })
 
-        it(' - Normalized post.options should has fields: title, icon', function() {
-            expect('title' in post.options).toBe(true);
-            expect('icon' in post.options).toBe(true);
+        it(' - Normalized post.options should has fields: title, icon, visible', function() {
+            expect(typeof post.options.title).toEqual('string');
+            expect(typeof post.options.icon).toEqual('object');
+            expect(typeof post.options.visible).toEqual('boolean');
         });
     });
 
@@ -163,6 +186,19 @@ describe('Post', function () {
             Post.prmsCreate(location);
             var redirectUrl = createUrl + '?latitude=' + location.latitude + '&longitude=' + location.longitude;
             expect($window.location.replace).toHaveBeenCalledWith(redirectUrl);
+        });
+    });
+
+    describe(' - applyFilters()', function() {
+        beforeEach(function() {
+            Post.posts = FakeData.genPosts({count:5});
+        });
+
+        it(' - Should set options.visible true on passed all filters', function() {
+            Post.applyFilters();
+            for (var i = 0; i < Post.posts.length; i++) {
+                expect(Post.posts[i].options.visible).toBe(true);
+            };
         });
     });
 });
