@@ -129,13 +129,15 @@ describe(' - Spirit99', function() {
         });
 
         describe(' - Filter posts', function() {
+
             var inputKeywords = element(by.xpath('//*[@id="s99-input-post-filter-keywords"]//input'));
+            var datePeriodSelector = element(by.xpath('//md-select[@id="s99-select-dateperiod-preset"]'));
             beforeEach(function() {
                 element(by.id('s99-open-sidenav-filter')).click();
                 expect(element(by.id('s99-post-filter')).isDisplayed()).toBe(true);
             });
             
-            it(' - Filter title by keywords', function() {
+            it(' - Filter titles by keywords', function() {
                 inputKeywords.sendKeys('你');
                 inputKeywords.sendKeys(protractor.Key.ENTER);
                 element(by.css('md-backdrop')).click();
@@ -146,6 +148,45 @@ describe(' - Spirit99', function() {
                 inputKeywords.sendKeys(protractor.Key.ENTER);
                 element(by.css('md-backdrop')).click();
                 expect(markers.count()).toBe(1);
+            });
+
+            it(' - Filter posts created in specified date period presets', function() {
+                datePeriodSelector.click();
+                var inTheDay = element(by.xpath('//md-select-menu/md-content/md-option[@value="inTheDay"]'));
+                inTheDay.click();
+                expect(markers.count()).toBe(4);
+                datePeriodSelector.click();
+                var inTheWeek = element(by.xpath('//md-select-menu/md-content/md-option[@value="inTheWeek"]'));
+                inTheWeek.click();
+                expect(markers.count()).toBe(8);             
+                datePeriodSelector.click();
+                var inTheMonth = element(by.xpath('//md-select-menu/md-content/md-option[@value="inTheMonth"]'));
+                inTheMonth.click();
+                expect(markers.count()).toBe(13);             
+                datePeriodSelector.click();
+                var inTheYear = element(by.xpath('//md-select-menu/md-content/md-option[@value="inTheYear"]'));
+                inTheYear.click();
+                expect(markers.count()).toBe(18);             
+            });
+
+            it('Filter posts created in custom date period', function() {
+                datePeriodSelector.click();
+                var custom = element(by.xpath('//md-select-menu/md-content/md-option[@value="custom"]'));
+                custom.click();
+
+                var inputCustomDateStart = element(by.xpath('//*[@id="s99-input-dateperiod-start"]//input'));
+                expect(inputCustomDateStart.isDisplayed()).toBe(true);
+                var inputCustomDateEnd = element(by.xpath('//*[@id="s99-input-dateperiod-end"]//input'));
+                expect(inputCustomDateEnd.isDisplayed()).toBe(true);
+
+                inputCustomDateStart.clear();
+                inputCustomDateStart.sendKeys('1/1/1970');
+                inputCustomDateEnd.clear();
+                var aYearAgo = new Date();
+                aYearAgo.setFullYear(aYearAgo.getFullYear() - 1);
+                inputCustomDateEnd.sendKeys((aYearAgo.getMonth() + 1) + '/' + aYearAgo.getDate() + '/' + aYearAgo.getFullYear());
+
+                expect(markers.count()).toBe(5);             
             });
         });
 
@@ -166,6 +207,5 @@ describe(' - Spirit99', function() {
                 });
             });
         });
-
     });  
 });

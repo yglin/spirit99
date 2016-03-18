@@ -60,7 +60,6 @@ function newChannel () {
     };
 }
 
-
 function genPosts(options) {
     options = typeof options === 'undefined' ? {} : options;
     options.count = typeof options.count === 'undefined' ? 10 : options.count;
@@ -75,7 +74,7 @@ function genPosts(options) {
         post.title = fakeTitles[i];
         post.latitude = 23.973875 + 2 * (0.5 - Math.random());
         post.longitude = 120.982024 + 2 * (0.5 - Math.random());
-        post.create_time = pickRandomDate();
+        post.create_time = pickDateInTurn();
         if((i % categoryIDs.length + 1) != 0){
             post.category = categoryIDs[i % categoryIDs.length];
         }
@@ -130,8 +129,8 @@ function fakeThumbnails () {
     ];
 }
 
-var datePresets;
-function pickRandomDate () {
+var datePresets, turn;
+function pickDateInTurn () {
     if(!datePresets){
         var dateObj = new Date();
         datePresets = [0];
@@ -152,8 +151,14 @@ function pickRandomDate () {
         datePresets.push(dateObj.getTime());  
     }
 
-    var start = _.sample(datePresets);
-    var offset = Math.floor(Math.random() * (Date.now() - start));
+    if (!turn) {
+        turn = 0;
+    }
+
+    var start = datePresets[turn];
+    var end = (turn + 1) >= datePresets.length ? Date.now() : datePresets[turn + 1];
+    turn = (turn + 1) % datePresets.length;
+    var offset = Math.floor((0.1 + 0.8 * Math.random()) * (end - start));
     return start + offset;
 }
 
