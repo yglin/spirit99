@@ -17,6 +17,10 @@
         self.normalize = normalize;
         self.rebuildCategories = rebuildCategories;
         self.getIcon = getIcon;
+        self.isVisible = isVisible;
+        self.toggleVisible = toggleVisible;
+        self.hideAll = hideAll;
+        self.showAll = showAll;
 
         activate();
 
@@ -56,6 +60,9 @@
             if (!category.icon.scaledSize && self.ICON_SCALED_SIZE) {
                 category.icon.scaledSize = self.ICON_SCALED_SIZE;
             }
+            if (!category.visible) {
+                category.visible = true;
+            }
         }
 
         function rebuildCategories () {
@@ -70,7 +77,7 @@
             }
             if (!('misc' in self.categories)) {
                 self.categories['misc'] = self.CATEGORY_MISC;
-            };
+            }
         }
 
         function getIcon(categoryID) {
@@ -78,6 +85,33 @@
                 return self.categories[categoryID].icon;
             } else {
                 return self.CATEGORY_MISC.icon;
+            }
+        }
+
+        function isVisible (categoryID) {
+            if (categoryID in self.categories) {
+                return self.categories[categoryID].visible;
+            }
+            else {
+                return false;
+            }
+        }
+
+        function toggleVisible (categoryID) {
+            if (categoryID in self.categories) {
+                self.categories[categoryID].visible = !(self.categories[categoryID].visible);
+            }
+        }
+
+        function hideAll () {
+            for (var id in self.categories) {
+                self.categories[id].visible = false;
+            }
+        }
+
+        function showAll () {
+            for (var id in self.categories) {
+                self.categories[id].visible = true;
             }
         }
 

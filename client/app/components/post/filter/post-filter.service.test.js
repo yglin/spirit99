@@ -24,15 +24,29 @@ describe('PostFilter', function () {
                 .and.returnValue(true);
             }
         });
+
+        angular.mock.module(function($provide) {
+            $provide.service('Category', mockCategory);
+        
+            mockCategory.$inject = [];
+        
+            function mockCategory () {
+                var self = this;
+                self.categories = {};
+                self.isVisible = jasmine.createSpy('isVisible')
+                .and.returnValue(true);
+            }
+        });
     });
     
-    var PostFilter, $rootScope, scope, DatePeriod;
+    var PostFilter, $rootScope, scope, DatePeriod, Category;
     var onFilterChanged;
-    beforeEach(inject(function (_PostFilter_, _$rootScope_, _DatePeriod_) {
+    beforeEach(inject(function (_PostFilter_, _$rootScope_, _DatePeriod_, _Category_) {
         PostFilter = _PostFilter_;
         $rootScope = _$rootScope_;
         scope = $rootScope.$new();
         DatePeriod = _DatePeriod_;
+        Category = _Category_;
         onFilterChanged = jasmine.createSpy('onFilterChanged');
         scope.$on('post:filterChanged', onFilterChanged);
     }));
@@ -95,6 +109,13 @@ describe('PostFilter', function () {
             expect(PostFilter.filter(post)).toBe(true);
             DatePeriod.inBetween.and.returnValue(false);
             expect(PostFilter.filter(post)).toBe(false);
+        });
+
+        it(' - Should pass filter when post\'s category is visible', function() {
+            PostFilter.keywords = [];
+            expect(PostFilter.filter(post)).toBe(true);
+            Category.isVisible.and.returnValue(false);
+            expect(PostFilter.filter(post)).toBe(false);                        
         });
     });
 });

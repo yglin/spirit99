@@ -5,13 +5,14 @@
         .module('spirit99')
         .service('PostFilter', PostFilter);
 
-    PostFilter.$inject = ['$rootScope', 'DatePeriod'];
+    PostFilter.$inject = ['$rootScope', 'DatePeriod', 'Category'];
 
     /* @ngInject */
-    function PostFilter($rootScope, DatePeriod) {
+    function PostFilter($rootScope, DatePeriod, Category) {
         var self = this;
         self.keywords = [];
         self.createTime = {};
+        self.categories = Category.categories;
         self.filter = filter;
         self.onAddKeyword = onAddKeyword;
         self.onRemoveKeyword = onRemoveKeyword;
@@ -46,6 +47,10 @@
             if (!DatePeriod.inBetween(post.create_time, self.createTime.start, self.createTime.end)) {
                 return false;
             }
+
+            if (!Category.isVisible(post.category)) {
+                return false;
+            };
 
             return true;
         }

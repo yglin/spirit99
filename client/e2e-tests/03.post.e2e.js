@@ -169,7 +169,7 @@ describe(' - Spirit99', function() {
                 expect(markers.count()).toBe(18);             
             });
 
-            it('Filter posts created in custom date period', function() {
+            it(' - Filter posts created in custom date period', function() {
                 datePeriodSelector.click();
                 var custom = element(by.xpath('//md-select-menu/md-content/md-option[@value="custom"]'));
                 custom.click();
@@ -187,6 +187,28 @@ describe(' - Spirit99', function() {
                 inputCustomDateEnd.sendKeys((aYearAgo.getMonth() + 1) + '/' + aYearAgo.getDate() + '/' + aYearAgo.getFullYear());
 
                 expect(markers.count()).toBe(5);             
+            });
+
+            it(' - Filter posts by categories', function() {
+                var hideAll = element(by.id('s99-button-hide-all-categories'));
+                hideAll.click();
+                expect(markers.count()).toBe(0);
+                var showAll = element(by.id('s99-button-show-all-categories'));
+                showAll.click();
+                expect(markers.count()).toBe(23);
+
+                hideAll.click();
+                for (var id in firstChannel.categories) {
+                    var category = firstChannel.categories[id];
+                    var iconUrl = '';
+                    if (category.icon && category.icon.url) {
+                        iconUrl = category.icon.url;
+                    } else if (category.icon) {
+                        iconUrl = category.icon;
+                    }
+                    element(by.xpath('//div/img[@src="' + iconUrl + '"]')).click();
+                    expect(element.all(by.xpath('//div[@class="gmnoprint" and @title]/img[@src="' + iconUrl + '"]')).count()).toBeGreaterThan(0);
+                }
             });
         });
 

@@ -53,14 +53,10 @@
         }
 
         function inBetween (theTime, startTime, endTime) {
-            console.log(theTime);
-            console.log(startTime);
-            console.log(endTime);
             if(theTime >= startTime && theTime <= endTime){
                 return true;
             }
             else{
-                console.log('false');
                 return false;
             }
         }
