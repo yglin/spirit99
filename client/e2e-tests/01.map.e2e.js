@@ -1,5 +1,6 @@
 'use strict';
 
+var fakeData = require('../mocks/data.js');
 var mockGeolocation = require('../mocks/geolocation.js');
 
 describe('Spirit99 app', function() {
@@ -15,6 +16,21 @@ describe('Spirit99 app', function() {
                 }
             };
             browser.addMockModule('spirit99', mockGeolocation.addMockGeolocation, fakePosition);
+        });
+
+        beforeEach(function() {
+            browser.get('/');            
+        });
+
+        beforeEach(function () {
+            browser.executeScript(function (fakeData) {
+                window.localStorage.setItem('spirit99.addresses', JSON.stringify(fakeData.addresses));
+            }, fakeData);
+            browser.refresh();
+        })
+
+        afterEach(function() {
+            browser.executeScript('window.localStorage.clear()');
         });
         
         var EC, map, latitude, longitude, zoom, waitMapPanned, lastMap;
@@ -49,13 +65,7 @@ describe('Spirit99 app', function() {
             };
 
             waitMapPanned = EC.and(latitudeChanged, longitudeChanged);
-
-            browser.get('/');
             browser.wait(waitMapPanned, 5000);
-        });
-
-        afterEach(function() {
-            browser.executeScript('window.localStorage.clear()');
         });
 
         it(' - Should render angular-google-map when user navigates to /map', function () {
@@ -125,6 +135,33 @@ describe('Spirit99 app', function() {
                 browser.wait(EC.visibilityOf($('#s99-dialog-confirm')), 2000);
                 element(by.id('s99-dialog-confirm-button-confirm')).click();
                 browser.wait(EC.invisibilityOf($('#s99-dialog-confirm')), 2000);
+            });
+        });
+
+        describe(' - Find locations', function() {
+            var buttonLocator = element(by.id('s99-open-dialog-locator'));
+            var inputLocator = element(by.xpath('//*[@id="s99-input-locator-search-text"]//input'));
+            var addresses = element.all(by.xpath('//div[contains(@class, "s99-items-locator-address")]'));
+            var confirm = element(by.id('s99-dialog-locator-button-confirm'));
+            // beforeEach(function() {
+            // });
+            
+            it(' - Should display locator dialog on pressing locator button', function() {
+                buttonLocator.click();
+                expect(element(by.id('s99-dialog-locator')).isDisplayed()).toBe(true);
+            });
+
+            it(' - Should navigate to geolocation of user if selected "My Location"', function() {
+                browser.actions().dragAndDrop(map, {x:200, y:200}).perform();
+                browser.wait(waitMapPanned, 5000);
+                buttonLocator.click();
+                inputLocator.click();
+                addresses.get(0).click();                
+                confirm.click();
+                browser.wait(waitMapPanned, 5000).then(function () {
+                    expect(latitude.getText()).toEqual(fakePosition.coords.latitude.toString());
+                    expect(longitude.getText()).toEqual(fakePosition.coords.longitude.toString());
+                });
             });
         });
     });

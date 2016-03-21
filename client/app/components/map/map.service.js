@@ -23,6 +23,7 @@
         self.prmsGotoGeolocation = prmsGotoGeolocation;
         self.prmsGetInitMap = prmsGetInitMap;
         self.getBounds = getBounds;
+        self.navigateTo = navigateTo;
 
         ////////////////
         activate();
@@ -42,6 +43,9 @@
                 location.latitude = mouseEvents[0].latLng.lat();
                 location.longitude = mouseEvents[0].latLng.lng();
                 $rootScope.$broadcast('map:' + event, location);                
+            }
+            else {
+                $rootScope.$broadcast('map:' + event);
             }
         }
 
@@ -156,6 +160,11 @@
 
         function getBounds () {
             return self.map.bounds;
+        }
+
+        function navigateTo (location) {
+            self.map.center.latitude = location.latitude;
+            self.map.center.longitude = location.longitude;
         }
 
         //////////////////// Functions for initialize CONSTANTS

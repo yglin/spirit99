@@ -232,4 +232,20 @@ describe('Map', function () {
             });
         });
     });
+
+    describe(' - navigateTo()', function() {
+        var location;
+        beforeEach(function() {
+            location = {
+                latitude: 78.787878,
+                longitude: 99.999999
+            }
+        });
+        
+        it(' - Should set Map.map.center to location\'s coordinate', function() {
+            Map.navigateTo(location);
+            expect(Map.map.center.latitude).toBe(location.latitude);
+            expect(Map.map.center.longitude).toBe(location.longitude);
+        });
+    });
 });

@@ -10,5 +10,5 @@ angular.module('spirit99', [
   'ngMaterial',
   'LocalStorageModule',
   'uiGmapgoogle-maps',
-  'angular.validators'
+  'angular.validators',
 ]);

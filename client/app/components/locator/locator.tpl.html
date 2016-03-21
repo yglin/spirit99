@@ -1,5 +1,17 @@
-<md-dialog aria-label='找尋地點' ng-cloak>
-    <md-autocomplete
+<md-dialog id='s99-dialog-locator' aria-label="Locator" ng-cloak>
+<md-toolbar>
+    <div class="md-toolbar-tools">
+        <h2>{{locatorVM.title}}</h2>
+        <span flex></span>
+        <md-button id='s99-dialog-locator-button-cancel'
+        class="md-icon-button"
+        ng-click="locatorVM.cancel()">
+            <md-icon class="material-icons">close</md-icon>
+        </md-button>
+    </div>
+</md-toolbar>
+<md-dialog-content layout-padding>
+    <md-autocomplete id='s99-input-locator-search-text'
     placeholder='請輸入地址或選擇您的位置'
     md-selected-item='locatorVM.inputCtrl.selectedLocation'
     md-search-text='locatorVM.inputCtrl.searchText'
@@ -7,7 +19,7 @@
     md-item-text='location.title'
     md-min-length='0'>
         <md-item-template>
-            <div layout='row'>
+            <div class='s99-items-locator-address' layout='row'>
                 <md-icon layout-margin class='material-icons' ng-if='location.icon'>{{location.icon}}</md-icon>
                 <div layout='column' flex layout-align='center start'style='line-height:24px;'>
                     <span ng-if='location.title' md-highlight-text="locatorVM.inputCtrl.searchText" md-highlight-flags="gi">{{location.title}}</span>
@@ -16,14 +28,13 @@
             </div>
         </md-item-template>
     </md-autocomplete>
-    <div layout='row' layout-align='space-between center'>
-        <md-button class='md-primary md-raised'
-        ng-click='locatorVM.confirm()'>
-            確定
-        </md-button>
-        <md-button class='md-primary md-raised'
-        ng-click="locatorVM.cancel()">
-            取消
-        </md-button>
-    </div>
+</md-dialog-content>
+<md-dialog-actions layout="row">
+    <span flex></span>
+    <md-button id='s99-dialog-locator-button-confirm'
+    class='md-primary md-raised'
+    ng-click="locatorVM.confirm()">
+    確定
+    </md-button>
+</md-dialog-actions>
 </md-dialog>

@@ -9,6 +9,9 @@ exports.newChannel = newChannel();
 exports.categories = categories();
 exports.mapTaiwan = mapTaiwan();
 exports.genPosts = genPosts;
+exports.addresses = addresses();
+exports.geolocation = geolocation();
+exports.geocodeChangHua = geocodeChangHua();
 
 function channels () {
     return {
@@ -171,6 +174,71 @@ function mapTaiwan () {
             northeast: {latitude: 0, longitude: 0}
         }
     };
+}
+
+function geocodeChangHua () {
+    return {
+      "address_components": [
+        {
+          "long_name": "Changhua County",
+          "short_name": "Changhua County",
+          "types": [
+            "administrative_area_level_2",
+            "political"
+          ]
+        },
+        {
+          "long_name": "Taiwan",
+          "short_name": "TW",
+          "types": [
+            "country",
+            "political"
+          ]
+        }
+      ],
+      "formatted_address": "Changhua County, Taiwan",
+      "geometry": {
+        "bounds": {
+          "south": 23.7856174,
+          "west": 120.24784780000005,
+          "north": 24.1976918,
+          "east": 120.6839483
+        },
+        "location": {
+          "lat": 24.0517963,
+          "lng": 120.51613520000001
+        },
+        "location_type": "APPROXIMATE",
+        "viewport": {
+          "south": 23.7856174,
+          "west": 120.24784780000005,
+          "north": 24.1976918,
+          "east": 120.6839483
+        }
+      },
+      "partial_match": true,
+      "place_id": "ChIJdRR5tR5JaTQRJ380ulhL6NY",
+      "types": [
+        "administrative_area_level_2",
+        "political"
+      ]
+    };
+}
+
+function addresses () {
+    return [
+        { title: '作者的家', address:'台灣彰化縣彰化市中山路二段644巷17弄9號' },
+        { title: '台灣地理中心', address:'台灣南投縣埔里鎮和平東路'}
+    ];
+}
+
+function geolocation () {
+    return {
+        coords: {
+            latitude: 23.456789,
+            longitude: 123.456789
+        }
+    };    
 }
 })();
 

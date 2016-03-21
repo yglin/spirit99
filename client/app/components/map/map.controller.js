@@ -15,9 +15,10 @@
         // Map events
         mapVM.events = {
             'idle': Map.broadcastEvent,
-            'click': Map.broadcastEvent
-            // 'dragstart': handlerDragStart,
-            // 'dragend': handlerDragEnd,
+            'click': Map.broadcastEvent,
+            'dragstart': Map.broadcastEvent,
+            'dragend': Map.broadcastEvent,
+            'drag': Map.broadcastEvent
         };
         // // Publish-Subscribe events
         // $scope.$on('markers:refresh', handlerMarkersRefresh);

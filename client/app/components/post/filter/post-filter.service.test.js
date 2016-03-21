@@ -72,7 +72,10 @@ describe('PostFilter', function () {
             PostFilter.createTime.preset = 'inTheEternity';
             PostFilter.onChangeDatePeriod();
             expect(PostFilter.createTime.start).toEqual(new Date(0));
-            expect(PostFilter.createTime.end).toEqual(new Date());
+            // The "new Date()" return current time in milisecods.
+            // There could be a little delay from the time when createTime.end was set.
+            // Therefore instead of testing equality of these 2 points in time, test their difference. 
+            expect((new Date()).getTime() - PostFilter.createTime.end.getTime()).toBeLessThan(1000);
         });
 
         it(' - Should not set createTime\'s start and end if preset=="custom"', function() {

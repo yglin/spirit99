@@ -24,7 +24,10 @@ describe('DatePeriod', function () {
             
         it(' - Should return now whatever', function() {
             for (var presetID in DatePeriod.presets) {
-                expect(DatePeriod.getPresetEnd(presetID)).toEqual(new Date());
+                // The "new Date()" return current time in milisecods.
+                // There could be a little delay from the time when createTime.end was set.
+                // Therefore instead of testing equality of these 2 points in time, test their difference. 
+                expect((new Date()).getTime() - DatePeriod.getPresetEnd(presetID).getTime()).toBeLessThan(1000);;
             }
         });
     });
