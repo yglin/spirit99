@@ -9,8 +9,9 @@ exports.newChannel = newChannel();
 exports.categories = categories();
 exports.mapTaiwan = mapTaiwan();
 exports.genPosts = genPosts;
-exports.addresses = addresses();
+exports.locationQueries = locationQueries();
 exports.geolocation = geolocation();
+exports.locations = locations();
 exports.geocodeChangHua = geocodeChangHua();
 
 function channels () {
@@ -178,24 +179,24 @@ function mapTaiwan () {
 
 function geocodeChangHua () {
     return {
-      "address_components": [
-        {
-          "long_name": "Changhua County",
-          "short_name": "Changhua County",
-          "types": [
-            "administrative_area_level_2",
-            "political"
-          ]
-        },
-        {
-          "long_name": "Taiwan",
-          "short_name": "TW",
-          "types": [
-            "country",
-            "political"
-          ]
-        }
-      ],
+      // "address_components": [
+      //   {
+      //     "long_name": "Changhua County",
+      //     "short_name": "Changhua County",
+      //     "types": [
+      //       "administrative_area_level_2",
+      //       "political"
+      //     ]
+      //   },
+      //   {
+      //     "long_name": "Taiwan",
+      //     "short_name": "TW",
+      //     "types": [
+      //       "country",
+      //       "political"
+      //     ]
+      //   }
+      // ],
       "formatted_address": "Changhua County, Taiwan",
       "geometry": {
         "bounds": {
@@ -205,27 +206,47 @@ function geocodeChangHua () {
           "east": 120.6839483
         },
         "location": {
-          "lat": 24.0517963,
-          "lng": 120.51613520000001
+          "lat": function () { return 24.0517963; },
+          "lng": function () { return 120.51613520000001; }
         },
         "location_type": "APPROXIMATE",
         "viewport": {
-          "south": 23.7856174,
-          "west": 120.24784780000005,
-          "north": 24.1976918,
-          "east": 120.6839483
+            getSouthWest: function () {
+                return {
+                    lat: function () {
+                        return 23.7856174;
+                    },
+                    lng: function () {
+                        return 120.24784780000005;
+                    }
+                };
+            },
+            getNorthEast: function () {
+                return {
+                    lat: function () {
+                        return 24.1976918;
+                    },
+                    lng: function () {
+                        return 120.6839483;
+                    }
+                };
+            },
+            "south": 23.7856174,
+            "west": 120.24784780000005,
+            "north": 24.1976918,
+            "east": 120.6839483
         }
       },
-      "partial_match": true,
-      "place_id": "ChIJdRR5tR5JaTQRJ380ulhL6NY",
-      "types": [
-        "administrative_area_level_2",
-        "political"
-      ]
+      // "partial_match": true,
+      // "place_id": "ChIJdRR5tR5JaTQRJ380ulhL6NY",
+      // "types": [
+      //   "administrative_area_level_2",
+      //   "political"
+      // ]
     };
 }
 
-function addresses () {
+function locationQueries () {
     return [
         { title: '作者的家', address:'台灣彰化縣彰化市中山路二段644巷17弄9號' },
         { title: '台灣地理中心', address:'台灣南投縣埔里鎮和平東路'}
@@ -239,6 +260,14 @@ function geolocation () {
             longitude: 123.456789
         }
     };    
+}
+
+function locations () {
+    return [
+        { latitude: 22.222222, longitude: 122.222222 },
+        { latitude: 23.333333, longitude: 123.333333 },
+        { latitude: 24.567891, longitude: 124.567891 }
+    ];
 }
 })();
 

@@ -247,5 +247,26 @@ describe('Map', function () {
             expect(Map.map.center.latitude).toBe(location.latitude);
             expect(Map.map.center.longitude).toBe(location.longitude);
         });
+
+        it(' - Should set zoom if given zoom in location', function() {
+            location.zoom = 10;
+            Map.navigateTo(location);
+            expect(Map.map.zoom).toBe(location.zoom);
+        });
+
+        it(' - Should set map bounds if given viewport in location', function() {
+            location.viewport = {
+                southeast: {
+                    latitude: 11.111111,
+                    longitude: 111.111111
+                },
+                northwest: {
+                    latitude: 66.666666,
+                    longitude: 166.666666
+                }
+            };
+            Map.navigateTo(location);
+            expect(Map.map.bounds).toEqual(location.viewport);
+        });
     });
 });

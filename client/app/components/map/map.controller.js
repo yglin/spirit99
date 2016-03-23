@@ -18,7 +18,7 @@
             'click': Map.broadcastEvent,
             'dragstart': Map.broadcastEvent,
             'dragend': Map.broadcastEvent,
-            'drag': Map.broadcastEvent
+            // 'drag': Map.broadcastEvent
         };
         // // Publish-Subscribe events
         // $scope.$on('markers:refresh', handlerMarkersRefresh);

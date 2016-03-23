@@ -1,0 +1,35 @@
+<div layout='column' ng-show='gadgetVM.show'>
+    <!-- <h1>{{gadgetVM.title}}</h1> -->
+    <div layout='row'>
+        <md-button id='s99-open-dialog-locator'
+        class='md-fab md-mini md-accent s99-show-flipInX'
+        ng-click='gadgetVM.buttons["open-locator"].click()'>
+            <md-icon class='material-icons'>{{gadgetVM.buttons["open-locator"].icon}}</md-icon>
+        </md-button>
+        <md-button id='s99-button-next-location'
+        class='md-fab md-mini md-accent s99-show-flipInX'
+        ng-show='gadgetVM.locator.locations.length > 1'
+        ng-click='gadgetVM.locator.toNextLocation()'>
+            <md-icon class='material-icons'>navigate_next</md-icon>
+        </md-button>
+    </div>
+    <md-button id='s99-open-sidenav-posts'
+    class='md-fab md-mini md-accent s99-show-flipInX'
+    ng-show='gadgetVM.buttons["sidenav-posts"].show'
+    ng-click='gadgetVM.buttons["sidenav-posts"].click()'>
+        <md-icon class='material-icons'>{{gadgetVM.buttons["sidenav-posts"].icon}}</md-icon>
+    </md-button>
+<!--
+    <md-button id='s99-dialog-locator'
+    class='md-fab md-mini md-accent s99-show-flipInX'
+    ng-hide='mapVM.isDragging'
+    ng-click="mapVM.locate($event)">
+        <md-icon class='material-icons'>my_location</md-icon>
+    </md-button>
+    <md-button class='md-fab md-mini md-accent s99-show-flipInX'
+    ng-hide='mapVM.isDragging || !mapVM.showListButton'
+    ng-click="mapVM.openPostList()">
+        <md-icon class='material-icons'>view_list</md-icon>
+    </md-button>    
+ -->
+ </div>

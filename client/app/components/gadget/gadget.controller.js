@@ -3,17 +3,18 @@
 
     angular
         .module('spirit99')
-        .controller('ShortcutsController',ShortcutsController);
+        .controller('GadgetController', GadgetController);
 
-    ShortcutsController.$inject = ['$scope', 'Sidenav', 'Post', 'Locator'];
+    GadgetController.$inject = ['$scope', '$mdMedia', 'Sidenav', 'Post', 'Locator'];
 
     /* @ngInject */
-    function ShortcutsController($scope, Sidenav, Post, Locator) {
-        var shortcutsVM = this;
-        shortcutsVM.title = 'Shortcuts';
-        shortcutsVM.buttons = {
+    function GadgetController($scope, $mdMedia, Sidenav, Post, Locator) {
+        var gadgetVM = this;
+        gadgetVM.title = 'Gadget';
+        gadgetVM.locator = Locator;
+        gadgetVM.show = true;
+        gadgetVM.buttons = {
             'open-locator': {
-                domId: 's99-open-dialog-locator',
                 show: true,
                 icon: 'my_location',
                 click: function () {
@@ -37,28 +38,30 @@
         function activate() {
             $scope.$on('post:loadEnd', function () {
                 if (Post.posts.length >= 5) {
-                    shortcutsVM.buttons['sidenav-posts'].show = true;
+                    gadgetVM.buttons['sidenav-posts'].show = true;
                 }
                 else {
-                    shortcutsVM.buttons['sidenav-posts'].show = false;                    
+                    gadgetVM.buttons['sidenav-posts'].show = false;                    
                 }
             });
 
             $scope.$on('map:dragstart', function () {
-                shortcutsVM.buttons['open-locator'].show = false;
+                if ($mdMedia('xs')) {
+                    gadgetVM.show = false;                    
+                }
             });
 
-            $scope.$on('map:drag', function () {
-                shortcutsVM.buttons['open-locator'].show = false;
-            });
+            // $scope.$on('map:drag', function () {
+            //     gadgetVM.show = false;
+            // });
 
             $scope.$on('map:dragend', function () {
-                shortcutsVM.buttons['open-locator'].show = true;
+                gadgetVM.show = true;
             });
 
-            $scope.$on('map:idle', function () {
-                shortcutsVM.buttons['open-locator'].show = true;
-            });
+            // $scope.$on('map:idle', function () {
+            //     gadgetVM.show = true;
+            // });
         }
     }
 })();

@@ -10,7 +10,7 @@
     // Configration for partial view - map
     function MapConfiger(uiGmapGoogleMapApiProvider){
         uiGmapGoogleMapApiProvider.configure({
-            key: 'AIzaSyB5rcT4tYhcrHp5NwEophBjfKV0uilCNEE'
+            key: 'AIzaSyCewhA8IKkKYEWgW0e5bSThsw6sNKauliE'
         });
     }
 

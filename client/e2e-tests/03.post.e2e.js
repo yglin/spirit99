@@ -83,19 +83,19 @@ describe(' - Spirit99', function() {
 
             // Protractor dragAndDrop() not always working due to below issue
             // https://github.com/angular/protractor/issues/583
-            // it(' - Should query posts after map panned', function() {
-            //     browser.wait(function () {
-            //         return numOfPosts.getText().then(function (numText) {
-            //             return numText == posts.length.toString();
-            //         });
-            //     }, 5000);
-            //     browser.actions().dragAndDrop(map, {x:2000, y:50}).perform();
-            //     browser.wait(function () {
-            //         return numOfPosts.getText().then(function (numText) {
-            //             return numText == '0';
-            //         });
-            //     }, 5000);
-            // });
+            it(' - Should query posts after map panned', function() {
+                browser.wait(function () {
+                    return markers.count().then(function (count) {
+                        return count == posts.length;
+                    });
+                }, 5000);
+                browser.actions().dragAndDrop(map, {x:-250, y:50}).perform();
+                browser.wait(function () {
+                    return markers.count().then(function (count) {
+                        return count < posts.length;
+                    });
+                }, 5000);
+            });
 
             it(' - Should query posts when map zoomed', function() {
                 zoomIn.click();
@@ -110,7 +110,6 @@ describe(' - Spirit99', function() {
                 }, 5000);
             });
         });
-
 
         describe(' - Sidenav post list', function() {
             

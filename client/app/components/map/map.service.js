@@ -165,6 +165,12 @@
         function navigateTo (location) {
             self.map.center.latitude = location.latitude;
             self.map.center.longitude = location.longitude;
+            if (location.zoom) {
+                self.map.zoom = location.zoom;
+            }
+            if (location.viewport) {
+                self.map.bounds = location.viewport;
+            }
         }
 
         //////////////////// Functions for initialize CONSTANTS

@@ -2,20 +2,15 @@
 
 var fakeData = require('../mocks/data.js');
 var mockGeolocation = require('../mocks/geolocation.js');
+var mockGeocoder = require('../mocks/geocoder.js');
 
 describe('Spirit99 app', function() {
 
     describe(' - Map', function () {
 
-        var fakePosition;
         beforeEach(function() {
-            fakePosition = {
-                coords: {
-                    latitude: 23.456789,
-                    longitude: 123.456789
-                }
-            };
-            browser.addMockModule('spirit99', mockGeolocation.addMockGeolocation, fakePosition);
+            browser.addMockModule('spirit99', mockGeolocation.addMockGeolocation, fakeData.geolocation);
+            browser.addMockModule('spirit99', mockGeocoder.addMockGeocoder, fakeData.locations);
         });
 
         beforeEach(function() {
@@ -24,7 +19,7 @@ describe('Spirit99 app', function() {
 
         beforeEach(function () {
             browser.executeScript(function (fakeData) {
-                window.localStorage.setItem('spirit99.addresses', JSON.stringify(fakeData.addresses));
+                window.localStorage.setItem('spirit99.locationQueries', JSON.stringify(fakeData.locationQueries));
             }, fakeData);
             browser.refresh();
         })
@@ -78,8 +73,8 @@ describe('Spirit99 app', function() {
                 element(by.css('md-tab-item md-icon#s99-sidenav-tab-icon-settings')).click();                
                 element(by.id('s99-map-settings-init-map-geolocation')).click();
                 browser.refresh();
-                expect(latitude.getText()).toEqual(fakePosition.coords.latitude.toString());
-                expect(longitude.getText()).toEqual(fakePosition.coords.longitude.toString());
+                expect(latitude.getText()).toEqual(fakeData.geolocation.coords.latitude.toString());
+                expect(longitude.getText()).toEqual(fakeData.geolocation.coords.longitude.toString());
             });
         });
 
@@ -141,7 +136,7 @@ describe('Spirit99 app', function() {
         describe(' - Find locations', function() {
             var buttonLocator = element(by.id('s99-open-dialog-locator'));
             var inputLocator = element(by.xpath('//*[@id="s99-input-locator-search-text"]//input'));
-            var addresses = element.all(by.xpath('//div[contains(@class, "s99-items-locator-address")]'));
+            var locationQueries = element.all(by.xpath('//div[contains(@class, "s99-items-locator-address")]'));
             var confirm = element(by.id('s99-dialog-locator-button-confirm'));
             // beforeEach(function() {
             // });
@@ -156,12 +151,61 @@ describe('Spirit99 app', function() {
                 browser.wait(waitMapPanned, 5000);
                 buttonLocator.click();
                 inputLocator.click();
-                addresses.get(0).click();                
+                locationQueries.get(0).click();                
                 confirm.click();
                 browser.wait(waitMapPanned, 5000).then(function () {
-                    expect(latitude.getText()).toEqual(fakePosition.coords.latitude.toString());
-                    expect(longitude.getText()).toEqual(fakePosition.coords.longitude.toString());
+                    expect(latitude.getText()).toEqual(fakeData.geolocation.coords.latitude.toString());
+                    expect(longitude.getText()).toEqual(fakeData.geolocation.coords.longitude.toString());
                 });
+            });
+
+            it(' - Should navigate to first faked location given any address', function() {
+                buttonLocator.click();
+                // inputLocator.click();
+                inputLocator.sendKeys('man on earth');
+                confirm.click();
+                browser.wait(waitMapPanned, 5000).then(function () {
+                    expect(latitude.getText()).toEqual(fakeData.locations[0].latitude.toString());
+                    expect(longitude.getText()).toEqual(fakeData.locations[0].longitude.toString());
+                });                
+            });
+
+            it(' - Should show next-location button, naviagte to next location when pressed', function() {
+                buttonLocator.click();
+                // inputLocator.click();
+                inputLocator.sendKeys('man on earth');
+                confirm.click();
+                var buttonNextLocation = element(by.id('s99-button-next-location'));
+                expect(buttonNextLocation.isDisplayed()).toBe(true);
+                buttonNextLocation.click();
+                browser.wait(waitMapPanned, 5000).then(function () {
+                    expect(latitude.getText()).toEqual(fakeData.locations[1].latitude.toString());
+                    expect(longitude.getText()).toEqual(fakeData.locations[1].longitude.toString());
+                });                
+                buttonNextLocation.click();
+                browser.wait(waitMapPanned, 5000).then(function () {
+                    expect(latitude.getText()).toEqual(fakeData.locations[2].latitude.toString());
+                    expect(longitude.getText()).toEqual(fakeData.locations[2].longitude.toString());
+                });                
+                buttonNextLocation.click();
+                browser.wait(waitMapPanned, 5000).then(function () {
+                    expect(latitude.getText()).toEqual(fakeData.locations[0].latitude.toString());
+                    expect(longitude.getText()).toEqual(fakeData.locations[0].longitude.toString());
+                });                
+            });
+
+            it(' - Should remember searched locationQueries', function() {
+                browser.executeScript('window.localStorage.clear()');
+                buttonLocator.click();
+                inputLocator.click();
+                inputLocator.sendKeys('台灣');
+                confirm.click();
+                browser.wait(waitMapPanned, 5000);
+                browser.refresh();
+                buttonLocator.click();
+                inputLocator.click();
+                locationQueries.get(1).click();
+                expect(inputLocator.getAttribute('value')).toEqual('台灣');
             });
         });
     });
