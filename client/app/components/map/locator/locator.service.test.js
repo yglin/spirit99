@@ -121,17 +121,20 @@ describe('Locator', function () {
             };            
         });
         
-        it(' - Should add location\'s title and address to local storage', function() {
+        it(' - Should add query to local storage if it\'s title not in storage yet', function() {
             Locator.addQueryHistory(newLocationQuery.title, newLocationQuery.address);
             expect(localStorage.locationQueries[localStorage.locationQueries.length - 1]).toEqual(newLocationQuery);
+            var queriesCount = localStorage.locationQueries.length;
+            Locator.addQueryHistory(newLocationQuery.title, newLocationQuery.address);
+            expect(localStorage.locationQueries.length).toBe(queriesCount);
         });
 
         it(' - Should keep only max 10 location queries in history', function() {
-            for (var i = 0; i < 15; i++) {
-                Locator.addQueryHistory(newLocationQuery.title, newLocationQuery.address);            
+            for (var i = 0; i < 11; i++) {
+                Locator.addQueryHistory(newLocationQuery.title + '-' + (i+1), newLocationQuery.address);            
             }
             expect(localStorage.locationQueries.length).toBe(10);
-            expect(localStorage.locationQueries[0]).toEqual(newLocationQuery);
+            expect(localStorage.locationQueries[0].title).toEqual(newLocationQuery.title + '-2');
         });
     });
 });

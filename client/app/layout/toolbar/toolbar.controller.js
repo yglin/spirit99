@@ -18,18 +18,37 @@
         activate();
 
         function activate() {
+
             $scope.$on('channel:tuned', function () {
                 toolbarVM.channel = Channel.getChannel();
             });
-            $scope.$on('post:loadStart', function () {
-                toolbarVM.isLoading = true;                    
+            $scope.$on('progress:start', function () {
+                toolbarVM.isLoading = true;
             });
-            $scope.$on('post:loadEnd', function () {
+            $scope.$on('progress:end', function () {
                 // toggle isLoading after current digest cycle
                 $timeout(function () {
                     toolbarVM.isLoading = false;                    
                 }, 0);
             });
+            // $scope.$on('post:loadStart', function () {
+            //     toolbarVM.isLoading = true;                    
+            // });
+            // $scope.$on('locator:locateStart', function () {
+            //     toolbarVM.isLoading = true;                    
+            // });
+            // $scope.$on('post:loadEnd', function () {
+            //     // toggle isLoading after current digest cycle
+            //     $timeout(function () {
+            //         toolbarVM.isLoading = false;                    
+            //     }, 0);
+            // });
+            // $scope.$on('map:idle', function () {
+            //     // toggle isLoading after current digest cycle
+            //     $timeout(function () {
+            //         toolbarVM.isLoading = false;                    
+            //     }, 0);
+            // });
             // $scope.$on('post:loadEnd', function () {
             //     $timeout(function () {
             //         toolbarVM.isLoading = false;                    

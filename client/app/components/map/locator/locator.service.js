@@ -5,10 +5,10 @@
         .module('spirit99')
         .service('Locator', Locator);
 
-    Locator.$inject = ['$q', '$mdDialog', 'Map', 'Geolocation', 'Geocoder', 'localStorageService'];
+    Locator.$inject = ['$q', '$rootScope', '$mdDialog', 'Map', 'Geolocation', 'Geocoder', 'localStorageService'];
 
     /* @ngInject */
-    function Locator($q, $mdDialog, Map, Geolocation, Geocoder, localStorage) {
+    function Locator($q, $rootScope, $mdDialog, Map, Geolocation, Geocoder, localStorage) {
         var self = this;
         self.locationQueries = localStorage.get('location-queries');
         self.locations = [];
@@ -31,7 +31,7 @@
         function openDialog() {
             return $mdDialog.show({
                 controller: 'LocatorController',
-                templateUrl: 'app/components/locator/locator.tpl.html',
+                templateUrl: 'app/components/map/locator/locator.tpl.html',
                 parent: angular.element(document.body),
                 controllerAs: 'locatorVM',
                 bindToController: true,
@@ -43,6 +43,13 @@
         }
 
         function addQueryHistory (title, address) {
+            for (var i = 0; i < self.locationQueries.length; i++) {
+                if (title == self.locationQueries[i].title) {
+                     // Already in history, stop
+                     return;
+                }
+            }
+
             self.locationQueries.push({
                 title: title,
                 address: address
@@ -57,6 +64,16 @@
             self.locations.length = 0;
             self.locationIndex = 0;
             var defer = $q.defer();
+            
+            $rootScope.$broadcast('progress:start');
+            if (typeof self.unbindOnMapIdleProgressEnd == 'function') {
+                self.unbindOnMapIdleProgressEnd();
+            }
+            self.unbindOnMapIdleProgressEnd = $rootScope.$on('map:idle', function () {
+                $rootScope.$broadcast('progress:end');
+                self.unbindOnMapIdleProgressEnd();
+            });
+            
             if (query == '您的位置' || query == 'My Location') {
                 Geolocation.prmsGetCurrentPosition()
                 .then(function (position) {

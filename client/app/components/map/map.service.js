@@ -119,11 +119,16 @@
 
         function prmsGotoGeolocation () {
             return Geolocation.prmsGetCurrentPosition().then(function (position) {
-                self.map.center = {
+                self.navigateTo({
                     latitude: position.coords.latitude,
-                    longitude: position.coords.longitude
-                };
-                self.map.zoom = self.ZOOMS.STREET;
+                    longitude: position.coords.longitude,
+                    zoom: self.ZOOMS.STREET
+                });
+                // self.map.center = {
+                //     latitude: position.coords.latitude,
+                //     longitude: position.coords.longitude
+                // };
+                // self.map.zoom = self.ZOOMS.STREET;
             });
         }
 

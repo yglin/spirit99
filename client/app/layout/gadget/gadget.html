@@ -1,5 +1,8 @@
 <div layout='column' ng-show='gadgetVM.show'>
+    <ng-include src='"app/components/map/locator/gadget.tpl.html"'></ng-include>
+    <ng-include src='"app/components/post/gadget.tpl.html"'></ng-include>
     <!-- <h1>{{gadgetVM.title}}</h1> -->
+<!--     
     <div layout='row'>
         <md-button id='s99-open-dialog-locator'
         class='md-fab md-mini md-accent s99-show-flipInX'
@@ -13,13 +16,12 @@
             <md-icon class='material-icons'>navigate_next</md-icon>
         </md-button>
     </div>
-    <md-button id='s99-open-sidenav-posts'
+     <md-button id='s99-open-sidenav-posts'
     class='md-fab md-mini md-accent s99-show-flipInX'
     ng-show='gadgetVM.buttons["sidenav-posts"].show'
     ng-click='gadgetVM.buttons["sidenav-posts"].click()'>
         <md-icon class='material-icons'>{{gadgetVM.buttons["sidenav-posts"].icon}}</md-icon>
     </md-button>
-<!--
     <md-button id='s99-dialog-locator'
     class='md-fab md-mini md-accent s99-show-flipInX'
     ng-hide='mapVM.isDragging'

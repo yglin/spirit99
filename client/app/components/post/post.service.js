@@ -72,6 +72,7 @@
             }
             var bounds = Map.getBounds();
             $rootScope.$broadcast('post:loadStart');
+            $rootScope.$broadcast('progress:start');
             $http({
                 method: 'GET',
                 url: queryUrl,
@@ -93,6 +94,7 @@
                 return $q.reject(error);
             }).finally(function () {
                 $rootScope.$broadcast('post:loadEnd');
+                $rootScope.$broadcast('progress:end');
             });
         }
 
