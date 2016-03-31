@@ -77,3 +77,11 @@
     font-size: 14px;
 }
 
+.s99-post-info-window-thumbnail {
+    max-width: 64px;
+    max-height: 64px;
+}
+
+.s99-post-info-window-title {
+    max-width: 96px;
+}

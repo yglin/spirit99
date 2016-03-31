@@ -68,6 +68,7 @@ describe(' - Spirit99', function() {
                 expect(markers.count()).toBe(posts.length);
             });
 
+
             it(' - Should see category icons of markers from first channel', function() {
                 for (var key in firstChannel.categories) {
                     var category = firstChannel.categories[key];
@@ -97,7 +98,7 @@ describe(' - Spirit99', function() {
                 }, 5000);
             });
 
-            it(' - Should query posts when map zoomed', function() {
+            it(' - Should query posts after map zoomed', function() {
                 zoomIn.click();
                 zoomIn.click();
                 zoomIn.click();
@@ -109,23 +110,106 @@ describe(' - Spirit99', function() {
                     });
                 }, 5000);
             });
+
+            it(' - Should query posts after map navigated by locate address', function() {
+                var buttonLocator = element(by.id('s99-open-dialog-locator'));
+                var inputLocator = element(by.xpath('//*[@id="s99-input-locator-search-text"]//input'));
+                var locationQueries = element.all(by.xpath('//div[contains(@class, "s99-items-locator-address")]'));
+                var confirm = element(by.id('s99-dialog-locator-button-confirm'));
+                buttonLocator.click();
+                inputLocator.click();
+                inputLocator.sendKeys('彰化市');
+                confirm.click();
+                browser.wait(function () {
+                    return markers.count().then(function (count) {
+                        return count < posts.length;
+                    });
+                }, 5000);                
+            });
+        });
+
+        describe(' - Read post', function() {
+            
+            var post, marker, infoWindow;
+            beforeEach(function() {
+                infoWindow = element(by.id('s99-marker-info-window'));
+                post = posts[posts.length - 1];
+                marker = markers.filter(function (elem, index) {
+                    return elem.getAttribute('title').then(function (title) {
+                        return title == post.title;
+                    });
+                }).first();
+
+                marker.click();
+                browser.wait(function () {
+                    return infoWindow.isDisplayed();
+                },2000);
+            });
+
+            it(' - Click on post marker should show the info window of post-item-view', function() {
+                expect(infoWindow.element(by.css('.s99-post-info-window-title')).getText()).toEqual(post.title);
+                expect(infoWindow.element(by.css('.s99-post-info-window-thumbnail')).getAttribute('src')).toEqual(post.thumbnail);
+            });
+
+            it(' - Click on "s99-button-link-to-post" redirect to post\'s "read-url"', function() {
+                infoWindow.element(by.css('.s99-post-info-window-title')).click()
+                .then(function () {
+                    browser.ignoreSynchronization = true;
+                    browser.wait(function () {
+                        return browser.getCurrentUrl().then(function (url) {
+                            return url == firstChannel['read-url'].replace(':id', post.id);
+                        });
+                    }, 5000).then(function () {
+                        browser.ignoreSynchronization = false;
+                    }, function () {
+                        fail();
+                        browser.ignoreSynchronization = false;
+                    });
+                });
+            });
         });
 
         describe(' - Sidenav post list', function() {
+
+            var post, postItems;
+            beforeEach(function() {
+                post = posts[0];
+                postItems = element.all(by.css('.s99-post-item'));
+                element(by.id('s99-open-sidenav-posts')).click();                
+                expect(element(by.id('s99-post-list')).isDisplayed()).toBe(true);
+            });
             
             it(' - Should show posts in posts sidenav', function() {
-                expect(element(by.id('s99-open-sidenav-posts')).isDisplayed()).toBe(true);
-                element(by.id('s99-open-sidenav-posts')).click();
-                expect(element(by.id('s99-post-list')).isDisplayed()).toBe(true);
-                expect(element.all(by.css('.s99-post-item')).count()).toBe(posts.length);
+                expect(postItems.count()).toBe(posts.length);
             });
 
             it(' - Can search title in post list', function() {
-                element(by.id('s99-open-sidenav-posts')).click();
                 element(by.model('postListVM.search.title')).sendKeys('你');
                 expect(element.all(by.css('.s99-post-item')).count()).toBe(5);
             });
+            
+            it(' - Click on post title redirect to post\'s "read-url"', function() {
+                var postTitle = postItems.filter(function (elem, index) {
+                    return elem.element(by.css('.s99-post-title')).getText().then(function (title) {
+                        return title == post.title;
+                    });
+                }).first();
+                postTitle.click().then(function () {
+                    browser.ignoreSynchronization = true;
+                    browser.wait(function () {
+                        return browser.getCurrentUrl().then(function (url) {
+                            return url == firstChannel['read-url'].replace(':id', post.id);
+                        });
+                    }, 5000).then(function () {
+                        browser.ignoreSynchronization = false;
+                    }, function () {
+                        fail();
+                        browser.ignoreSynchronization = false;
+                    });
+                });
+            });
         });
+
 
         describe(' - Filter posts', function() {
 
@@ -212,21 +296,47 @@ describe(' - Spirit99', function() {
         });
 
         describe('- Create post', function() {
+            var infoWindow;
+            beforeEach(function() {
+                // Hide all markers to prevent them from obscuring clicking on map
+                element(by.id('s99-open-sidenav-filter')).click();
+                element(by.id('s99-button-hide-all-categories')).click();
+                element(by.css('md-backdrop')).click();
+                
+                infoWindow = element(by.id('s99-info-window-create-post'));
+                map.click();
+            });
 
-            it(' - Click on map to create new post', function() {
-                map.click().then(function () {
+            it(' - Click on map to pop the info-window for creating new post', function() {
+                browser.wait(function () {
+                    return infoWindow.isDisplayed();
+                }, 2000);
+            });
+
+            it(' - Clicking on "s99-button-create-post" redirects to channel\'s "create-url"', function() {
+                var pattern = firstChannel['create-url'].replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')
+                + '\\/?\\?latitude=\\d+\\.\\d+' + '.*' + '\\&longitude=\\d+\\.\\d+' + '.*';
+                var regexUrl = new RegExp(pattern);
+                browser.wait(function () {
+                    return infoWindow.isDisplayed();
+                }, 2000);
+                infoWindow.element(by.id('s99-button-create-post')).click()
+                .then(function () {
                     browser.ignoreSynchronization = true;
                     browser.wait(function () {
                         return browser.getCurrentUrl().then(function (url) {
-                            return url.indexOf(firstChannel['create-url']) == 0;
+                            return url.match(regexUrl);
                         });
                     }, 5000).then(function () {
                         browser.ignoreSynchronization = false;
                     }, function () {
+                        fail();
                         browser.ignoreSynchronization = false;
                     });
                 });
+
             });
         });
+
     });  
 });

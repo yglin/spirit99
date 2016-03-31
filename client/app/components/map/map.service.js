@@ -168,6 +168,7 @@
         }
 
         function navigateTo (location) {
+            $rootScope.$broadcast('map:navigate');
             self.map.center.latitude = location.latitude;
             self.map.center.longitude = location.longitude;
             if (location.zoom) {

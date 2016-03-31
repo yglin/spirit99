@@ -24,7 +24,7 @@
                 },
                 function (error) {
                     $log.warn(error);
-                    Dialog.alert('定位失敗', '定位失敗，錯誤訊息如下：<br><p>' + JSON.stringify(error) + '</p>');
+                    Dialog.alert('定位失敗', '定位失敗，錯誤訊息如下：<br><p>' + error.message + '</p>');
                     deferred.reject(error);
                 });
             }

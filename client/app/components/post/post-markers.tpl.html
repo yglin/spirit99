@@ -1,2 +1,10 @@
-<ui-gmap-markers models="postMarkersVM.posts" coords='"self"' options='"options"'>
+<ui-gmap-markers models="postMarkersVM.posts" coords='"self"' options='"options"' events='postMarkersVM.events'>
+<!--     <ui-gmap-windows show='"showInfoWindow"' templateUrl='"postMarkersVM.infoWindowTemplateUrl"' templateParameter='"self"' ng-cloak>
+    </ui-gmap-windows>
+ -->
 </ui-gmap-markers>
+<ui-gmap-window coords='postMarkersVM.infoWindow.coords' control='postMarkersVM.infoWindow.control' show='postMarkersVM.infoWindow.show' options='postMarkersVM.infoWindow.options' templateUrl='postMarkersVM.infoWindow.templateUrl' templateParameter='postMarkersVM.infoWindow.templateParameter'>
+</ui-gmap-window>    
+<!-- <ui-gmap-window coords='postMarkersVM.infoWindowCreate.coords' control='postMarkersVM.infoWindowCreate.control' show='postMarkersVM.infoWindowCreate.show' options='postMarkersVM.infoWindowCreate.options' templateUrl='postMarkersVM.infoWindowCreate.templateUrl' templateParameter='postMarkersVM.infoWindowCreate.templateParameter'>
+</ui-gmap-window>    
+ -->

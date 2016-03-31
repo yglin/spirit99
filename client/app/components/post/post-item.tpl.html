@@ -6,8 +6,10 @@
     <div layout='row' layout-align='start center'>
         <img flex='40' ng-if='postItemVM.post.thumbnail'
         ng-src="{{postItemVM.post.thumbnail}}" class='s99-post-thumbnail'>
-        <div flex layout-padding layout-fill>
-            {{postItemVM.post.title}}
-        </div>
+        <a ng-href='{{postItemVM.post["read-url"]}}'>
+            <div flex layout-padding layout-fill class='s99-post-title'>
+                {{postItemVM.post.title}}
+            </div>
+        </a>
     </div>
 </div>

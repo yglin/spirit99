@@ -8,6 +8,7 @@ exports.channels = channels();
 exports.newChannel = newChannel();
 exports.categories = categories();
 exports.mapTaiwan = mapTaiwan();
+exports.bounds = bounds();
 exports.genPosts = genPosts;
 exports.locationQueries = locationQueries();
 exports.geolocation = geolocation();
@@ -25,7 +26,8 @@ function channels () {
                 'intro-url': 'http://www.google.com',
                 'logo-url': 'https://yt3.ggpht.com/-Gd9lF_AqQPk/AAAAAAAAAAI/AAAAAAAAAAA/afbtVZjs18E/s88-c-k-no/photo.jpg',
                 'query-url': 'http://in.these.arms',
-                'create-url': 'http://www.google.com.tw',
+                'create-url': 'https://www.google.com.tw',
+                'read-url': 'https://www.google.com.tw/posts/:id',
                 categories: categories()
             },
             posts: genPosts({count: 23})
@@ -37,7 +39,7 @@ function channels () {
                 id: 'localooxx',
                 title: '呆呆要不要借醬油',
                 description: '要不要要不不要要不要要要要不要要不要ㄚ呆呆',
-                'intro-url': 'http://www.google.com',
+                'intro-url': 'https://www.google.com',
                 'logo-url': 'https://www.evansville.edu/residencelife/images/greenLogo.png',
                 'query-url': 'http://these.days/the/stars/seem/out/of/reach',
                 'create-url': 'http://channels.9493.tw/localooxx/create',
@@ -54,10 +56,11 @@ function newChannel () {
             id: 'birdy-go-home',
             title: '小小鳥兒要回家',
             description: '幫助在外流浪的鳥兒回到鳥奴身邊',
-            'intro-url': 'http://www.google.com',
+            'intro-url': 'https://www.google.com',
             'logo-url': 'http://www.mrspeaker.net/images/wafty-icon.png',
             'query-url': 'http://localhost:3000/birdy-go-home/post/',
             'create-url': 'http://channels.9493.tw/birdy-go-home/create',
+            'read-url': 'http://channels.9493.tw/birdy-go-home/posts/:id',
             categories: categories()
         },
         posts: genPosts({count: 31})
@@ -72,17 +75,25 @@ function genPosts(options) {
     var thumbnails = fakeThumbnails();
     var fakeTitles = fakePostTitles(count);
     var posts = [];
+
+    var radius = 0.0;
+    var radius_increment = 2.0 / count;
+    var angle = 0.0;
+    var angle_increment = Math.PI / 2;
     for (var i = 0; i < count; i++) {
+        radius += radius_increment;
+        angle += angle_increment;
+        angle_increment *= 0.9;
         var post = {};
         post.id = i + 1;
         post.title = fakeTitles[i];
-        post.latitude = 23.973875 + 2 * (0.5 - Math.random());
-        post.longitude = 120.982024 + 2 * (0.5 - Math.random());
+        post.latitude = 23.973875 + radius * Math.sin(angle);
+        post.longitude = 120.982024 + radius * Math.cos(angle);
         post.create_time = pickDateInTurn();
         if((i % categoryIDs.length + 1) != 0){
             post.category = categoryIDs[i % categoryIDs.length];
         }
-        if(Math.random() > 0.5){
+        if(i > (count * 1 / 5)){
             post.thumbnail = _.sample(thumbnails);
         }
         posts.push(post);
@@ -174,6 +185,13 @@ function mapTaiwan () {
             southwest: {latitude: 0, longitude: 0},
             northeast: {latitude: 0, longitude: 0}
         }
+    };
+}
+
+function bounds () {
+    return {
+        southwest: {latitude: 0, longitude: 0},
+        northeast: {latitude: 0, longitude: 0}
     };
 }
 

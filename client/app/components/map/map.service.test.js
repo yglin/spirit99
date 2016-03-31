@@ -241,6 +241,13 @@ describe('Map', function () {
                 longitude: 99.999999
             }
         });
+
+        it(' - Should $broadcast "map:navigate" event', function() {
+            var onNavigate = jasmine.createSpy('onNavigate');
+            scope.$on('map:navigate', onNavigate);
+            Map.navigateTo(location);
+            expect(onNavigate).toHaveBeenCalled();
+        });
         
         it(' - Should set Map.map.center to location\'s coordinate', function() {
             Map.navigateTo(location);

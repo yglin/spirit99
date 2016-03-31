@@ -19,6 +19,8 @@
             'dragstart': Map.broadcastEvent,
             'dragend': Map.broadcastEvent,
             // 'drag': Map.broadcastEvent
+            'bounds_changed': Map.broadcastEvent,
+            'zoom_changed': Map.broadcastEvent
         };
         // // Publish-Subscribe events
         // $scope.$on('markers:refresh', handlerMarkersRefresh);

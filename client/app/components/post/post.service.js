@@ -11,8 +11,11 @@
     function Post($rootScope, $window, $timeout, $q, $log, $http, CONFIG, Channel, Map, Category, PostFilter) {
         var self = this;
         self.posts = [];
+        self.lastQuery = {};
+        self.issueQuery = issueQuery;
         self.REQUIRED_FIELDS = REQUIRED_FIELDS();
         // self.icons = ICONS();
+        self.onMapIdleReloadPosts = onMapIdleReloadPosts;
         self.validate = validate;
         self.normalize = normalize;
         self.reloadPosts = reloadPosts;
@@ -24,17 +27,46 @@
         ////////////////
         function activate () {
             $rootScope.$on('channel:tuned', function () {
-                self.reloadPosts();                    
+                self.issueQuery();
             });
-            $rootScope.$on('map:idle', function () {
-                self.reloadPosts();                    
+            $rootScope.$on('map:dragend', function () {
+                self.issueQuery();
             });
+            
+            $rootScope.$on('map:zoom_changed', function () {
+                self.onMapIdleReloadPosts();
+            });
+
+            $rootScope.$on('map:navigate', function () {
+                self.onMapIdleReloadPosts();
+            });
+
             $rootScope.$on('post:filterChanged', function () {
                 self.applyFilters();
             });
-            $rootScope.$on('map:click', function (event, location) {
-                self.prmsCreate(location);
-            });
+
+            // $rootScope.$on('map:click', function (event, location) {
+            //     self.prmsCreate(location);
+            // });
+        }
+
+        function onMapIdleReloadPosts () {
+            if (!self.unbindOnMapIdleReloadPosts) {
+                // Listen for event "map:idle"
+                self.unbindOnMapIdleReloadPosts = $rootScope.$on('map:idle', function () {
+                    self.issueQuery();
+                    // Clear listening, until next time "map:zoom_changed" event is on
+                    self.unbindOnMapIdleReloadPosts();
+                    self.unbindOnMapIdleReloadPosts = null;
+                });
+            }            
+        }
+
+        function issueQuery () {
+            self.lastQuery.channelID = Channel.tunedInChannelID;
+            self.lastQuery.bounds = Map.map.bounds;
+            self.lastQuery.dirty = true;
+            self.reloadPosts(self.lastQuery);
         }
 
         function validate (post) {
@@ -58,33 +90,41 @@
             post.options.title = post.title;
             post.options.icon = Category.getIcon(post.category);
             if (CONFIG.env == 'development') {
+                post.options.zIndex = post.id * 100;
                 post.options.optimized = false;
             }
 
             post.options.visible = PostFilter.filter(post);
+
+            var readUrl = Channel.getReadUrl();
+            if (readUrl) {
+                post['read-url'] = readUrl.replace(':id', post.id);
+            }
         }
 
-        function reloadPosts () {
+        function reloadPosts (query) {
             self.posts.length = 0;
-            var queryUrl = Channel.getQueryUrl();
+            var queryUrl = Channel.getQueryUrl(query.channelID);
             if (!queryUrl) {
                 return;
             }
-            var bounds = Map.getBounds();
-            $rootScope.$broadcast('post:loadStart');
+            // $rootScope.$broadcast('post:loadStart');
             $rootScope.$broadcast('progress:start');
+            query.dirty = false;
             $http({
                 method: 'GET',
                 url: queryUrl,
                 params: {
-                    bounds: bounds
+                    bounds: query.bounds
                 }
             }).then(function (response) {
-                for (var i = 0; i < response.data.length; i++) {
-                    var post = response.data[i];
-                    if (self.validate(post)) {
-                        self.normalize(post);
-                        self.posts.push(post);
+                if (!query.dirty) {
+                    for (var i = 0; i < response.data.length; i++) {
+                        var post = response.data[i];
+                        if (self.validate(post)) {
+                            self.normalize(post);
+                            self.posts.push(post);
+                        }
                     }
                 }
                 return $q.resolve(self.posts);
@@ -93,7 +133,7 @@
                 $log.warn(error.data);
                 return $q.reject(error);
             }).finally(function () {
-                $rootScope.$broadcast('post:loadEnd');
+                // $rootScope.$broadcast('post:loadEnd');
                 $rootScope.$broadcast('progress:end');
             });
         }

@@ -25,6 +25,7 @@
         self.getCategories = getCategories;
         self.getQueryUrl = getQueryUrl;
         self.getCreateUrl = getCreateUrl;
+        self.getReadUrl = getReadUrl;
 
         activate();
 
@@ -82,13 +83,23 @@
             }
         }
 
+        function getReadUrl (channelID) {
+            var channel = self.getChannel(channelID);
+            if(!channel || !('read-url' in channel)){
+                // $log.error('Can not find "query-url" in channel: ' + channel);
+                return null;
+            }
+            else{
+                return channel['read-url'];
+            }
+        }
+
         function validate (channel) {
             var required_fields = {
                 id: 'string',
                 title: 'string',
                 description: 'string',
                 'query-url': 'url',
-                'create-url': 'url'
             };
             for (var key in required_fields) {
                 if (!(key in channel)) {

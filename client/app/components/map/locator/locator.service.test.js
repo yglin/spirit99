@@ -1,6 +1,6 @@
 'use strict';
 
-var fakeData = require('../../../mocks/data.js');
+var fakeData = require('../../../../mocks/data.js');
 
 describe('Locator', function () {
     beforeEach(angular.mock.module('spirit99'));
