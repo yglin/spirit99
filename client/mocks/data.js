@@ -27,7 +27,6 @@ function channels () {
                 'logo-url': 'https://yt3.ggpht.com/-Gd9lF_AqQPk/AAAAAAAAAAI/AAAAAAAAAAA/afbtVZjs18E/s88-c-k-no/photo.jpg',
                 'query-url': 'http://in.these.arms',
                 'create-url': 'https://www.google.com.tw',
-                'read-url': 'https://www.google.com.tw/posts/:id',
                 categories: categories()
             },
             posts: genPosts({count: 23})
@@ -60,7 +59,6 @@ function newChannel () {
             'logo-url': 'http://www.mrspeaker.net/images/wafty-icon.png',
             'query-url': 'http://localhost:3000/birdy-go-home/post/',
             'create-url': 'http://channels.9493.tw/birdy-go-home/create',
-            'read-url': 'http://channels.9493.tw/birdy-go-home/posts/:id',
             categories: categories()
         },
         posts: genPosts({count: 31})

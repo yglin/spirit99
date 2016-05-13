@@ -8,11 +8,13 @@
             controller: 'MainController',
             controllerAs: 'mainVM',
             templateUrl: 'app/layout/main/main.html',
-            // resolve: {
-            //     mapInstances: function (uiGmapIsReady) {
-            //         return uiGmapIsReady.promise(1);
-            //     }
-            // }
+            resolve: {
+                googleMapsApi: ['uiGmapGoogleMapApi', function (uiGmapGoogleMapApi) {
+                    return uiGmapGoogleMapApi.then(function (googleMapsApi) {
+                        return googleMapsApi;
+                    });
+                }]
+            }
         });
         $routeProvider.otherwise({redirectTo: '/'});
     }]);

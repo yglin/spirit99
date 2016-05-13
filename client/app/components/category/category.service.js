@@ -5,13 +5,12 @@
         .module('spirit99')
         .service('Category', Category);
 
-    Category.$inject = ['$rootScope', 'Channel', 'nodeValidator', 'uiGmapGoogleMapApi'];
+    Category.$inject = ['$rootScope', 'nodeValidator', 'uiGmapGoogleMapApi'];
 
     /* @ngInject */
-    function Category($rootScope, Channel, nodeValidator, uiGmapGoogleMapApi) {
+    function Category($rootScope, nodeValidator, uiGmapGoogleMapApi) {
         var self = this;
         self.CATEGORY_MISC = CATEGORY_MISC();
-        self.ICON_SCALED_SIZE = null;
         self.categories = {};
         self.validate = validate;
         self.normalize = normalize;
@@ -22,14 +21,13 @@
         self.hideAll = hideAll;
         self.showAll = showAll;
 
+        var gMapApi;
+
         activate();
 
         function activate () {
-            uiGmapGoogleMapApi.then(function (gMapApi) {
-                self.ICON_SCALED_SIZE = new gMapApi.Size(32, 32);
-            });
-            $rootScope.$on('channel:tuned', function () {
-                self.rebuildCategories();
+            uiGmapGoogleMapApi.then(function (googleMaps) {
+                gMapApi = googleMaps;
             });
         }
 
@@ -52,24 +50,49 @@
         }
 
         function normalize (category) {
-            if (category.icon && nodeValidator.isURL(category.icon)) {
-                category.icon = {
-                    url: category.icon
-                };
+            // build icon object
+            if (gMapApi) {
+                if (!category.icon) {
+                    category.icon = {};
+                }
+                if (nodeValidator.isURL(category.icon)) {
+                    category.icon = {
+                        url: category.icon
+                    };
+                }
+                var scaledSize = [32, 32];
+                if (category.icon.scaledSize) {
+                    scaledSize[0] = category.icon.scaledSize[0];
+                    scaledSize[1] = category.icon.scaledSize[1];
+                }
+                category.icon.scaledSize = new gMapApi.Size(scaledSize[0], scaledSize[1]);
+
+                if (category.icon.anchor) {
+                    if (category.icon.anchor == 'left') {
+                        category.icon.anchor = new gMapApi.Point(0, scaledSize[1]);
+                    }
+                    else if (category.icon.anchor == 'middle') {
+                        category.icon.anchor = new gMapApi.Point(scaledSize[0] * 0.5, scaledSize[1]);
+                    }
+                    else if (category.icon.anchor == 'right') {
+                        category.icon.anchor = new gMapApi.Point(scaledSize[0], scaledSize[1]);
+                    }
+                    else {
+                        delete category.icon.anchor;
+                    }                    
+                }
             }
-            if (!category.icon.scaledSize && self.ICON_SCALED_SIZE) {
-                category.icon.scaledSize = self.ICON_SCALED_SIZE;
-            }
+
             if (!category.visible) {
                 category.visible = true;
             }
         }
 
-        function rebuildCategories () {
-            self.categories = Channel.getCategories();
+        function rebuildCategories (categories) {
+            self.categories = categories;
             for (var key in self.categories) {
                 if (self.validate(self.categories[key])) {
-                    self.normalize(self.categories[key], key);
+                    self.normalize(self.categories[key]);
                 }
                 else {
                     delete self.categories[key];
@@ -118,9 +141,9 @@
         function CATEGORY_MISC () {
             return {
                 title: '其他',
-                icon: {
-                    url: 'https://www.serif.com/appresources/WPX6/Tutorials/en-gb/graphics_help/google_map_marker.png'
-                }
+                // icon: {
+                //     url: 'https://www.serif.com/appresources/WPX6/Tutorials/en-gb/graphics_help/google_map_marker.png'
+                // }
             };
         }
     }

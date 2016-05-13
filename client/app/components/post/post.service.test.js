@@ -179,10 +179,6 @@ describe('Post', function () {
             expect(typeof post.options.icon).toEqual('object');
             expect(typeof post.options.visible).toEqual('boolean');
         });
-
-        it(' - If channel has "read-url", set it to post["read-url"] with replaced post id', function() {
-            expect(post["read-url"]).toEqual(readUrl.replace(':id', post.id));
-        });
     });
 
     describe(' - reloadPosts()', function() {

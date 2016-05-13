@@ -44,10 +44,6 @@
             $rootScope.$on('post:filterChanged', function () {
                 self.applyFilters();
             });
-
-            // $rootScope.$on('map:click', function (event, location) {
-            //     self.prmsCreate(location);
-            // });
         }
 
         function onMapIdleReloadPosts () {
@@ -80,6 +76,14 @@
         }
         
         function normalize (post) {
+            if (post._id) {
+                post.id = post._id;
+            }
+
+            if (post.createdAt) {
+                post.create_time = post.createdAt;
+            }
+
             if (!post.category) {
                 post.category = 'misc';
             }
@@ -95,11 +99,6 @@
             }
 
             post.options.visible = PostFilter.filter(post);
-
-            var readUrl = Channel.getReadUrl();
-            if (readUrl) {
-                post['read-url'] = readUrl.replace(':id', post.id);
-            }
         }
 
         function reloadPosts (query) {
@@ -159,7 +158,6 @@
         //////////////////// Functions for initialize default CONSTANTS
         function REQUIRED_FIELDS () {
             return {
-                id: 'number',
                 title: 'string',
                 latitude: 'number',
                 longitude: 'number'

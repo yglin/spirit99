@@ -5,13 +5,13 @@
         .module('spirit99')
         .service('Channel', Channel);
 
-    Channel.$inject = ['$q', '$log', '$http', '$rootScope', 'localStorageService', 'Dialog', 'nodeValidator'];
+    Channel.$inject = ['$q', '$log', '$http', '$rootScope', 'localStorageService', 'Dialog', 'nodeValidator', 'Category', 'uiGmapGoogleMapApi'];
 
     /* @ngInject */
-    function Channel($q, $log, $http, $rootScope, localStorage, Dialog, nodeValidator) {
+    function Channel($q, $log, $http, $rootScope, localStorage, Dialog, nodeValidator, Category, uiGmapGoogleMapApi) {
         var self = this;
         self.channels = localStorage.get('channels');
-        self.tunedInChannelID = localStorage.get('last-channel-id');
+        self.tunedInChannelID = undefined;
         self.prmsAdd = prmsAdd;
         self.prmsUpdate = prmsUpdate;
         self.prmsDelete = prmsDelete;
@@ -25,7 +25,6 @@
         self.getCategories = getCategories;
         self.getQueryUrl = getQueryUrl;
         self.getCreateUrl = getCreateUrl;
-        self.getReadUrl = getReadUrl;
 
         activate();
 
@@ -36,9 +35,13 @@
             for (var id in self.channels){
                 self.normalize(self.channels[id]);
             }
-            if (self.tunedInChannelID in self.channels) {
-                self.tuneIn(self.tunedInChannelID);
-            };
+
+            uiGmapGoogleMapApi.then(function () {
+                var lastChannelId = localStorage.get('last-channel-id');
+                if (lastChannelId in self.channels) {
+                    self.tuneIn(lastChannelId);
+                };                
+            });
         }
 
         function getChannel(channelID) {
@@ -80,17 +83,6 @@
             }
             else{
                 return channel['create-url'];
-            }
-        }
-
-        function getReadUrl (channelID) {
-            var channel = self.getChannel(channelID);
-            if(!channel || !('read-url' in channel)){
-                // $log.error('Can not find "query-url" in channel: ' + channel);
-                return null;
-            }
-            else{
-                return channel['read-url'];
             }
         }
 
@@ -206,6 +198,7 @@
                 self.prmsIsOnline(channel)
                 .then(function () {
                     self.tunedInChannelID = channelID;
+                    Category.rebuildCategories(channel.categories);
                     $rootScope.$broadcast('channel:tuned', self.tunedInChannelID);
                     localStorage.set('last-channel-id', self.tunedInChannelID);
                 }, function (error) {

@@ -44,6 +44,12 @@
                 }
             });
 
+            $scope.$on('map:zoom_changed', function () {
+                if (typeof postMarkersVM.infoWindow.control.hideWindow == 'function') {
+                    postMarkersVM.infoWindow.control.hideWindow();
+                }
+            });
+
             $scope.$on('map:click', function (event, location) {
                 if (Channel.getCreateUrl()) {
                     postMarkersVM.showInfoWindow(location,

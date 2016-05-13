@@ -53,6 +53,7 @@
         }
 
         function inBetween (theTime, startTime, endTime) {
+            var theTime = new Date(theTime);
             if(theTime >= startTime && theTime <= endTime){
                 return true;
             }
