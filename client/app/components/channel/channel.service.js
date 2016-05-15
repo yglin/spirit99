@@ -5,14 +5,14 @@
         .module('spirit99')
         .service('Channel', Channel);
 
-    Channel.$inject = ['$q', '$log', '$http', '$rootScope', 'localStorageService', 'Dialog', 'nodeValidator', 'Category', 'uiGmapGoogleMapApi'];
+    Channel.$inject = ['$q', '$log', '$http', '$routeParams', '$location', '$rootScope', 'localStorageService', 'Dialog', 'nodeValidator', 'Category', 'uiGmapGoogleMapApi'];
 
     /* @ngInject */
-    function Channel($q, $log, $http, $rootScope, localStorage, Dialog, nodeValidator, Category, uiGmapGoogleMapApi) {
+    function Channel($q, $log, $http, $routeParams, $location, $rootScope, localStorage, Dialog, nodeValidator, Category, uiGmapGoogleMapApi) {
         var self = this;
-        self.channels = localStorage.get('channels');
+        self.channels = undefined;
         self.tunedInChannelID = undefined;
-        self.prmsAdd = prmsAdd;
+        self.import = _import;
         self.prmsUpdate = prmsUpdate;
         self.prmsDelete = prmsDelete;
         self.prmsIsOnline = prmsIsOnline;
@@ -31,15 +31,24 @@
         ////////////////
         
         function activate () {
+            self.lastChannelId = localStorage.get('last-channel-id');
+            self.channels = localStorage.get('channels');
+
             self.channels = self.channels === null ? {} : self.channels;
             for (var id in self.channels){
                 self.normalize(self.channels[id]);
             }
 
             uiGmapGoogleMapApi.then(function () {
-                var lastChannelId = localStorage.get('last-channel-id');
-                if (lastChannelId in self.channels) {
-                    self.tuneIn(lastChannelId);
+                var importPortal = $location.search().import;
+                if (importPortal) {
+                    self.import(importPortal)
+                    .then(function (channel) {
+                        self.tuneIn(channel.id);
+                    });
+                }
+                else if (self.lastChannelId in self.channels) {
+                    self.tuneIn(self.lastChannelId);
                 };                
             });
         }
@@ -216,7 +225,7 @@
             self.channels[channelID].runtime.isOffline = true;
         }
 
-        function prmsAdd (portalUrl) {
+        function _import (portalUrl) {
             return $http.get(portalUrl)
             .then(function (response) {
                 var channel = response.data;

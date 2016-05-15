@@ -302,7 +302,7 @@ describe('Channel', function () {
         });
     });
 
-    describe(' - prmsAdd()', function() {
+    describe(' - import()', function() {
         var newChannel, onSuccess, onFail;
         beforeEach(function() {
             newChannel = FakeData.newChannel;
@@ -320,7 +320,7 @@ describe('Channel', function () {
         });
 
         it(' - Should raise alert dialog on http fail', function() {
-            Channel.prmsAdd('http://highway.to.hell').then(onSuccess, onFail);
+            Channel.import('http://highway.to.hell').then(onSuccess, onFail);
             $httpBackend.flush();
             $rootScope.$digest();
             expect(onFail).toHaveBeenCalled();
@@ -328,7 +328,7 @@ describe('Channel', function () {
         });
 
         it(' - Should call validate() upon new channel', function() {
-            Channel.prmsAdd('http://houston.ready.to.go').then(onSuccess, onFail);
+            Channel.import('http://houston.ready.to.go').then(onSuccess, onFail);
             $httpBackend.flush();
             $rootScope.$digest();
             expect(Channel.validate).toHaveBeenCalledWith(newChannel);
@@ -336,21 +336,21 @@ describe('Channel', function () {
 
         it(' - Should raise alert dialog on validate fail', function() {
             Channel.validate.and.returnValue(false);
-            Channel.prmsAdd('http://houston.ready.to.go').then(onSuccess, onFail);
+            Channel.import('http://houston.ready.to.go').then(onSuccess, onFail);
             $httpBackend.flush();
             $rootScope.$digest();
             expect(Dialog.alert).toHaveBeenCalled();                        
         });
 
         it(' - Should call normalize() upon new channel', function() {
-            Channel.prmsAdd('http://houston.ready.to.go').then(onSuccess, onFail);
+            Channel.import('http://houston.ready.to.go').then(onSuccess, onFail);
             $httpBackend.flush();
             $rootScope.$digest();
             expect(Channel.normalize).toHaveBeenCalledWith(newChannel);
         });
 
         it(' - Should add new channel into Channel.channels on success', function() {
-            Channel.prmsAdd('http://houston.ready.to.go').then(onSuccess, onFail);
+            Channel.import('http://houston.ready.to.go').then(onSuccess, onFail);
             $httpBackend.flush();
             $rootScope.$digest();
             expect(Channel.channels[newChannel.id]).toEqual(newChannel);
@@ -358,7 +358,7 @@ describe('Channel', function () {
 
         it(' - Should save channels on success', function() {
             spyOn(localStorage, 'set');
-            Channel.prmsAdd('http://houston.ready.to.go').then(onSuccess, onFail);
+            Channel.import('http://houston.ready.to.go').then(onSuccess, onFail);
             $httpBackend.flush();
             $rootScope.$digest();
             expect(localStorage.set).toHaveBeenCalledWith('channels', Channel.channels);

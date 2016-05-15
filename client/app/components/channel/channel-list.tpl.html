@@ -6,13 +6,19 @@
         </div>
         <div layout='row'>
             <md-input-container class='md-block' flex>
-                <input id='s99-input-add-channel' ng-model='channelListVM.newPortalUrl' placeholder='連結新的電台'>
-                <div class='s99-input-hint'>請輸入電台傳送門網址</div>
+                <input id='s99-input-add-channel' ng-model='channelListVM.newPortalUrl' placeholder='加入新的頻道'>
+                <div class='s99-input-hint'>請輸入頻道傳送門(Portal)網址</div>
             </md-input-container>
             <md-button class='md-fab md-mini' id='s99-button-add-channel'
             ng-click="channelListVM.addChannel(channelListVM.newPortalUrl)">
-                <md-icon class='material-icons'>cast_connected</md-icon>
+                <md-icon class='material-icons'>add</md-icon>
             </md-button>
+        </div>
+        <div layout='row' layout-align='end center'>
+            <span>或者...</span>
+            <div>
+                <md-button class='md-primary' ng-href='{{channelListVM.repositoryLink}}'>瀏覽頻道庫</md-button>
+            </div>
         </div>
     </md-content>
 </div>

@@ -5,10 +5,10 @@
         .module('spirit99')
         .controller('ChannelListController',ChannelListController);
 
-    ChannelListController.$inject = ['Channel'];
+    ChannelListController.$inject = ['CONFIG', 'Channel'];
 
     /* @ngInject */
-    function ChannelListController(Channel) {
+    function ChannelListController(CONFIG, Channel) {
         var channelListVM = this;
         channelListVM.focusOn = '';
         channelListVM.channels = Channel.channels;
@@ -19,10 +19,13 @@
         ////////////////
 
         function activate() {
+            if (CONFIG.env == 'development') {
+                channelListVM.repositoryLink = 'http://localhost:9000/channels';
+            }
         }
 
         function addChannel (portalUrl) {
-            Channel.prmsAdd(portalUrl).then(function (newChannel) {
+            Channel.import(portalUrl).then(function (newChannel) {
                 Channel.tuneIn(newChannel.id);
             });
         }
