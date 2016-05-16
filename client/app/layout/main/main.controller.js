@@ -5,12 +5,13 @@
         .module('spirit99')
         .controller('MainController',MainController);
 
-    MainController.$inject = ['$scope', 'DEFAULTS'];
+    MainController.$inject = ['$scope', 'CONFIG', 'DEFAULTS'];
 
     /* @ngInject */
-    function MainController($scope, DEFAULTS) {
-        var mainVM = this;
-        mainVM.title = 'Main';
+    function MainController($scope, CONFIG, DEFAULTS) {
+        var $ctrl = this;
+        $ctrl.title = 'Main';
+        $ctrl.debug = CONFIG.debug;
 
         activate();
 

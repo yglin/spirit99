@@ -98,25 +98,6 @@
             });            
         }
 
-        // function prmsGetGeolocation () {
-        //     var deferred = $q.defer();
-        //     if($window.navigator && $window.navigator.geolocation){
-        //         $window.navigator.geolocation.getCurrentPosition(
-        //         function(position){
-        //             deferred.resolve(position);
-        //         },
-        //         function (error) {
-        //             $log.warn(error);
-        //             deferred.reject(error);
-        //         });
-        //     }
-        //     else{
-        //         $log.warn('Browser not support geolocation');
-        //         deferred.reject('Browser not support geolocation');
-        //     }
-        //     return deferred.promise;
-        // }
-
         function prmsGotoGeolocation () {
             return Geolocation.prmsGetCurrentPosition().then(function (position) {
                 self.navigateTo({
@@ -124,11 +105,6 @@
                     longitude: position.coords.longitude,
                     zoom: self.ZOOMS.STREET
                 });
-                // self.map.center = {
-                //     latitude: position.coords.latitude,
-                //     longitude: position.coords.longitude
-                // };
-                // self.map.zoom = self.ZOOMS.STREET;
             });
         }
 

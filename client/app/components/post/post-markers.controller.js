@@ -55,7 +55,7 @@
             });
 
             $scope.$on('map:click', function (event, location) {
-                if (Channel.getCreateUrl()) {
+                if (Channel.getData('create-url')) {
                     postMarkersVM.showInfoWindow(location,
                     'app/components/post/info-window/create.tpl.html',
                     {

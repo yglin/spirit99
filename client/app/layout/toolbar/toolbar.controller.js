@@ -12,7 +12,7 @@
         var toolbarVM = this;
         // toolbarVM.title = 'Toolbar';
         toolbarVM.isLoading = false;
-        toolbarVM.channel = Channel.getChannel();
+        toolbarVM.channel = Channel.get();
         toolbarVM.openSidenav = Sidenav.open;
 
         activate();
@@ -20,7 +20,7 @@
         function activate() {
 
             $scope.$on('channel:tuned', function () {
-                toolbarVM.channel = Channel.getChannel();
+                toolbarVM.channel = Channel.get();
             });
             $scope.$on('progress:start', function () {
                 toolbarVM.isLoading = true;

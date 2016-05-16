@@ -17,39 +17,38 @@ describe('Category', function () {
                     Size: function Size (width, height) {
                         this.width = width;
                         this.height = height;
+                    },
+                    Point: function Point (x, y) {
+                        this.x = x;
+                        this.y = y;
                     }
                 });
             }
         });
 
-        angular.mock.module(function($provide) {
-            $provide.service('Channel', mockChannel);
+        // angular.mock.module(function($provide) {
+        //     $provide.service('Channel', mockChannel);
         
-            mockChannel.$inject = [];
+        //     mockChannel.$inject = [];
         
-            function mockChannel () {
-                var self = this;
-                self.property = {};
-                self.getCategories = jasmine.createSpy('getCategories')
-                .and.callFake(function () {
-                    return FakeData.categories;
-                });
-            }
-        });
+        //     function mockChannel () {
+        //         var self = this;
+        //         self.property = {};
+        //         self.getCategories = jasmine.createSpy('getCategories')
+        //         .and.callFake(function () {
+        //             return FakeData.categories;
+        //         });
+        //     }
+        // });
 
     });
 
-    var Category, $rootScope;
+    var Category, $rootScope, categories;
     beforeEach(inject(function (_Category_, _$rootScope_) {
         Category = _Category_;
         $rootScope = _$rootScope_;
+        categories = FakeData.categories;
     }));
-
-    it(' - Should call rebuildCategories() on event channel:tuned', function() {
-        spyOn(Category, 'rebuildCategories');
-        $rootScope.$broadcast('channel:tuned');
-        expect(Category.rebuildCategories).toHaveBeenCalled();
-    });
 
     describe(' - validate()', function() {
         it(' - Should return true only when matched required fields and types', function() {
@@ -81,25 +80,22 @@ describe('Category', function () {
             spyOn(Category, 'normalize');            
         });
 
-        it(' - Should get categories from Channel', function() {
-            FakeData.categories.misc = Category.CATEGORY_MISC;
-            Category.rebuildCategories();
-            expect(Category.categories).toEqual(FakeData.categories);
-        });
-
         it(' - Should call vaildate() upon categories', function() {
-            Category.rebuildCategories();
+            Category.rebuildCategories(categories);
+            $rootScope.$digest();
             expect(Category.validate).toHaveBeenCalled();
         });
 
         it(' - Should delete invalid category', function() {
             Category.validate.and.returnValue(false);
-            Category.rebuildCategories();
+            Category.rebuildCategories(categories);
+            $rootScope.$digest();
             expect(Category.categories).toEqual({misc: Category.CATEGORY_MISC});
         });
 
         it(' - Should call normalize() upon categories', function() {
-            Category.rebuildCategories();
+            Category.rebuildCategories(categories);
+            $rootScope.$digest();
             expect(Category.normalize).toHaveBeenCalled();
         });
     });

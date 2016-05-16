@@ -4,6 +4,8 @@ var fakeData = require('../mocks/data.js');
 var mockGeolocation = require('../mocks/geolocation.js');
 var mockGeocoder = require('../mocks/geocoder.js');
 
+var mapPage = require('./map.po');
+
 describe('Spirit99 app', function() {
 
     describe(' - Map', function () {
@@ -28,39 +30,13 @@ describe('Spirit99 app', function() {
             browser.executeScript('window.localStorage.clear()');
         });
         
-        var EC, map, latitude, longitude, zoom, waitMapPanned, lastMap;
+        var EC, map, latitude, longitude, zoom;
         beforeEach(function() {
             EC = protractor.ExpectedConditions;
             map = element(by.css('.angular-google-map-container'));
             latitude = element(by.id('s99-debug-map-center-latitude'));
             longitude = element(by.id('s99-debug-map-center-longitude'));
             zoom = element(by.id('s99-debug-map-zoom'));
-            lastMap = { center: {} };
-            var latitudeChanged = function () {
-                return latitude.getText().then(function (lat) {
-                    if (lat != lastMap.center.latitude) {
-                        lastMap.center.latitude = lat;
-                        return true;
-                    }
-                    else{
-                        return false;
-                    }
-                });
-            };
-            var longitudeChanged = function () {
-                return longitude.getText().then(function (lng) {
-                    if (lng != lastMap.center.longitude) {
-                        lastMap.center.longitude = lng;
-                        return true;
-                    }
-                    else{
-                        return false;
-                    }
-                });
-            };
-
-            waitMapPanned = EC.and(latitudeChanged, longitudeChanged);
-            browser.wait(waitMapPanned, 5000);
         });
 
         it(' - Should render angular-google-map when user navigates to /map', function () {
@@ -73,8 +49,7 @@ describe('Spirit99 app', function() {
                 element(by.css('md-tab-item md-icon#s99-sidenav-tab-icon-settings')).click();                
                 element(by.id('s99-map-settings-init-map-geolocation')).click();
                 browser.refresh();
-                expect(latitude.getText()).toEqual(fakeData.geolocation.coords.latitude.toString());
-                expect(longitude.getText()).toEqual(fakeData.geolocation.coords.longitude.toString());
+                mapPage.expectCenter(fakeData.geolocation.coords.latitude.toString(), fakeData.geolocation.coords.longitude.toString());
             });
         });
 
@@ -85,22 +60,23 @@ describe('Spirit99 app', function() {
                 element(by.id('s99-map-settings-init-map-last')).click();
                 expect(element(by.id('s99-map-settings-init-map-last')).getAttribute('aria-checked')).toEqual('true');
                 element(by.css('md-backdrop')).click();
-                browser.actions().dragAndDrop(map, {x:200, y:200}).perform();
-                browser.wait(waitMapPanned, 5000).then(function () {
-                    browser.refresh();
-                    expect(latitude.getText()).toEqual(lastMap.center.latitude);                    
-                    expect(longitude.getText()).toEqual(lastMap.center.longitude);
-                });
+                mapPage.panTo('55.555555', '111.111111');
+                browser.refresh();
+                mapPage.expectCenter('55.555555', '111.111111');
             });
         });
 
         describe(' - Initial map area set to HOME_MAP', function() {
             var homeMap;
             beforeEach(function() {
-                browser.actions().dragAndDrop(map, {x:-200, y:200}).perform();
-                browser.wait(waitMapPanned, 5000).then(function () {
-                    homeMap = JSON.parse(JSON.stringify(lastMap));
-                });
+                homeMap = {
+                    center: {
+                        latitude: 11.111111,
+                        longitude: 123.456789
+                    },
+                    zoom: 12
+                };
+                mapPage.panTo(homeMap.center.latitude.toString(), homeMap.center.longitude.toString());
                 element(by.id('s99-button-open-menu')).click();
                 element(by.css('md-tab-item md-icon#s99-sidenav-tab-icon-settings')).click();                
                 element(by.id('s99-map-settings-init-map-home-map')).click();
@@ -108,12 +84,9 @@ describe('Spirit99 app', function() {
 
             afterEach(function() {
                 element(by.css('md-backdrop')).click();
-                browser.actions().dragAndDrop(map, {x:300, y:-300}).perform();                
-                browser.wait(waitMapPanned, 5000).then(function () {
-                    browser.refresh();
-                    expect(latitude.getText()).toEqual(homeMap.center.latitude);                    
-                    expect(longitude.getText()).toEqual(homeMap.center.longitude);
-                });
+                mapPage.panTo(0, 0);
+                browser.refresh();
+                mapPage.expectCenter(homeMap.center.latitude.toString(), homeMap.center.longitude.toString());
             });
 
             it(' - Set init map to HOME_MAP, home-map not in local storage yet', function () {
@@ -138,8 +111,6 @@ describe('Spirit99 app', function() {
             var inputLocator = element(by.xpath('//*[@id="s99-input-locator-search-text"]//input'));
             var locationQueries = element.all(by.xpath('//div[contains(@class, "s99-items-locator-address")]'));
             var confirm = element(by.id('s99-dialog-locator-button-confirm'));
-            // beforeEach(function() {
-            // });
             
             it(' - Should display locator dialog on pressing locator button', function() {
                 buttonLocator.click();
@@ -147,16 +118,12 @@ describe('Spirit99 app', function() {
             });
 
             it(' - Should navigate to geolocation of user if selected "My Location"', function() {
-                browser.actions().dragAndDrop(map, {x:200, y:200}).perform();
-                browser.wait(waitMapPanned, 5000);
+                mapPage.panTo(0, 0);
                 buttonLocator.click();
                 inputLocator.click();
                 locationQueries.get(0).click();                
                 confirm.click();
-                browser.wait(waitMapPanned, 5000).then(function () {
-                    expect(latitude.getText()).toEqual(fakeData.geolocation.coords.latitude.toString());
-                    expect(longitude.getText()).toEqual(fakeData.geolocation.coords.longitude.toString());
-                });
+                mapPage.expectCenter(fakeData.geolocation.coords.latitude.toString(), fakeData.geolocation.coords.longitude.toString());
             });
 
             it(' - Should navigate to first faked location given any address', function() {
@@ -164,10 +131,7 @@ describe('Spirit99 app', function() {
                 // inputLocator.click();
                 inputLocator.sendKeys('man on earth');
                 confirm.click();
-                browser.wait(waitMapPanned, 5000).then(function () {
-                    expect(latitude.getText()).toEqual(fakeData.locations[0].latitude.toString());
-                    expect(longitude.getText()).toEqual(fakeData.locations[0].longitude.toString());
-                });                
+                mapPage.expectCenter(fakeData.locations[0].latitude.toString(), fakeData.locations[0].longitude.toString());
             });
 
             it(' - Should show next-location button, naviagte to next location when pressed', function() {
@@ -178,20 +142,11 @@ describe('Spirit99 app', function() {
                 var buttonNextLocation = element(by.id('s99-button-next-location'));
                 expect(buttonNextLocation.isDisplayed()).toBe(true);
                 buttonNextLocation.click();
-                browser.wait(waitMapPanned, 5000).then(function () {
-                    expect(latitude.getText()).toEqual(fakeData.locations[1].latitude.toString());
-                    expect(longitude.getText()).toEqual(fakeData.locations[1].longitude.toString());
-                });                
+                mapPage.expectCenter(fakeData.locations[1].latitude.toString(), fakeData.locations[1].longitude.toString());
                 buttonNextLocation.click();
-                browser.wait(waitMapPanned, 5000).then(function () {
-                    expect(latitude.getText()).toEqual(fakeData.locations[2].latitude.toString());
-                    expect(longitude.getText()).toEqual(fakeData.locations[2].longitude.toString());
-                });                
+                mapPage.expectCenter(fakeData.locations[2].latitude.toString(), fakeData.locations[2].longitude.toString());
                 buttonNextLocation.click();
-                browser.wait(waitMapPanned, 5000).then(function () {
-                    expect(latitude.getText()).toEqual(fakeData.locations[0].latitude.toString());
-                    expect(longitude.getText()).toEqual(fakeData.locations[0].longitude.toString());
-                });                
+                mapPage.expectCenter(fakeData.locations[0].latitude.toString(), fakeData.locations[0].longitude.toString());
             });
 
             it(' - Should remember searched locationQueries', function() {
@@ -200,7 +155,7 @@ describe('Spirit99 app', function() {
                 inputLocator.click();
                 inputLocator.sendKeys('台灣');
                 confirm.click();
-                browser.wait(waitMapPanned, 5000);
+                mapPage.waitIdle();
                 browser.refresh();
                 buttonLocator.click();
                 inputLocator.click();

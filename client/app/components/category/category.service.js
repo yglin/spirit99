@@ -21,14 +21,11 @@
         self.hideAll = hideAll;
         self.showAll = showAll;
 
-        var gMapApi;
-
         activate();
 
+        var gMapApi = null;
+
         function activate () {
-            uiGmapGoogleMapApi.then(function (googleMaps) {
-                gMapApi = googleMaps;
-            });
         }
 
         ////////////////
@@ -51,37 +48,36 @@
 
         function normalize (category) {
             // build icon object
-            if (gMapApi) {
-                if (!category.icon) {
-                    category.icon = {};
-                }
-                if (nodeValidator.isURL(category.icon)) {
-                    category.icon = {
-                        url: category.icon
-                    };
-                }
-                var scaledSize = [32, 32];
-                if (category.icon.scaledSize) {
-                    scaledSize[0] = category.icon.scaledSize[0];
-                    scaledSize[1] = category.icon.scaledSize[1];
-                }
-                category.icon.scaledSize = new gMapApi.Size(scaledSize[0], scaledSize[1]);
+            var iconObject = {};
+            if (category.icon && nodeValidator.isURL(category.icon)) {
+                iconObject.url = category.icon;
+            }
+            else if (category.icon && category.icon.url && nodeValidator.isURL(category.icon.url)) {
+                iconObject.url = category.icon.url;
+            }
 
-                if (category.icon.anchor) {
+            if (gMapApi) {
+                // Normalize icon's size
+                if (category.icon.scaledSize && category.icon.scaledSize.length >= 2) {
+                    var scaledSizeX = category.icon.scaledSize[0] ? category.icon.scaledSize[0] : 32;
+                    var scaledSizeY = category.icon.scaledSize[1] ? category.icon.scaledSize[1] : 32;
+                    iconObject.scaledSize = new gMapApi.Size(scaledSizeX, scaledSizeY);
+                }
+
+                // Normalize icon's anchor position
+                if (category.icon.anchor && typeof category.icon.anchor == 'string') {
                     if (category.icon.anchor == 'left') {
-                        category.icon.anchor = new gMapApi.Point(0, scaledSize[1]);
+                        iconObject.anchor = new gMapApi.Point(0, scaledSize[1]);
                     }
                     else if (category.icon.anchor == 'middle') {
-                        category.icon.anchor = new gMapApi.Point(scaledSize[0] * 0.5, scaledSize[1]);
+                        iconObject.anchor = new gMapApi.Point(scaledSize[0] * 0.5, scaledSize[1]);
                     }
                     else if (category.icon.anchor == 'right') {
-                        category.icon.anchor = new gMapApi.Point(scaledSize[0], scaledSize[1]);
+                        iconObject.anchor = new gMapApi.Point(scaledSize[0], scaledSize[1]);
                     }
-                    else {
-                        delete category.icon.anchor;
-                    }                    
-                }
+                }                
             }
+            category.icon = iconObject;
 
             if (!category.visible) {
                 category.visible = true;
@@ -89,18 +85,22 @@
         }
 
         function rebuildCategories (categories) {
-            self.categories = categories;
-            for (var key in self.categories) {
-                if (self.validate(self.categories[key])) {
-                    self.normalize(self.categories[key]);
+            return uiGmapGoogleMapApi.then(function (googleMaps) {
+                gMapApi = googleMaps;
+                
+                self.categories = categories;
+                for (var key in self.categories) {
+                    if (self.validate(self.categories[key])) {
+                        self.normalize(self.categories[key]);
+                    }
+                    else {
+                        delete self.categories[key];
+                    }
                 }
-                else {
-                    delete self.categories[key];
+                if (!('misc' in self.categories)) {
+                    self.categories['misc'] = self.CATEGORY_MISC;
                 }
-            }
-            if (!('misc' in self.categories)) {
-                self.categories['misc'] = self.CATEGORY_MISC;
-            }
+            });
         }
 
         function getIcon(categoryID) {
@@ -141,9 +141,9 @@
         function CATEGORY_MISC () {
             return {
                 title: '其他',
-                // icon: {
-                //     url: 'https://www.serif.com/appresources/WPX6/Tutorials/en-gb/graphics_help/google_map_marker.png'
-                // }
+                icon: {
+                    url: 'https://raw.githubusercontent.com/Concept211/Google-Maps-Markers/master/images/marker_red.png'
+                }
             };
         }
     }

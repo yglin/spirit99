@@ -38,14 +38,15 @@ describe('Channel', function () {
         angular.mock.module(function($provide) {
             $provide.service('Category', mockCategory);
         
-            mockCategory.$inject = [];
+            mockCategory.$inject = ['$q'];
         
-            function mockCategory () {
+            function mockCategory ($q) {
                 var self = this;
                 // self.property = {};
-                // self.method = jasmine.createSpy('method')
-                // .and.callFake(function () {
-                // });
+                self.rebuildCategories = jasmine.createSpy('rebuildCategories')
+                .and.callFake(function () {
+                    return $q.resolve();
+                });
             }
         });
     });
@@ -70,6 +71,36 @@ describe('Channel', function () {
         $httpBackend = _$httpBackend_;
         localStorage = localStorageService;
     }));
+
+    describe(' - getData()', function() {
+        var targetData;
+        beforeEach(function() {
+            targetData = 'I\'m the target field data to be get';
+        });
+
+        it(' - Given 1 argument as data key, get field data of currently tuned in channel', function() {
+            Channel.tunedInChannelID = Object.keys(Channel.channels)[0];
+            Channel.channels[Channel.tunedInChannelID].targetField = targetData;
+            expect(Channel.getData('targetField')).toEqual(targetData);
+        });
+
+        it(' - Given 2 arguments as channel id and data key, get the field data of that channel', function() {
+            Channel.channels['ggyygyy'] = {
+                targetField: targetData
+            };
+            expect(Channel.getData('ggyygyy', 'targetField')).toEqual(targetData);
+        });
+
+        it(' - Otherwise get null', function() {
+            expect(Channel.getData()).toBeNull();
+            expect(Channel.getData('yyggygg')).toBeNull();
+            expect(Channel.getData()).toBeNull();
+            Channel.channels['ggyygyy'] = {
+                targetField: targetData
+            };
+            expect(Channel.getData('ggyygyy', 'targetMyS')).toBeNull();
+        });
+    });
 
     describe(' - prmsUpdate()', function() {
         var channel, onSuccess, onFail, server, brokenServer;
@@ -288,20 +319,6 @@ describe('Channel', function () {
         });
     });
 
-    describe(' - getCategories()', function() {
-        it(' - Given no channel id, should return categories of current tuned-in channel', function() {
-            Channel.tunedInChannelID = Object.keys(Channel.channels)[0];
-            var categories = Channel.channels[Channel.tunedInChannelID].categories;
-            expect(Channel.getCategories()).toBe(categories);
-        });
-
-        it(' - Given channel id, should return categories of the channel', function() {
-            var channelID = Object.keys(Channel.channels)[0];
-            var categories = Channel.channels[channelID].categories;
-            expect(Channel.getCategories(channelID)).toBe(categories);
-        });
-    });
-
     describe(' - import()', function() {
         var newChannel, onSuccess, onFail;
         beforeEach(function() {
@@ -356,22 +373,21 @@ describe('Channel', function () {
             expect(Channel.channels[newChannel.id]).toEqual(newChannel);
         });
 
-        it(' - Should save channels on success', function() {
-            spyOn(localStorage, 'set');
+        it(' - Should save channel on success', function() {
+            spyOn(Channel, 'save');
             Channel.import('http://houston.ready.to.go').then(onSuccess, onFail);
             $httpBackend.flush();
             $rootScope.$digest();
-            expect(localStorage.set).toHaveBeenCalledWith('channels', Channel.channels);
+            expect(Channel.save).toHaveBeenCalledWith(newChannel);
         });
     });
 
     describe(' - prmsDelete', function() {
-        var deleteChannel, deleteChannelID;
+        var deleteChannelID;
         beforeEach(function() {
             spyOn(Channel, 'prmsUpdate').and.returnValue($q.resolve());
             spyOn(Channel, 'prmsIsOnline').and.returnValue($q.resolve());
             deleteChannelID = Object.keys(FakeData.channels)[0];
-            deleteChannel = FakeData.channels[deleteChannelID];
         });
 
         it(' - Should raise dialog to confirm deletion', function() {
@@ -405,11 +421,12 @@ describe('Channel', function () {
             expect(onChannelDeleted).toHaveBeenCalledWith(deleteChannelID);
         });
 
-        it(' - Should save channels on success', function() {
-            spyOn(localStorage, 'set');
+        it(' - Should delete channel on success', function() {
+            spyOn(Channel, 'delete');
+            var deleteChannel = Channel.get(deleteChannelID);
             Channel.prmsDelete(deleteChannelID);
             $rootScope.$digest();
-            expect(localStorage.set).toHaveBeenCalledWith('channels', Channel.channels);
+            expect(Channel.delete).toHaveBeenCalledWith(deleteChannel);
         });
 
     });

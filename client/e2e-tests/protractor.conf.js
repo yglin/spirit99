@@ -3,8 +3,8 @@ exports.config = {
 
     specs: [
         '01.map.e2e.js',
-        '02.channel.e2e.js',
-        '03.post.e2e.js'
+        // '02.channel.e2e.js',
+        // '03.post.e2e.js'
     ],
 
     capabilities: {

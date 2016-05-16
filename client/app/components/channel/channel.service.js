@@ -5,10 +5,10 @@
         .module('spirit99')
         .service('Channel', Channel);
 
-    Channel.$inject = ['$q', '$log', '$http', '$routeParams', '$location', '$rootScope', 'localStorageService', 'Dialog', 'nodeValidator', 'Category', 'uiGmapGoogleMapApi'];
+    Channel.$inject = ['CONFIG', '$q', '$log', '$http', '$routeParams', '$location', '$rootScope', 'localStorageService', 'Dialog', 'nodeValidator', 'Category', 'uiGmapGoogleMapApi'];
 
     /* @ngInject */
-    function Channel($q, $log, $http, $routeParams, $location, $rootScope, localStorage, Dialog, nodeValidator, Category, uiGmapGoogleMapApi) {
+    function Channel(CONFIG, $q, $log, $http, $routeParams, $location, $rootScope, localStorage, Dialog, nodeValidator, Category, uiGmapGoogleMapApi) {
         var self = this;
         self.channels = undefined;
         self.tunedInChannelID = undefined;
@@ -21,10 +21,10 @@
         self.tuneIn = tuneIn;
         self.markChannelOffline = markChannelOffline;
         // self.prmsInitChannels = prmsInitChannels;
-        self.getChannel = getChannel;
-        self.getCategories = getCategories;
-        self.getQueryUrl = getQueryUrl;
-        self.getCreateUrl = getCreateUrl;
+        self.get = get;
+        self.save = save;
+        self.delete = _delete;
+        self.getData = getData;
 
         activate();
 
@@ -53,7 +53,25 @@
             });
         }
 
-        function getChannel(channelID) {
+        function getData() {
+            var channelID, field;
+            if (arguments.length == 1) {
+                channelID = self.tunedInChannelID;
+                field = arguments[0];
+            }
+            else if (arguments.length >= 2) {
+                channelID = arguments[0];
+                field = arguments[1];
+            }
+            if (channelID in self.channels && field in self.channels[channelID]) {
+                return self.channels[channelID][field];
+            }
+            else {
+                return null;
+            }            
+        }
+
+        function get(channelID) {
             channelID = typeof channelID === 'undefined' ? self.tunedInChannelID : channelID;
             if (channelID in self.channels) {
                 return self.channels[channelID];
@@ -63,36 +81,28 @@
             }
         }
 
-        function getCategories (channelID) {
-            var channel = self.getChannel(channelID);
-            if (channel && channel.categories) {
-                return channel.categories;
+        function save (channel) {
+            var channels = localStorage.get('channels');
+            if (!channels) {
+                channels = {};
             }
-            else {
-                return {};
+            if (!channels[channel.id]) {
+                channels[channel.id] = {};
             }
+            for (var field in channel) {
+                if (field in CONFIG['CHANNEL_SAVING_FIELDS']) {
+                    channels[channel.id][field] = channel[field];
+                }
+            }
+            localStorage.set('channels', channels);
         }
 
-        function getQueryUrl (channelID) {
-            var channel = self.getChannel(channelID);
-            if(!channel || !('query-url' in channel)){
-                // $log.error('Can not find "query-url" in channel: ' + channel);
-                return null;
-            }
-            else{
-                return channel['query-url'];
-            }
-        }
-
-        function getCreateUrl (channelID) {
-            var channel = self.getChannel(channelID);
-            if(!channel || !('create-url' in channel)){
-                // $log.error('Can not find "query-url" in channel: ' + channel);
-                return null;
-            }
-            else{
-                return channel['create-url'];
-            }
+        function _delete (channel) {
+            var channels = localStorage.get('channels');
+            if (channels && channel.id in channels) {
+                delete channels[channel.id];
+                localStorage.save('channels', channels);
+            }            
         }
 
         function validate (channel) {
@@ -185,7 +195,7 @@
                 return;
             }
 
-            var channel = self.getChannel(channelID);
+            var channel = self.get(channelID);
             if (!channel) {
                 Dialog.alert('找不到頻道', '找不到頻道, ID = ' + channelID);
                 return;
@@ -207,17 +217,22 @@
                 self.prmsIsOnline(channel)
                 .then(function () {
                     self.tunedInChannelID = channelID;
-                    Category.rebuildCategories(channel.categories);
-                    $rootScope.$broadcast('channel:tuned', self.tunedInChannelID);
-                    localStorage.set('last-channel-id', self.tunedInChannelID);
+                    Category.rebuildCategories(channel.categories)
+                    .then(function () {
+                        $rootScope.$broadcast('channel:tuned', self.tunedInChannelID);
+                        localStorage.set('last-channel-id', self.tunedInChannelID);                        
+                    }, function (error) {
+                        self.markChannelOffline(channelID);
+                        Dialog.alert('頻道資料錯誤', '建立頻道失敗，請稍候再嘗試看看');                        
+                    });
                 }, function (error) {
                     // console.debug('Don\'t screw me please');
                     self.markChannelOffline(channelID);
-                    Dialog.alert('頻道無法連線', '頻道目前無法連線，請稍候再嘗試看看');
+                    Dialog.alert('頻道無法連線', '頻道<b>' + self.getData(channelID, 'title') + '</b>目前無法連線，請稍候再嘗試看看');
                 });
             }, function (error) {
                 self.markChannelOffline(channelID);
-                Dialog.alert('頻道無法連線', '頻道目前無法連線，請稍候再嘗試看看');
+                Dialog.alert('頻道無法連線', '頻道<b>' + self.getData(channelID, 'title') + '</b>目前無法連線，請稍候再嘗試看看');
             });
         }
 
@@ -232,7 +247,7 @@
                 if(self.validate(channel)){
                     self.normalize(channel);
                     self.channels[channel.id] = channel;
-                    localStorage.set('channels', self.channels);
+                    self.save(channel);
                     return $q.resolve(channel);
                 }
                 else{
@@ -247,7 +262,7 @@
         }
 
         function prmsDelete (channelID) {
-            var channel = self.getChannel(channelID);
+            var channel = self.get(channelID);
             if (!channel) {
                 return $q.reject();
             }
@@ -258,7 +273,7 @@
                 if (channelID == self.tunedInChannelID) {
                     self.tuneIn();
                 }
-                localStorage.set('channels', self.channels);
+                self.delete(channel);
                 $rootScope.$broadcast('channel:deleted', channelID);
                 return $q.resolve();
             }, function (error) {

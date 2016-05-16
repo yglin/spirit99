@@ -4,6 +4,8 @@ module.exports = function(config){
         basePath : './',
 
         files : [
+            'https://maps.googleapis.com/maps/api/js?sensor=false',
+
             // bower:js
             'bower_components/angular/angular.js',
             'bower_components/angular-route/angular-route.js',
@@ -18,11 +20,6 @@ module.exports = function(config){
             'bower_components/angular.validators/angular.validators.js',
             'bower_components/angular-simple-logger/dist/angular-simple-logger.js',
             'bower_components/lodash/lodash.js',
-            'bower_components/markerclustererplus/src/markerclusterer.js',
-            'bower_components/google-maps-utility-library-v3-markerwithlabel/dist/markerwithlabel.js',
-            'bower_components/google-maps-utility-library-v3-infobox/dist/infobox.js',
-            'bower_components/google-maps-utility-library-v3-keydragzoom/dist/keydragzoom.js',
-            'bower_components/js-rich-marker/src/richmarker.js',
             'bower_components/angular-google-maps/dist/angular-google-maps.js',
             // endbower
             

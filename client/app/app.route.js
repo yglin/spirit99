@@ -6,15 +6,9 @@
     .config(['$routeProvider', function($routeProvider) {
         $routeProvider.when('/', {
             controller: 'MainController',
-            controllerAs: 'mainVM',
+            controllerAs: '$ctrl',
             templateUrl: 'app/layout/main/main.html',
-            resolve: {
-                googleMapsApi: ['uiGmapGoogleMapApi', function (uiGmapGoogleMapApi) {
-                    return uiGmapGoogleMapApi.then(function (googleMapsApi) {
-                        return googleMapsApi;
-                    });
-                }]
-            }
+            // resolve: {}
         });
         $routeProvider.otherwise({redirectTo: '/'});
     }]);

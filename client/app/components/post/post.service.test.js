@@ -18,12 +18,27 @@ describe('Post', function () {
             function mockChannel () {
                 var self = this;
                 self.channels = {};
-                self.getQueryUrl = jasmine.createSpy('getQueryUrl')
-                .and.returnValue(queryUrl);
-                self.getCreateUrl = jasmine.createSpy('getCreateUrl')
-                .and.returnValue(createUrl);
-                self.getReadUrl = jasmine.createSpy('getReadUrl')
-                .and.returnValue(readUrl);
+                self.getData = jasmine.createSpy('getData')
+                .and.callFake(function () {
+                    var channelID, field;
+                    if (arguments.length == 1) {
+                        channelID = self.tunedInChannelID;
+                        field = arguments[0];
+                    }
+                    else if (arguments.length >= 2) {
+                        channelID = arguments[0];
+                        field = arguments[1];
+                    }                    
+                    if (field == 'query-url') {
+                        return queryUrl;
+                    }
+                    else if (field == 'create-url') {
+                        return createUrl;
+                    }
+                    else {
+                        return null;
+                    }
+                });
             }
         });
 

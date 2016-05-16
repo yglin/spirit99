@@ -103,7 +103,7 @@
 
         function reloadPosts (query) {
             self.posts.length = 0;
-            var queryUrl = Channel.getQueryUrl(query.channelID);
+            var queryUrl = Channel.getData(query.channelID, 'query-url');
             if (!queryUrl) {
                 return;
             }
@@ -138,7 +138,7 @@
         }
 
         function prmsCreate (location) {
-            var createUrl = Channel.getCreateUrl();
+            var createUrl = Channel.getData('create-url');
             if (!createUrl) {
                 return $q.reject();
             }
