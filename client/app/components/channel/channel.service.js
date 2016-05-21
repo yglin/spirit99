@@ -90,7 +90,7 @@
                 channels[channel.id] = {};
             }
             for (var field in channel) {
-                if (field in CONFIG['CHANNEL_SAVING_FIELDS']) {
+                if (CONFIG['CHANNEL_SAVING_FIELDS'].indexOf(field) >= 0) {
                     channels[channel.id][field] = channel[field];
                 }
             }
@@ -101,7 +101,7 @@
             var channels = localStorage.get('channels');
             if (channels && channel.id in channels) {
                 delete channels[channel.id];
-                localStorage.save('channels', channels);
+                localStorage.set('channels', channels);
             }            
         }
 
@@ -191,7 +191,7 @@
             // If not given channelID, tune off
             if (typeof channelID === 'undefined' || !channelID) {
                 self.tunedInChannelID = null;
-                $rootScope.$broadcast('channel:tuned', self.tunedInChannelID);                
+                $rootScope.$broadcast('channel:tuned', self.tunedInChannelID);
                 return;
             }
 
@@ -228,11 +228,11 @@
                 }, function (error) {
                     // console.debug('Don\'t screw me please');
                     self.markChannelOffline(channelID);
-                    Dialog.alert('頻道無法連線', '頻道<b>' + self.getData(channelID, 'title') + '</b>目前無法連線，請稍候再嘗試看看');
+                    Dialog.alert('頻道無法連線', '頻道<b>' + (self.getData(channelID, 'title') || channelID) + '</b>目前無法連線，請稍候再嘗試看看');
                 });
             }, function (error) {
                 self.markChannelOffline(channelID);
-                Dialog.alert('頻道無法連線', '頻道<b>' + self.getData(channelID, 'title') + '</b>目前無法連線，請稍候再嘗試看看');
+                Dialog.alert('頻道無法連線', '頻道<b>' + (self.getData(channelID, 'title') || channelID) + '</b>目前無法連線，請稍候再嘗試看看');
             });
         }
 

@@ -93,7 +93,7 @@
             }
             post.options.title = post.title;
             post.options.icon = Category.getIcon(post.category);
-            if (CONFIG.env == 'development') {
+            if (CONFIG.DEBUG) {
                 post.options.zIndex = post.id * 100;
                 post.options.optimized = false;
             }

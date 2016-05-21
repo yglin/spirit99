@@ -1,0 +1,5 @@
+{
+    "ENV": "production",
+    "DEBUG": false,
+    "MARKER_CLUSTER_TYPE": "cluster"
+}

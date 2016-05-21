@@ -94,6 +94,9 @@ function genPosts(options) {
         if(i > (count * 1 / 5)){
             post.thumbnail = _.sample(thumbnails);
         }
+        post.links = {
+            read: 'http://what.is.life.meaning/' + post.id
+        };
         posts.push(post);
     };
     return posts;

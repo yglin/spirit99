@@ -179,6 +179,5 @@ describe('Spirit99 app', function() {
                 expect(element(by.id('s99-channel-item-' + deleteChannelID)).isPresent()).toBe(false);                
             });
         });
-
     });
 });

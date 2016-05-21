@@ -2,7 +2,7 @@
 * @Author: yglin
 * @Date:   2016-05-16 17:40:31
 * @Last Modified by:   yglin
-* @Last Modified time: 2016-05-16 21:16:46
+* @Last Modified time: 2016-05-20 21:04:11
 */
 
 'use strict';
@@ -37,13 +37,13 @@
             $scope.$on('map:bounds_changed', stateBusy);
             $scope.$on('map:idle', function () {
                 $ctrl.state = 'idle';
-                $scope.$apply();
+                // $scope.$apply();
             });
         }
 
         function stateBusy() {
             $ctrl.state = 'busy';
-            $scope.$apply();
+            // $scope.$apply();
         }
     }
 })();

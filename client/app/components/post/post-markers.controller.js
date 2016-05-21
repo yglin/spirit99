@@ -5,10 +5,10 @@
         .module('spirit99')
         .controller('PostMarkersController', PostMarkersController);
 
-    PostMarkersController.$inject = ['$scope', '$timeout', 'Channel', 'Post', 'uiGmapGoogleMapApi'];
+    PostMarkersController.$inject = ['$scope', '$timeout', 'CONFIG', 'Channel', 'Post', 'uiGmapGoogleMapApi'];
 
     /* @ngInject */
-    function PostMarkersController($scope, $timeout, Channel, Post, uiGmapGoogleMapApi) {
+    function PostMarkersController($scope, $timeout, CONFIG, Channel, Post, uiGmapGoogleMapApi) {
         var gMapApi = null;
         var postMarkersVM = this;
         postMarkersVM.posts = Post.posts;
@@ -26,10 +26,7 @@
             },
             control: {}
         };
-        postMarkersVM.cluster = {
-            type: 'cluster'
-        };
-
+        postMarkersVM.cluster = {};
         postMarkersVM.showInfoWindow = showInfoWindow;
         postMarkersVM.createPost = createPost;
 
@@ -41,6 +38,10 @@
             uiGmapGoogleMapApi.then(function (googleMapsApi) {
                 gMapApi = googleMapsApi;
             });
+
+            if (CONFIG.MARKER_CLUSTER_TYPE) {
+                postMarkersVM.cluster.type = CONFIG.MARKER_CLUSTER_TYPE;
+            }
 
             $scope.$on('map:dragstart', function () {
                 if (typeof postMarkersVM.infoWindow.control.hideWindow == 'function') {

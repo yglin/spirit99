@@ -2,9 +2,9 @@ exports.config = {
     allScriptsTimeout: 1100000,
 
     specs: [
-        '01.map.e2e.js',
+        // '01.map.e2e.js',
         // '02.channel.e2e.js',
-        // '03.post.e2e.js'
+        '03.post.e2e.js'
     ],
 
     capabilities: {

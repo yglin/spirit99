@@ -2,6 +2,7 @@
 
 var fakeData = require('../mocks/data.js');
 var mockServer = require('../mocks/server.js');
+var mapPage = require('./map.po');
 
 describe(' - Spirit99', function() {
 
@@ -18,7 +19,6 @@ describe(' - Spirit99', function() {
     beforeEach(function() {
         EC = protractor.ExpectedConditions;
         map = element(by.css('.angular-google-map-container'));
-        zoomIn = element(by.xpath('//div[@title="Zoom in"]'));
         browser.get('/');
     });
 
@@ -46,7 +46,7 @@ describe(' - Spirit99', function() {
         // Tune in to first channel
         var firstChannel, firstChannelID, posts, markers, numOfPosts;
         beforeEach(function() {
-            markers = element.all(by.xpath('//div[@class="gmnoprint" and @title and img]'));
+            markers = element.all(by.xpath('//div[@class="gmnoprint" and @title]'));
             numOfPosts = element(by.id('s99-debug-number-posts'));
             firstChannelID = Object.keys(fakeData.channels)[0];
             firstChannel = fakeData.channels[firstChannelID].portal;
@@ -85,30 +85,13 @@ describe(' - Spirit99', function() {
             // Protractor dragAndDrop() not always working due to below issue
             // https://github.com/angular/protractor/issues/583
             it(' - Should query posts after map panned', function() {
-                browser.wait(function () {
-                    return markers.count().then(function (count) {
-                        return count == posts.length;
-                    });
-                }, 5000);
-                browser.actions().dragAndDrop(map, {x:-250, y:50}).perform();
-                browser.wait(function () {
-                    return markers.count().then(function (count) {
-                        return count < posts.length;
-                    });
-                }, 5000);
+                mapPage.panTo(0, 0);
+                expect(markers.count()).toBeLessThan(posts.length);                
             });
 
             it(' - Should query posts after map zoomed', function() {
-                zoomIn.click();
-                zoomIn.click();
-                zoomIn.click();
-                zoomIn.click();
-                zoomIn.click();
-                browser.wait(function () {
-                    return markers.count().then(function (count) {
-                        return count < posts.length;
-                    });
-                }, 5000);
+                mapPage.zoomTo(15);
+                expect(markers.count()).toBeLessThan(posts.length);                
             });
 
             it(' - Should query posts after map navigated by locate address', function() {
@@ -151,21 +134,8 @@ describe(' - Spirit99', function() {
                 expect(infoWindow.element(by.css('.s99-post-info-window-thumbnail')).getAttribute('src')).toEqual(post.thumbnail);
             });
 
-            it(' - Click on "s99-button-link-to-post" redirect to post\'s "read-url"', function() {
-                infoWindow.element(by.css('.s99-post-info-window-title')).click()
-                .then(function () {
-                    browser.ignoreSynchronization = true;
-                    browser.wait(function () {
-                        return browser.getCurrentUrl().then(function (url) {
-                            return url == firstChannel['read-url'].replace(':id', post.id);
-                        });
-                    }, 5000).then(function () {
-                        browser.ignoreSynchronization = false;
-                    }, function () {
-                        fail();
-                        browser.ignoreSynchronization = false;
-                    });
-                });
+            it(' - Provide redirect link to post\'s "read-url"', function() {
+                expect(element(by.css('a#post-' + post.id + '-link-read')).getAttribute('href')).toEqual(post.links.read);
             });
         });
 
@@ -188,28 +158,10 @@ describe(' - Spirit99', function() {
                 expect(element.all(by.css('.s99-post-item')).count()).toBe(5);
             });
             
-            it(' - Click on post title redirect to post\'s "read-url"', function() {
-                var postTitle = postItems.filter(function (elem, index) {
-                    return elem.element(by.css('.s99-post-title')).getText().then(function (title) {
-                        return title == post.title;
-                    });
-                }).first();
-                postTitle.click().then(function () {
-                    browser.ignoreSynchronization = true;
-                    browser.wait(function () {
-                        return browser.getCurrentUrl().then(function (url) {
-                            return url == firstChannel['read-url'].replace(':id', post.id);
-                        });
-                    }, 5000).then(function () {
-                        browser.ignoreSynchronization = false;
-                    }, function () {
-                        fail();
-                        browser.ignoreSynchronization = false;
-                    });
-                });
+            it(' - Provide redirect link to post\'s "read-url"', function() {
+                expect(element(by.css('a#post-' + post.id + '-link-read')).getAttribute('href')).toEqual(post.links.read);
             });
         });
-
 
         describe(' - Filter posts', function() {
 

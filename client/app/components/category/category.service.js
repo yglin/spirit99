@@ -57,23 +57,25 @@
             }
 
             if (gMapApi) {
+                var scaledSizeX = 32;
+                var scaledSizeY = 32;
                 // Normalize icon's size
                 if (category.icon.scaledSize && category.icon.scaledSize.length >= 2) {
-                    var scaledSizeX = category.icon.scaledSize[0] ? category.icon.scaledSize[0] : 32;
-                    var scaledSizeY = category.icon.scaledSize[1] ? category.icon.scaledSize[1] : 32;
-                    iconObject.scaledSize = new gMapApi.Size(scaledSizeX, scaledSizeY);
+                    scaledSizeX = category.icon.scaledSize[0];
+                    scaledSizeY = category.icon.scaledSize[1];
                 }
+                iconObject.scaledSize = new gMapApi.Size(scaledSizeX, scaledSizeY);
 
                 // Normalize icon's anchor position
                 if (category.icon.anchor && typeof category.icon.anchor == 'string') {
                     if (category.icon.anchor == 'left') {
-                        iconObject.anchor = new gMapApi.Point(0, scaledSize[1]);
+                        iconObject.anchor = new gMapApi.Point(0, scaledSizeY);
                     }
                     else if (category.icon.anchor == 'middle') {
-                        iconObject.anchor = new gMapApi.Point(scaledSize[0] * 0.5, scaledSize[1]);
+                        iconObject.anchor = new gMapApi.Point(scaledSizeX * 0.5, scaledSizeY);
                     }
                     else if (category.icon.anchor == 'right') {
-                        iconObject.anchor = new gMapApi.Point(scaledSize[0], scaledSize[1]);
+                        iconObject.anchor = new gMapApi.Point(scaledSizeX, scaledSizeY);
                     }
                 }                
             }

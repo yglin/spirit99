@@ -7,6 +7,8 @@
 // use this if you want to recursively match all subfolders:
 // 'test/spec/**/*.js'
 
+var _ = require('underscore');
+
 module.exports = function (grunt) {
 
     // Time how long tasks take. Can help when optimizing build times
@@ -17,7 +19,8 @@ module.exports = function (grunt) {
         useminPrepare: 'grunt-usemin',
         ngtemplates: 'grunt-angular-templates',
         cdnify: 'grunt-google-cdn',
-        protractor: 'grunt-protractor-runner'
+        protractor: 'grunt-protractor-runner',
+        ngconstant: 'grunt-ng-constant'
     });
 
     // Configurable paths for the application
@@ -389,6 +392,39 @@ module.exports = function (grunt) {
             }
         },
 
+        ngconstant: {
+            options: {
+                name: 'spirit99',
+                dest: 'app/app.constant.js',
+                deps: false,
+                wrap: true
+            },
+            dev: {
+                constants: {
+                    CONFIG: _.extend(
+                        grunt.file.readJSON('config/shared.json'),
+                        grunt.file.readJSON('config/development.json')
+                    )
+                }
+            },
+            test: {
+                constants: {
+                    CONFIG: _.extend(
+                        grunt.file.readJSON('config/shared.json'),
+                        grunt.file.readJSON('config/test.json')
+                    )
+                }
+            },
+            build: {
+                constants: {
+                    CONFIG: _.extend(
+                        grunt.file.readJSON('config/shared.json'),
+                        grunt.file.readJSON('config/production.json')
+                    )
+                }
+            },
+        },
+
         // Replace Google CDN references
         cdnify: {
             dist: {
@@ -465,6 +501,7 @@ module.exports = function (grunt) {
         grunt.task.run([
             'clean:server',
             'wiredep',
+            'ngconstant:dev',
             'includeSource',
             'concurrent:server',
             'postcss:server',
@@ -481,6 +518,7 @@ module.exports = function (grunt) {
     grunt.registerTask('test', [
         'clean:server',
         'wiredep',
+        'ngconstant:test',
         'includeSource',
         'concurrent:test',
         'postcss',
@@ -492,6 +530,7 @@ module.exports = function (grunt) {
     grunt.registerTask('e2e-test', [
         'clean:server',
         'wiredep',
+        'ngconstant:test',
         'includeSource',
         'concurrent:test',
         'postcss',
@@ -502,6 +541,7 @@ module.exports = function (grunt) {
     grunt.registerTask('build', [
         'clean:dist',
         'wiredep:app',
+        'ngconstant:build',
         'useminPrepare',
         'concurrent:dist',
         'postcss',

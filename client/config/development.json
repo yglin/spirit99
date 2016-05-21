@@ -1,0 +1,5 @@
+{
+    "ENV": "development",
+    "DEBUG": true,
+    "MARKER_CLUSTER_TYPE": "cluster"
+}

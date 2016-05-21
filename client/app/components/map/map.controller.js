@@ -8,10 +8,9 @@
     MapController.$inject = ['Map', 'CONFIG'];
 
     /* @ngInject */
-    function MapController(Map, CONFIG) {
+    function MapController(Map) {
         var mapVM = this;
         mapVM.title = 'MapController';
-        mapVM.debug = CONFIG.debug;
         // Map events
         mapVM.events = {
             'idle': Map.broadcastEvent,
