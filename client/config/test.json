@@ -1,4 +1,5 @@
 {
     "ENV": "test",
-    "DEBUG": true
+    "DEBUG": true,
+    "SERVER_URL": "http://localhost:9000"
 }

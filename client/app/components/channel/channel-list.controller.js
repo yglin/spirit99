@@ -19,9 +19,7 @@
         ////////////////
 
         function activate() {
-            if (CONFIG.env == 'development') {
-                channelListVM.repositoryLink = 'http://localhost:9000/channels';
-            }
+            channelListVM.repositoryLink = CONFIG.SERVER_URL + '/channels';
         }
 
         function addChannel (portalUrl) {

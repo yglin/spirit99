@@ -1,5 +1,6 @@
 {
     "ENV": "development",
     "DEBUG": true,
-    "MARKER_CLUSTER_TYPE": "cluster"
+    "MARKER_CLUSTER_TYPE": "cluster",
+    "SERVER_URL": "http://localhost:9000"
 }
