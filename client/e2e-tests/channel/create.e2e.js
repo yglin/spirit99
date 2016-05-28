@@ -2,7 +2,7 @@
 * @Author: yglin
 * @Date:   2016-05-22 09:14:55
 * @Last Modified by:   yglin
-* @Last Modified time: 2016-05-27 19:58:15
+* @Last Modified time: 2016-05-28 11:07:18
 */
 
 'use strict';
@@ -14,6 +14,7 @@ var channelRepoPage = require('./channel-repo.po');
 var channelEditorPage = require('./channel-editor.po');
 var loginPage = require('../account/login/login.po');
 var toolbar = require('../components/toolbar.po');
+var mapView = require('../components/map.po');
 
 describe('Create a channel', function() {
     
@@ -34,13 +35,15 @@ describe('Create a channel', function() {
 
     it(' - Create a channel and create a new post on it', function() {
         channelListPage.gotoRepo();
-        element(by.css('button#s99st-button-create')).click();
+        channelRepoPage.gotoCreate();
         loginPage.loginAsNeeded(testUser);
         channelEditorPage.apply(fakeData.newChannel);
         channelEditorPage.submit();
         channelRepoPage.expectHas(fakeData.newChannel);
         channelRepoPage.import(fakeData.newChannel);
         toolbar.expectChannel(fakeData.newChannel);
+        mapView.gotoCreatePost();
+
         // browser.pause(54088);
     });
 });

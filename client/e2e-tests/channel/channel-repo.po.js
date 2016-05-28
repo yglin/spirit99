@@ -2,7 +2,7 @@
 * @Author: yglin
 * @Date:   2016-05-22 12:09:21
 * @Last Modified by:   yglin
-* @Last Modified time: 2016-05-23 11:37:50
+* @Last Modified time: 2016-05-28 11:04:40
 */
 
 'use strict';
@@ -13,12 +13,18 @@ var dialog = require('../components/yg-dialog.po');
 
 function ChannelRepoPage() {
     this.root = element(by.css('div#s99st-channel-list'));
+    this.linkToCreate = element(by.css('button#s99st-button-create'));
     this.channelItems = this.root.all(by.css('.s99-channel-item'));
 
+    this.gotoCreate = gotoCreate;
     this.getChannelItem = getChannelItem;
     this.expectHas = expectHas;
     this.import = _import;
 };
+
+function gotoCreate() {
+    this.linkToCreate.click();
+}
 
 function getChannelItem(channel) {
     return element(by.css('div[channel-id=' + channel.id + ']'));
