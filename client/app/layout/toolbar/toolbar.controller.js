@@ -13,6 +13,7 @@
         // toolbarVM.title = 'Toolbar';
         toolbarVM.isLoading = false;
         toolbarVM.channel = Channel.get();
+        toolbarVM.sidenav = Sidenav;
         toolbarVM.openSidenav = Sidenav.open;
 
         activate();
