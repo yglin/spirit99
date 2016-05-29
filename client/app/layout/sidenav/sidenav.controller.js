@@ -19,6 +19,9 @@
         ////////////////
 
         function activate() {
+            $scope.$watch(function () {
+                return Sidenav.tabIndex;
+            }, Sidenav.onTabIndexChange);
         }
     }
 })();

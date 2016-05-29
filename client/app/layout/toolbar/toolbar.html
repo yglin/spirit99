@@ -48,11 +48,12 @@
 -->
         <span flex></span>
         <div>
-            <md-button id='s99-open-sidenav-filter' class='md-icon-button' ng-click="toolbarVM.openSidenav('filter')">
+<!--             <md-button id='s99-open-sidenav-filter' class='md-icon-button' ng-click="toolbarVM.openSidenav('filter')">
                 <md-icon class='material-icons'>search</md-icon>
             </md-button>
-            <md-button id='s99-button-open-menu' class='md-icon-button' ng-click="toolbarVM.openSidenav('settings')">
-                <md-icon class='material-icons'>menu</md-icon>
+ -->            
+            <md-button id='s99-button-open-menu' class='md-icon-button' ng-click="toolbarVM.openSidenav()">
+                <md-icon class='material-icons'>{{toolbarVM.sidenav.panels[toolbarVM.sidenav.selectedPanel].icon}}</md-icon>
             </md-button>
         </div>
     </div>
