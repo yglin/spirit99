@@ -26,6 +26,7 @@
             },
             control: {}
         };
+        
         postMarkersVM.cluster = {};
         postMarkersVM.showInfoWindow = showInfoWindow;
         postMarkersVM.createPost = createPost;

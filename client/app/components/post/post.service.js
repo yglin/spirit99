@@ -5,10 +5,12 @@
         .module('spirit99')
         .service('Post', Post);
 
-    Post.$inject = ['$rootScope', '$window', '$timeout', '$q', '$log', '$http', 'CONFIG', 'Channel', 'Map', 'Category', 'PostFilter'];
+    Post.$inject = ['$rootScope', '$window', '$location', '$timeout', '$q', '$log', '$http', '$httpParamSerializer',
+ 'CONFIG', 'Channel', 'Map', 'Category', 'PostFilter'];
 
     /* @ngInject */
-    function Post($rootScope, $window, $timeout, $q, $log, $http, CONFIG, Channel, Map, Category, PostFilter) {
+    function Post($rootScope, $window, $location, $timeout, $q, $log, $http, $httpParamSerializer
+, CONFIG, Channel, Map, Category, PostFilter) {
         var self = this;
         self.posts = [];
         self.lastQuery = {};
@@ -142,7 +144,22 @@
             if (!createUrl) {
                 return $q.reject();
             }
-            $window.location.replace(createUrl + '?latitude=' + location.latitude + '&longitude=' + location.longitude);
+            var queryParams = {
+                latitude: location.latitude,
+                longitude: location.longitude
+            };
+            var returnUrl = $location.protocol() + '://'+ $location.host() +':'+  $location.port();
+            if (Channel.tunedInChannelID) {
+                returnUrl += '/' + Channel.tunedInChannelID;
+            }
+            returnUrl += '?' + $httpParamSerializer({
+                map: {
+                    center: Map.map.center,
+                    zoom: Map.map.zoom
+                }
+            });
+            queryParams.returnUrl = returnUrl;
+            $window.location.replace(createUrl + '?' + $httpParamSerializer(queryParams));
             return $q.resolve();
         }
 

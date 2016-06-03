@@ -2,7 +2,7 @@
 * @Author: yglin
 * @Date:   2016-04-23 17:16:37
 * @Last Modified by:   yglin
-* @Last Modified time: 2016-05-27 18:37:39
+* @Last Modified time: 2016-05-30 14:47:56
 */
 
 'use strict';
@@ -10,7 +10,7 @@
 var ChannelEditor = function() {
     var self = this;
     var imageSelector = require('../components/image-selector.po');
-    var dialog = require('../components/yg-dialog.po');
+    var dialog = require('../components/dialog.po');
 
     self.form = element(by.css('form[name="channelForm"]'));
     self.id = self.form.element(by.css('input[name=id]'));

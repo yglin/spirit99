@@ -47,6 +47,9 @@
                         self.tuneIn(channel.id);
                     });
                 }
+                else if ($routeParams.channel) {
+                    self.tuneIn($routeParams.channel);
+                }
                 else if (self.lastChannelId in self.channels) {
                     self.tuneIn(self.lastChannelId);
                 };                

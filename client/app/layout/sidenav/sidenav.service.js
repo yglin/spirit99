@@ -16,6 +16,7 @@
         self.selectedPanel = Object.keys(self.panels)[self.tabIndex];
 
         self.open = open;
+        self.close = close;
         self.onTabIndexChange = onTabIndexChange;
 
         ////////////////
@@ -52,6 +53,10 @@
                 self.tabIndex = Object.keys(self.panels).indexOf(sidenavID);
             }
             $mdSidenav('sidenav-left').open();
+        }
+
+        function close() {
+            $mdSidenav('sidenav-left').close();
         }
 
         function onTabIndexChange() {

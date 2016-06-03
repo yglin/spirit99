@@ -2,8 +2,8 @@ exports.config = {
     allScriptsTimeout: 1100000,
 
     specs: [
+        'post/crud.e2e.js',
         // 'channel/create.e2e.js',
-        'post/create.e2e.js',
         // '01.map.e2e.js',
         // '02.channel.e2e.js',
         // '03.post.e2e.js'
@@ -23,7 +23,7 @@ exports.config = {
     framework: 'jasmine',
 
     jasmineNodeOpts: {
-        defaultTimeoutInterval: 50000
+        defaultTimeoutInterval: 120000
     },
 
     plugins: [
@@ -32,5 +32,9 @@ exports.config = {
             failOnWarning: false,
             failOnError: false
         }
-    ]
+    ],
+
+    params: {
+        stationUrl: 'http://localhost:9000',
+    }
 };

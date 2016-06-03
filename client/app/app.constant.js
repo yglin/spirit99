@@ -3,7 +3,7 @@
 
 angular.module('spirit99')
 
-.constant('CONFIG', {MIN_POSTS_FOR_LIST:10,CHANNEL_SAVING_FIELDS:['portal-url','id','title','description','logo-url'],ENV:'development',DEBUG:true,MARKER_CLUSTER_TYPE:'cluster',SERVER_URL:'http://localhost:9000'})
+.constant('CONFIG', {MIN_POSTS_FOR_LIST:10,CHANNEL_SAVING_FIELDS:['portal-url','id','title','description','logo-url'],ENV:'test',DEBUG:true,SERVER_URL:'http://localhost:9000'})
 
 ;
 })(angular);

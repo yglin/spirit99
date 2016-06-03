@@ -8,6 +8,7 @@
 // 'test/spec/**/*.js'
 
 var _ = require('underscore');
+var modRewrite = require('connect-modrewrite');
 
 module.exports = function (grunt) {
 
@@ -88,6 +89,7 @@ module.exports = function (grunt) {
                     open: true,
                     middleware: function (connect) {
                         return [
+                            modRewrite(['!\\.html|\\.js|\\.svg|\\.css|\\.png$ /index.html [L]']),
                             connect.static('.tmp'),
                             connect().use(
                                 '/bower_components',
@@ -109,6 +111,7 @@ module.exports = function (grunt) {
                     // keepalive: true,
                     middleware: function (connect) {
                         return [
+                            modRewrite(['!\\.html|\\.js|\\.svg|\\.css|\\.png$ /index.html [L]']),
                             connect.static('.tmp'),
                             connect.static('test'),
                             connect().use(

@@ -2,7 +2,7 @@
 * @Author: yglin
 * @Date:   2016-05-22 10:50:29
 * @Last Modified by:   yglin
-* @Last Modified time: 2016-05-27 18:38:00
+* @Last Modified time: 2016-05-30 14:50:50
 */
 
 'use strict';
@@ -12,7 +12,8 @@ var exec = require('child_process').exec;
 
 module.exports = {
     clear: clear,
-    newChannel: newChannel()
+    newChannel: newChannel(),
+    newPost: newPost(),
 }
 
 function clear() {
@@ -77,5 +78,16 @@ function newChannel() {
             }
         },
         state: 'public',
+    };
+}
+
+function newPost() {
+    return {
+        title: '作者的家',
+        content: '<p>這裡是窮光蛋作者的家...</p>',
+        category: 2,
+        author: 'YGG@ygmail.tw',
+        latitude: 24.081111,
+        longitude: 120.548569        
     };
 }

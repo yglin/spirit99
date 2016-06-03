@@ -2,14 +2,14 @@
 * @Author: yglin
 * @Date:   2016-05-22 12:09:21
 * @Last Modified by:   yglin
-* @Last Modified time: 2016-05-28 11:04:40
+* @Last Modified time: 2016-05-30 14:47:25
 */
 
 'use strict';
 
 module.exports = new ChannelRepoPage();
 
-var dialog = require('../components/yg-dialog.po');
+var dialog = require('../components/dialog.po');
 
 function ChannelRepoPage() {
     this.root = element(by.css('div#s99st-channel-list'));

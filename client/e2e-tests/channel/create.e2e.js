@@ -2,7 +2,7 @@
 * @Author: yglin
 * @Date:   2016-05-22 09:14:55
 * @Last Modified by:   yglin
-* @Last Modified time: 2016-05-28 11:07:18
+* @Last Modified time: 2016-05-30 14:45:10
 */
 
 'use strict';
@@ -14,7 +14,9 @@ var channelRepoPage = require('./channel-repo.po');
 var channelEditorPage = require('./channel-editor.po');
 var loginPage = require('../account/login/login.po');
 var toolbar = require('../components/toolbar.po');
-var mapView = require('../components/map.po');
+var mapView = require('../map/map.po');
+var postEditorPage = require('../post/editor.po');
+var postMarkers = require('../post/post-markers.po');
 
 describe('Create a channel', function() {
     
@@ -43,6 +45,10 @@ describe('Create a channel', function() {
         channelRepoPage.import(fakeData.newChannel);
         toolbar.expectChannel(fakeData.newChannel);
         mapView.gotoCreatePost();
+        postEditorPage.apply(fakeData.newPost);
+        postEditorPage.submit();
+        toolbar.expectChannel(fakeData.newChannel);
+        postMarkers.hasPost(fakeData.newPost);        
 
         // browser.pause(54088);
     });

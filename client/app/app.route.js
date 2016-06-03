@@ -4,12 +4,18 @@
 
     angular.module('spirit99')
     .config(['$routeProvider', function($routeProvider) {
-        $routeProvider.when('/', {
+        $routeProvider.when('/:channel', {
             controller: 'MainController',
             controllerAs: '$ctrl',
             templateUrl: 'app/layout/main/main.html',
             // resolve: {}
-        });
-        $routeProvider.otherwise({redirectTo: '/'});
+        })
+        .when('/', {
+            controller: 'MainController',
+            controllerAs: '$ctrl',
+            templateUrl: 'app/layout/main/main.html',
+            // resolve: {}
+        })
+        .otherwise({redirectTo: '/'});
     }]);
 })();

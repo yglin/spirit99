@@ -5,10 +5,10 @@
         .module('spirit99')
         .service('Map', Map);
 
-    Map.$inject = ['$q', '$log', '$rootScope', '$timeout', '$window', 'localStorageService', 'Dialog', 'Geolocation'];
+    Map.$inject = ['$q', '$log', '$rootScope', '$timeout', '$window', '$routeParams', 'localStorageService', 'Dialog', 'Geolocation'];
 
     /* @ngInject */
-    function Map($q, $log, $rootScope, $timeout, $window, localStorage, Dialog, Geolocation) {
+    function Map($q, $log, $rootScope, $timeout, $window, $routeParams, localStorage, Dialog, Geolocation) {
         var self = this;
         // Properties
         self.ZOOMS = ZOOMS();
@@ -117,9 +117,19 @@
             }
             var lastMap = localStorage.get('last-map');
             var homeMap = localStorage.get('home-map');
-            
+
+            // Resolve initMap from query parameter
+            if ($routeParams.map) {
+                var map = JSON.parse($routeParams.map);
+                self.map.center.latitude = map.center.latitude;
+                self.map.center.longitude = map.center.longitude;
+                if (map.zoom) {
+                    self.map.zoom = map.zoom;
+                }
+                return $q.resolve(self.map);
+            }
             // Resolve initMap from geolocation
-            if(self.initMapScheme === self.INIT_MAP_SCHEMES.GEOLOCATION){
+            else if(self.initMapScheme === self.INIT_MAP_SCHEMES.GEOLOCATION){
                 return self.prmsGotoGeolocation().then(function () {
                     return $q.resolve(self.map);
                 });
