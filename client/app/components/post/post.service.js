@@ -6,11 +6,11 @@
         .service('Post', Post);
 
     Post.$inject = ['$rootScope', '$window', '$location', '$timeout', '$q', '$log', '$http', '$httpParamSerializer',
- 'CONFIG', 'Channel', 'Map', 'Category', 'PostFilter'];
+ 'CONFIG', 'Channel', 'Map', 'Category', 'PostFilter', 'localStorageService'];
 
     /* @ngInject */
     function Post($rootScope, $window, $location, $timeout, $q, $log, $http, $httpParamSerializer
-, CONFIG, Channel, Map, Category, PostFilter) {
+, CONFIG, Channel, Map, Category, PostFilter, localStorage) {
         var self = this;
         self.posts = [];
         self.lastQuery = {};
@@ -24,6 +24,9 @@
         // self.applyFilters = applyFilters;
         self.addFilteredPosts = addFilteredPosts;
         self.prmsCreate = prmsCreate;
+
+        self.settings = localStorage.get('post-settings');
+        self.saveSettings = saveSettings;
 
         activate();
 
@@ -47,6 +50,12 @@
             // $rootScope.$on('post:filterChanged', function () {
             //     self.applyFilters();
             // });
+            
+            if (!self.settings) {
+                self.settings = {
+                    clusterType: 'cluster'
+                };
+            }
         }
 
         function onMapIdleReloadPosts () {
@@ -186,6 +195,10 @@
                 latitude: 'number',
                 longitude: 'number'
             };
+        }
+
+        function saveSettings() {
+            localStorage.set('post-settings', self.settings);
         }
     }
 })();

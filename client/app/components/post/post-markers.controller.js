@@ -11,6 +11,7 @@
     function PostMarkersController($scope, $timeout, CONFIG, Channel, Post, PostFilter, uiGmapGoogleMapApi) {
         var gMapApi = null;
         var postMarkersVM = this;
+        postMarkersVM.settings = Post.settings;
         postMarkersVM.posts = [];
         postMarkersVM.events = {
             click: onClick

@@ -1,0 +1,14 @@
+<div id='s99-post-settings'>
+    <h4>地圖上圖標太多時...</h4>
+        <md-radio-group
+        ng-model='$ctrl.settings.clusterType'
+        ng-change="$ctrl.saveSettings()">
+            <md-radio-button>
+                維持圖標個別顯示
+            </md-radio-button>
+            <md-radio-button
+            ng-value='"cluster"'>
+                合併鄰近的圖標並顯示數量
+            </md-radio-button>
+        </md-radio-group>    
+</div>
