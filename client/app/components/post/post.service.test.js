@@ -189,10 +189,10 @@ describe('Post', function () {
             expect(typeof post.options).toEqual('object');
         })
 
-        it(' - Normalized post.options should has fields: title, icon, visible', function() {
+        it(' - Normalized post.options should has fields: title, icon', function() {
             expect(typeof post.options.title).toEqual('string');
             expect(typeof post.options.icon).toEqual('object');
-            expect(typeof post.options.visible).toEqual('boolean');
+            // expect(typeof post.options.visible).toEqual('boolean');
         });
     });
 
@@ -276,16 +276,16 @@ describe('Post', function () {
         });
     });
 
-    describe(' - applyFilters()', function() {
-        beforeEach(function() {
-            Post.posts = FakeData.genPosts({count:5});
-        });
+    // describe(' - applyFilters()', function() {
+    //     beforeEach(function() {
+    //         Post.posts = FakeData.genPosts({count:5});
+    //     });
 
-        it(' - Should set options.visible true on passed all filters', function() {
-            Post.applyFilters();
-            for (var i = 0; i < Post.posts.length; i++) {
-                expect(Post.posts[i].options.visible).toBe(true);
-            };
-        });
-    });
+    //     it(' - Should set options.visible true on passed all filters', function() {
+    //         Post.applyFilters();
+    //         for (var i = 0; i < Post.posts.length; i++) {
+    //             expect(Post.posts[i].options.visible).toBe(true);
+    //         };
+    //     });
+    // });
 });

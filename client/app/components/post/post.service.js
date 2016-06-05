@@ -21,7 +21,8 @@
         self.validate = validate;
         self.normalize = normalize;
         self.reloadPosts = reloadPosts;
-        self.applyFilters = applyFilters;
+        // self.applyFilters = applyFilters;
+        self.addFilteredPosts = addFilteredPosts;
         self.prmsCreate = prmsCreate;
 
         activate();
@@ -43,9 +44,9 @@
                 self.onMapIdleReloadPosts();
             });
 
-            $rootScope.$on('post:filterChanged', function () {
-                self.applyFilters();
-            });
+            // $rootScope.$on('post:filterChanged', function () {
+            //     self.applyFilters();
+            // });
         }
 
         function onMapIdleReloadPosts () {
@@ -99,8 +100,6 @@
                 post.options.zIndex = post.id * 100;
                 post.options.optimized = false;
             }
-
-            post.options.visible = PostFilter.filter(post);
         }
 
         function reloadPosts (query) {
@@ -127,6 +126,7 @@
                             self.posts.push(post);
                         }
                     }
+                    $rootScope.$broadcast('post:reload');
                 }
                 return $q.resolve(self.posts);
             }, function (error) {
@@ -134,7 +134,6 @@
                 $log.warn(error.data);
                 return $q.reject(error);
             }).finally(function () {
-                // $rootScope.$broadcast('post:loadEnd');
                 $rootScope.$broadcast('progress:end');
             });
         }
@@ -163,13 +162,21 @@
             return $q.resolve();
         }
 
-        function applyFilters () {
+        // function applyFilters () {
+        //     for (var i = 0; i < self.posts.length; i++) {
+        //         if (!self.posts[i].options) {
+        //             self.posts[i].options = {};
+        //         }
+        //         self.posts[i].options.visible = PostFilter.filter(self.posts[i]);
+        //     }            
+        // }
+        
+        function addFilteredPosts(array) {
             for (var i = 0; i < self.posts.length; i++) {
-                if (!self.posts[i].options) {
-                    self.posts[i].options = {};
+                if (PostFilter.filter(self.posts[i])) {
+                    array.push(self.posts[i]);
                 }
-                self.posts[i].options.visible = PostFilter.filter(self.posts[i]);
-            }            
+            }
         }
 
         //////////////////// Functions for initialize default CONSTANTS
