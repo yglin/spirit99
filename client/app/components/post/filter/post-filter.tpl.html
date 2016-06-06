@@ -40,6 +40,27 @@ ng-controller='PostFilterController as postFilterVM'>
             </md-option>
         </md-select>
         <br>
+        <div>
+            <md-subheader class='md-primary'>
+            <md-checkbox ng-model='postFilterVM.postFilter.isEvent'
+            ng-change='postFilterVM.postFilter.onChange()'>事件</md-checkbox>
+            </md-subheader>
+            <div ng-show='postFilterVM.postFilter.isEvent'>
+                <div>
+                    <md-datepicker ng-model='postFilterVM.postFilter.event.start'
+                    ng-change='postFilterVM.postFilter.onChange()'>
+                    </md-datepicker>
+                    <span>之後開始</span>
+                </div>
+                <div>
+                    <md-datepicker ng-model='postFilterVM.postFilter.event.end'
+                    ng-change='postFilterVM.postFilter.onChange()'>
+                    </md-datepicker>
+                    <span>之前結束</span>
+                </div>
+            </div>
+        </div>
+        <br>
         <md-subheader class='md-primary'>分類顯示</md-subheader>
         <div layout='row' layout-padding layout-wrap>
             <div ng-repeat="(key, category) in postFilterVM.category.categories"

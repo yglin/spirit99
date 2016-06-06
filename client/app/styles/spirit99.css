@@ -85,3 +85,8 @@
 .s99-post-info-window-title {
     max-width: 96px;
 }
+
+.s99-event-period span {
+    font-size: 14px;
+    white-space: nowrap;
+}
