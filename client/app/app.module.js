@@ -11,4 +11,5 @@ angular.module('spirit99', [
   'LocalStorageModule',
   'uiGmapgoogle-maps',
   'angular.validators',
+  'angular-clipboard'
 ]);

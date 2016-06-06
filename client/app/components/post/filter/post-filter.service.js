@@ -18,14 +18,53 @@
         self.filter = filter;
         self.onChange = onChange;
         self.onChangeDatePeriod = onChangeDatePeriod;
+        self.getParams = getParams;
 
         activate();
 
         ////////////////
         function activate () {
+            // defaults
             self.createTime.preset = 'anyTime';
             self.createTime.start = DatePeriod.getPresetStart(self.createTime.preset);
-            self.createTime.end = DatePeriod.getPresetEnd(self.createTime.preset);
+            self.createTime.end = DatePeriod.getPresetEnd(self.createTime.preset);                
+
+            if ($routeParams.filters) {
+                var filters = JSON.parse($routeParams.filters);
+                if (filters.keywords) {
+                    self.keywords.push.apply(self.keywords, filters.keywords);
+                }
+
+                if (filters.createAt) {
+                    angular.extend(self.createTime, filters.createAt);
+                    self.createTime.start = new Date(self.createTime.start);
+                    self.createTime.end = new Date(self.createTime.end);
+                }
+
+                if (filters.event) {
+                    self.isEvent = true;
+                    self.event.start = new Date(filters.event.start);
+                    self.event.end = new Date(filters.event.end);
+                }
+
+            }
+        }
+
+        function getParams() {
+            var params = {}
+            if (self.keywords.length > 0) {
+                params.keywords = self.keywords;
+            }
+
+            if (self.createTime.preset != 'anyTime') {
+                params.createAt = self.createTime;
+            }
+
+            if (self.isEvent) {
+                params.event = self.event;
+            }
+
+            return { filters: params };
         }
 
         function onChange() {

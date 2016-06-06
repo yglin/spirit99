@@ -1,0 +1,29 @@
+<md-dialog id='s99-dialog' aria-label="Generated URL" ng-cloak>
+<md-toolbar>
+    <div class="md-toolbar-tools">
+        <h2>{{$ctrl.title}}</h2>
+        <span flex></span>
+        <md-button id='cancel'
+        class="md-icon-button"
+        ng-click="$ctrl.cancel()">
+            <md-icon class="material-icons">close</md-icon>
+        </md-button>
+    </div>
+</md-toolbar>
+<md-dialog-content layout-padding>
+    <md-content>
+        <h5>以下網址可連結到目前檢視狀態</h5>
+        <pre>{{$ctrl.url}}</pre>
+        <!-- <input flex type='text' ng-model='$ctrl.url' /> -->
+    </md-content>
+</md-dialog-content>
+<md-dialog-actions layout="row" ng-show="$ctrl.copyToClipboardSupport">
+    <span flex></span>
+    <h5 ng-show='$ctrl.copied'>已複製到剪貼簿</h5>
+    <md-button id='copy-to-clipboard'
+    class='md-primary md-raised'
+    ng-click="$ctrl.copyToClipboard()">
+    複製
+    </md-button>
+</md-dialog-actions>
+</md-dialog>

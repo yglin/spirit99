@@ -15,6 +15,8 @@
         self.INIT_MAP_SCHEMES = INIT_MAP_SCHEMES();
         self.map = defaultMap();
         self.initMapScheme = localStorage.get('init-map-scheme');
+        self.initReady = $q.defer();
+        
         // Member functions
         self.broadcastEvent = broadcastEvent;
         self.saveMap = saveMap;
@@ -32,6 +34,11 @@
             if (!self.initMapScheme) {
                 self.setInitMapScheme(self.INIT_MAP_SCHEMES.GEOLOCATION);
             }
+
+            var removeListenerForInitReady = $rootScope.$on('map:idle', function () {
+                self.initReady.resolve();
+                removeListenerForInitReady();
+            });
         }
         
         function broadcastEvent (gMapObj, event, mouseEvents) {

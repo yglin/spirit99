@@ -5,13 +5,15 @@
         .module('spirit99')
         .service('Category', Category);
 
-    Category.$inject = ['$rootScope', 'nodeValidator', 'uiGmapGoogleMapApi'];
+    Category.$inject = ['$rootScope', '$location', 'nodeValidator', 'uiGmapGoogleMapApi'];
 
     /* @ngInject */
-    function Category($rootScope, nodeValidator, uiGmapGoogleMapApi) {
+    function Category($rootScope, $location, nodeValidator, uiGmapGoogleMapApi) {
         var self = this;
         self.CATEGORY_MISC = CATEGORY_MISC();
         self.categories = {};
+
+        self.getParams = getParams;
         self.validate = validate;
         self.normalize = normalize;
         self.rebuildCategories = rebuildCategories;
@@ -26,6 +28,17 @@
         var gMapApi = null;
 
         function activate () {
+            if ($location.search().categories) {
+                self.queryParams = JSON.parse($location.search().categories);
+            }
+        }
+
+        function getParams() {
+            var params = {};
+            for (var key in self.categories) {
+                params[key] = self.categories[key].visible;
+            }
+            return { categories: params };
         }
 
         ////////////////
@@ -102,6 +115,16 @@
                 if (!('misc' in self.categories)) {
                     self.categories['misc'] = self.CATEGORY_MISC;
                 }
+
+                // Apply query parameters, only once
+                if (self.queryParams) {
+                    for (var key in self.queryParams) {
+                        if (self.categories[key]) {
+                            self.categories[key].visible = self.queryParams[key];
+                        }
+                    }
+                    delete self.queryParams;
+                }
             });
         }
 
@@ -145,7 +168,8 @@
                 title: '其他',
                 icon: {
                     url: 'https://raw.githubusercontent.com/Concept211/Google-Maps-Markers/master/images/marker_red.png'
-                }
+                },
+                visible: true
             };
         }
     }

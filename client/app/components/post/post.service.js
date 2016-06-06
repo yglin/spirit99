@@ -32,30 +32,32 @@
 
         ////////////////
         function activate () {
-            $rootScope.$on('channel:tuned', function () {
-                self.issueQuery();
-            });
-            $rootScope.$on('map:dragend', function () {
-                self.issueQuery();
-            });
-            
-            $rootScope.$on('map:zoom_changed', function () {
-                self.onMapIdleReloadPosts();
-            });
-
-            $rootScope.$on('map:navigate', function () {
-                self.onMapIdleReloadPosts();
-            });
-
-            // $rootScope.$on('post:filterChanged', function () {
-            //     self.applyFilters();
-            // });
-            
             if (!self.settings) {
                 self.settings = {
                     clusterType: 'cluster'
                 };
             }
+
+            Map.initReady.promise.then(function () {
+                if (Channel.tunedInChannelID) {
+                    self.issueQuery();
+                }
+
+                $rootScope.$on('channel:tuned', function () {
+                    self.issueQuery();
+                });
+                $rootScope.$on('map:dragend', function () {
+                    self.issueQuery();
+                });
+                
+                $rootScope.$on('map:zoom_changed', function () {
+                    self.onMapIdleReloadPosts();
+                });
+
+                $rootScope.$on('map:navigate', function () {
+                    self.onMapIdleReloadPosts();
+                });
+            });
         }
 
         function onMapIdleReloadPosts () {
@@ -74,7 +76,7 @@
             self.lastQuery.channelID = Channel.tunedInChannelID;
             self.lastQuery.bounds = Map.map.bounds;
             self.lastQuery.dirty = true;
-            self.reloadPosts(self.lastQuery);
+            self.reloadPosts(self.lastQuery);            
         }
 
         function validate (post) {

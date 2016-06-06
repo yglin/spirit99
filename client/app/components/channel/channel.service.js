@@ -248,6 +248,9 @@
             .then(function (response) {
                 var channel = response.data;
                 if(self.validate(channel)){
+                    if (!channel['portal-url']) {
+                        channel['portal-url'] = portalUrl;
+                    }
                     self.normalize(channel);
                     self.channels[channel.id] = channel;
                     self.save(channel);
