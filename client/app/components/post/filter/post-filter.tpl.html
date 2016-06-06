@@ -7,8 +7,8 @@ ng-controller='PostFilterController as postFilterVM'>
         readonly='postFilterVM.chipsReadonly'
         placeholder='增加關鍵字'
         secondary-placeholder='輸入關鍵字'
-        md-on-add='postFilterVM.postFilter.onAddKeyword()'
-        md-on-remove='postFilterVM.postFilter.onRemoveKeyword()'>
+        md-on-add='postFilterVM.postFilter.onChange()'
+        md-on-remove='postFilterVM.postFilter.onChange()'>
         </md-chips>
         <md-divider></md-divider>
         <br>

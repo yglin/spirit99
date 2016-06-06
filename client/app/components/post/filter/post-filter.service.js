@@ -17,8 +17,6 @@
         self.categories = Category.categories;
         self.filter = filter;
         self.onChange = onChange;
-        self.onAddKeyword = onAddKeyword;
-        self.onRemoveKeyword = onRemoveKeyword;
         self.onChangeDatePeriod = onChangeDatePeriod;
 
         activate();
@@ -31,14 +29,6 @@
         }
 
         function onChange() {
-            $rootScope.$broadcast('post:filterChanged');
-        }
-
-        function onAddKeyword() {
-            $rootScope.$broadcast('post:filterChanged');
-        }
-
-        function onRemoveKeyword () {
             $rootScope.$broadcast('post:filterChanged');
         }
 
