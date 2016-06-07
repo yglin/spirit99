@@ -1,11 +1,11 @@
 <div class='s99-post-item' style='margin:0px 5px'>
     <div layout='row'>
-        <img ng-src="{{postItemVM.post.categoryIcon}}" class='s99-category-icon'>
+        <img ng-src="{{postItemVM.post.options.icon.url}}" class='s99-category-icon'>
         <md-subheader class='md-primary'>{{postItemVM.post.create_time | date:'yyyy-M-d HH:mm:ss'}}</md-subheader>
     </div>
     <div class='s99-event-period' layout='row' layout-align='space-around center'>
         <span ng-show='postItemVM.post.startAt'>{{postItemVM.post.startAt | date: 'yyyy-M-d HH:mm:ss'}}</span>
-        <span ng-show='postItemVM.post.startAt || postItemVM.post.endAt'>～</span>
+        <span ng-show='postItemVM.post.startAt || postItemVM.post.endAt'>&#8212;</span>
         <span ng-show='postItemVM.post.endAt'>{{postItemVM.post.endAt | date: 'yyyy-M-d HH:mm:ss'}}</span>        
     </div>
     <div layout='row' layout-align='start start'>
