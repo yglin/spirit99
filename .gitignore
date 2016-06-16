@@ -1,6 +1,7 @@
 logs/*
 !.gitkeep
 node_modules/
+client/app/images
 client/bower_components/*
 !client/bower_components/angular-google-maps/
 client/dist
