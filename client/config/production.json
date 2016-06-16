@@ -1,5 +1,6 @@
 {
     "ENV": "production",
     "DEBUG": false,
-    "MARKER_CLUSTER_TYPE": "cluster"
+    "MARKER_CLUSTER_TYPE": "cluster",
+    "GOOGLE_CLIENT_API_KEY": "AIzaSyB72lwL0HWu-jdurOAWFMIUMPAL6aHeZ0s"
 }

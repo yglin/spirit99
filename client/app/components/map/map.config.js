@@ -8,12 +8,12 @@
     .module('spirit99')
     .config(MapConfiger);
 
-    MapConfiger.$inject = ['uiGmapGoogleMapApiProvider'];
+    MapConfiger.$inject = ['uiGmapGoogleMapApiProvider', 'CONFIG'];
 
     // Configration for partial view - map
-    function MapConfiger(uiGmapGoogleMapApiProvider){
+    function MapConfiger(uiGmapGoogleMapApiProvider, CONFIG){
         uiGmapGoogleMapApiProvider.configure({
-            key: 'AIzaSyCewhA8IKkKYEWgW0e5bSThsw6sNKauliE'
+            key: CONFIG.GOOGLE_CLIENT_API_KEY
         });
     }
 

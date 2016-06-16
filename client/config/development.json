@@ -2,5 +2,6 @@
     "ENV": "development",
     "DEBUG": true,
     "MARKER_CLUSTER_TYPE": "cluster",
-    "SERVER_URL": "http://localhost:9000"
+    "SERVER_URL": "http://localhost:9000",
+    "GOOGLE_CLIENT_API_KEY": "AIzaSyCewhA8IKkKYEWgW0e5bSThsw6sNKauliE"
 }
