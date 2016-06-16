@@ -1,26 +1,18 @@
-<div id='s99-map' ng-if='mapVM.map'>
-<ui-gmap-google-map center='mapVM.map.center' zoom='mapVM.map.zoom'
-bounds='mapVM.map.bounds' events='mapVM.events' options='mapVM.options'>
-    <div ng-include='"app/components/post/post-markers.tpl.html"'
-    ng-controller="PostMarkersController as postMarkersVM">
-    </div>
-</ui-gmap-google-map>
-<!-- <div style='position:absolute;top:0px;right:0px;' layout='column'>
-    <md-button class='md-fab md-mini md-accent s99-show-flipInX'
-    ng-hide='mapVM.isDragging'
-    ng-click="mapVM.locate($event)">
-        <md-icon class='material-icons'>my_location</md-icon>
-    </md-button>
-    <md-button class='md-fab md-mini md-accent s99-show-flipInX'
-    ng-hide='mapVM.isDragging || !mapVM.showListButton'
-    ng-click="mapVM.openPostList()">
-        <md-icon class='material-icons'>view_list</md-icon>
-    </md-button>    
+<div id='s99-map' style='position:relative;' ng-cloak>
+<div ng-if='mapVM.map'>
+    <ui-gmap-google-map center='mapVM.map.center' zoom='mapVM.map.zoom'
+    bounds='mapVM.map.bounds' events='mapVM.events' options='mapVM.options'>
+        <div ng-include='"app/components/post/post-markers.tpl.html"'
+        ng-controller="PostMarkersController as postMarkersVM">
+        </div>
+    </ui-gmap-google-map>
 </div>
- --><!-- <p>Bounds:
-North East: {{mapVM.map.bounds.northeast.latitude}}, {{mapVM.map.bounds.northeast.longitude}}
-Southwest: {{mapVM.map.bounds.southwest.latitude}}, {{mapVM.map.bounds.southwest.longitude}}
-</p>
- -->
- </div>
+<div layout='row' layout-align="center center" layout-padding layout-wrap
+ng-hide='mapVM.mapIsReady'
+class='angular-google-map-container'
+style='position:absolute;top:0;left:0;background-color:rgba(0, 0, 0, 0.3);'>
+    <h3>載入Google地圖...</h3>
+    <md-progress-circular md-mode="indeterminate" md-diameter='100' class='md-accent'></md-progress-circular>
+</div>
+</div>
  
