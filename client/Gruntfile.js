@@ -9,6 +9,7 @@
 
 var _ = require('underscore');
 var modRewrite = require('connect-modrewrite');
+var exec = require('child_process').exec;
 
 module.exports = function (grunt) {
 
@@ -212,17 +213,17 @@ module.exports = function (grunt) {
         },
 
         // Automatically insert angular script files into index.html
-        includeSource: {
-            options: {
-                basePath: '<%= yeoman.app %>',
-                baseUrl: '<%= yeoman.app %>/'
-            },
-            target: {
-                files: {
-                    '<%= yeoman.root %>/index.html': '<%= yeoman.root %>/index.html'
-                }
-            }
-        },
+        // includeSource: {
+        //     options: {
+        //         basePath: '<%= yeoman.app %>',
+        //         baseUrl: '<%= yeoman.app %>/'
+        //     },
+        //     target: {
+        //         files: {
+        //             '<%= yeoman.root %>/index.html': '<%= yeoman.root %>/index.html'
+        //         }
+        //     }
+        // },
 
         // Automatically inject Bower components into the app
         wiredep: {
@@ -246,7 +247,16 @@ module.exports = function (grunt) {
                         }
                     }
             }
-        }, 
+        },
+
+        injector: {
+            options: {
+                relative: true,
+                files: {
+                    'index.html': ['app/app.module.js', 'app/app.*.js', 'app/**/*.js', 'app/**/*.css', '!app/obsolete/**/*.*', '!app/**/*.spec.js', '!app/**/*.test.js']
+                }
+            }
+        },
 
         // Renames files for browser caching purposes
         filerev: {
@@ -266,16 +276,7 @@ module.exports = function (grunt) {
         useminPrepare: {
             html: '<%= yeoman.root %>/index.html',
             options: {
-                dest: '<%= yeoman.dist %>',
-                flow: {
-                    html: {
-                        steps: {
-                            js: ['concat', 'uglifyjs'],
-                            css: ['cssmin']
-                        },
-                        post: {}
-                    }
-                }
+                dest: '<%= yeoman.dist %>'
             }
         },
 
@@ -300,34 +301,34 @@ module.exports = function (grunt) {
         // By default, your `index.html`'s <!-- Usemin block --> will take care of
         // minification. These next options are pre-configured if you do not wish
         // to use the Usemin blocks.
-        cssmin: {
-          dist: {
-            files: {
-              '<%= yeoman.dist %>/styles/main.css': [
-                '.tmp/styles/**/*.css'
-              ]
-            }
-          }
-        },
-        uglify: {
-          dist: {
-            files: {
-              '<%= yeoman.dist %>/scripts/scripts.js': [
-                '<%= yeoman.dist %>/scripts/scripts.js'
-              ]
-            }
-          }
-        },
-        concat: {
-          dist: {}
-        },
+        // cssmin: {
+        //   dist: {
+        //     files: {
+        //       '<%= yeoman.dist %>/styles/main.css': [
+        //         '.tmp/styles/**/*.css'
+        //       ]
+        //     }
+        //   }
+        // },
+        // uglify: {
+        //   dist: {
+        //     files: {
+        //       '<%= yeoman.dist %>/scripts/scripts.js': [
+        //         '<%= yeoman.dist %>/scripts/scripts.js'
+        //       ]
+        //     }
+        //   }
+        // },
+        // concat: {
+        //   dist: {}
+        // },
 
         imagemin: {
             dist: {
                 files: [{
                     expand: true,
                     cwd: '<%= yeoman.app %>/images',
-                    src: '**/*.{png,jpg,jpeg,gif}',
+                    src: ['**/*.{png,jpg,jpeg,gif}'],
                     dest: '<%= yeoman.dist %>/images'
                 }]
             }
@@ -366,8 +367,8 @@ module.exports = function (grunt) {
                 options: {
                     module: 'spirit99',
                 },
-                cwd: '<%= yeoman.app %>',
-                src: '**/*.html',
+                cwd: '<%= yeoman.root %>',
+                src: ['app/components/**/*.html'],
                 dest: '.tmp/templateCache.js'                
             },
             dist: {
@@ -376,8 +377,8 @@ module.exports = function (grunt) {
                     htmlmin: '<%= htmlmin.dist.options %>',
                     usemin: 'scripts/scripts.js'
                 },
-                cwd: '<%= yeoman.app %>',
-                src: '**/*.html',
+                cwd: '<%= yeoman.root %>',
+                src: ['app/components/**/*.html'],
                 dest: '.tmp/templateCache.js'
             }
         },
@@ -446,6 +447,7 @@ module.exports = function (grunt) {
                     src: [
                         '*.{ico,png,txt}',
                         '*.html',
+                        'app/layout/**/*.html',
                         'images/**/*.{webp}',
                         'styles/fonts/**/*.*'
                     ]
@@ -457,10 +459,14 @@ module.exports = function (grunt) {
                 }]
             },
             styles: {
-                expand: true,
-                cwd: '<%= yeoman.app %>/styles',
-                dest: '.tmp/styles/',
-                src: '**/*.css'
+                files:[
+                    {
+                        expand: true,
+                        cwd: '<%= yeoman.app %>/styles',
+                        dest: '.tmp/styles/',
+                        src: '**/*.css'                        
+                    }
+                ]
             }
         },
 
@@ -505,7 +511,8 @@ module.exports = function (grunt) {
             'clean:server',
             'wiredep',
             'ngconstant:dev',
-            'includeSource',
+            'injector',
+            // 'includeSource',
             'concurrent:server',
             'postcss:server',
             'connect:livereload',
@@ -522,7 +529,7 @@ module.exports = function (grunt) {
         'clean:server',
         'wiredep',
         'ngconstant:test',
-        'includeSource',
+        // 'includeSource',
         'concurrent:test',
         'postcss',
         'ngtemplates:test',
@@ -534,7 +541,7 @@ module.exports = function (grunt) {
         'clean:server',
         'wiredep',
         'ngconstant:test',
-        'includeSource',
+        // 'includeSource',
         'concurrent:test',
         'postcss',
         'connect:test',
@@ -545,20 +552,46 @@ module.exports = function (grunt) {
         'clean:dist',
         'wiredep:app',
         'ngconstant:build',
+        'injector',
         'useminPrepare',
+        'ngtemplates:dist',
         'concurrent:dist',
         'postcss',
-        'ngtemplates',
-        'concat',
+        'concat:generated',
         'ngAnnotate',
         'copy:dist',
         'cdnify',
-        'cssmin',
-        'uglify',
+        'cssmin:generated',
+        'uglify:generated',
         'filerev',
         'usemin',
         'htmlmin'
     ]);
+
+    grunt.registerTask('awss3-sync', function () {
+        var done = this.async();
+        var command = 'aws';
+        var args = ['s3', 'sync', grunt.config.get('yeoman.dist'), 's3://www.9493.tw', '--delete'];
+        grunt.util.spawn({
+            cmd: command,
+            args: args,
+            opts: {
+                stdio: 'inherit'
+            }
+        }, function (error, result, code) {
+            if (error) {
+                grunt.log.error(error);
+                grunt.log.error(stderr);
+                done(false);
+            }
+            else {
+                grunt.log.ok('Sync to AWS S3 www.9493.tw completed');
+                done(true);
+            }            
+        });
+    });
+
+    grunt.registerTask('deploy', ['build', 'awss3-sync']);
 
     grunt.registerTask('default', [
         'newer:jshint',

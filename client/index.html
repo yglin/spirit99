@@ -14,15 +14,22 @@
     <!-- <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/normalize.css"> -->
     <!-- <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/main.css"> -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="/bower_components/angular-material/angular-material.css">
 
     <!-- <script src="bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script> -->
     <!-- <script src='https://maps.googleapis.com/maps/api/js?key=AIzaSyCewhA8IKkKYEWgW0e5bSThsw6sNKauliE'></script> -->
 
-    <!-- include: "type": "css", "files": ["styles/spirit99.css", "components/**/*.css", "!obsolete/**/*.css"] -->
-    <link href="app/styles/spirit99.css" rel="stylesheet" type="text/css">
-    <link href="app/components/map/map.css" rel="stylesheet" type="text/css">
-    <!-- /include -->
+    <!-- build:css styles/style.css -->    
+    <!-- bower:css -->
+    <link rel="stylesheet" href="bower_components/angular-material/angular-material.css" />
+    <!-- endbower -->
+    <!-- injector:css -->
+    <link rel="stylesheet" href="/app/components/map/map.css">
+    <link rel="stylesheet" href="/app/styles/animate.css">
+    <link rel="stylesheet" href="/app/styles/spirit99-animate.css">
+    <link rel="stylesheet" href="/app/styles/spirit99.css">
+    <!-- endinjector -->
+    <!-- endbuild -->
+    
 </head>
 <body>
     <div ng-include='"app/layout/toolbar/toolbar.html"'
@@ -70,50 +77,50 @@
     <!-- endbower -->
     <!-- endbuild -->
 
-    <!-- build:js({.tmp,app}) scripts/scripts.js -->
-    <!-- include: "type": "js", "files": ["app.module.js", "**/*.js", "!obsolete/**/*.js", "!**/*.spec.js", "!**/*.test.js"] -->
-    <script src="app/app.module.js"></script>
-    <script src="app/app.config.js"></script>
-    <script src="app/app.constant.js"></script>
-    <script src="app/app.route.js"></script>
-    <script src="app/components/category/category.service.js"></script>
-    <script src="app/components/channel/channel-item.directive.js"></script>
-    <script src="app/components/channel/channel-list.controller.js"></script>
-    <script src="app/components/channel/channel.service.js"></script>
-    <script src="app/components/datetime/date-period.service.js"></script>
-    <script src="app/components/debugger/debugger.component.js"></script>
-    <script src="app/components/debugger/debugger.controller.js"></script>
-    <script src="app/components/dialog/dialog-alert.controller.js"></script>
-    <script src="app/components/dialog/dialog-confirm.controller.js"></script>
-    <script src="app/components/dialog/dialog.service.js"></script>
-    <script src="app/components/map/locator/gadget/gadget.controller.js"></script>
-    <script src="app/components/map/locator/geocoder.service.js"></script>
-    <script src="app/components/map/locator/geolocation.service.js"></script>
-    <script src="app/components/map/locator/locator.controller.js"></script>
-    <script src="app/components/map/locator/locator.service.js"></script>
-    <script src="app/components/map/map.config.js"></script>
-    <script src="app/components/map/map.controller.js"></script>
-    <script src="app/components/map/map.service.js"></script>
-    <script src="app/components/map/settings/settings.controller.js"></script>
-    <script src="app/components/post/filter/post-filter.controller.js"></script>
-    <script src="app/components/post/filter/post-filter.service.js"></script>
-    <script src="app/components/post/gadget/gadget.controller.js"></script>
-    <script src="app/components/post/post-item.directive.js"></script>
-    <script src="app/components/post/post-list.controller.js"></script>
-    <script src="app/components/post/post-markers.controller.js"></script>
-    <script src="app/components/post/post.service.js"></script>
-    <script src="app/components/post/settings/settings.component.js"></script>
-    <script src="app/components/post/settings/settings.controller.js"></script>
-    <script src="app/components/url-generator/url-dialog.controller.js"></script>
-    <script src="app/components/url-generator/url-generator.component.js"></script>
-    <script src="app/components/url-generator/url-generator.controller.js"></script>
-    <script src="app/components/url-generator/url-generator.service.js"></script>
-    <script src="app/layout/gadget/gadget.controller.js"></script>
-    <script src="app/layout/main/main.controller.js"></script>
-    <script src="app/layout/sidenav/sidenav.controller.js"></script>
-    <script src="app/layout/sidenav/sidenav.service.js"></script>
-    <script src="app/layout/toolbar/toolbar.controller.js"></script>
-    <!-- /include -->
+    <!-- build:js(.) scripts/scripts.js -->
+    <!-- injector:js -->
+    <script src="/app/app.module.js"></script>
+    <script src="/app/app.config.js"></script>
+    <script src="/app/app.constant.js"></script>
+    <script src="/app/app.route.js"></script>
+    <script src="/app/components/category/category.service.js"></script>
+    <script src="/app/components/channel/channel-item.directive.js"></script>
+    <script src="/app/components/channel/channel-list.controller.js"></script>
+    <script src="/app/components/channel/channel.service.js"></script>
+    <script src="/app/components/datetime/date-period.service.js"></script>
+    <script src="/app/components/debugger/debugger.component.js"></script>
+    <script src="/app/components/debugger/debugger.controller.js"></script>
+    <script src="/app/components/dialog/dialog-alert.controller.js"></script>
+    <script src="/app/components/dialog/dialog-confirm.controller.js"></script>
+    <script src="/app/components/dialog/dialog.service.js"></script>
+    <script src="/app/components/map/locator/gadget/gadget.controller.js"></script>
+    <script src="/app/components/map/locator/geocoder.service.js"></script>
+    <script src="/app/components/map/locator/geolocation.service.js"></script>
+    <script src="/app/components/map/locator/locator.controller.js"></script>
+    <script src="/app/components/map/locator/locator.service.js"></script>
+    <script src="/app/components/map/map.config.js"></script>
+    <script src="/app/components/map/map.controller.js"></script>
+    <script src="/app/components/map/map.service.js"></script>
+    <script src="/app/components/map/settings/settings.controller.js"></script>
+    <script src="/app/components/post/filter/post-filter.controller.js"></script>
+    <script src="/app/components/post/filter/post-filter.service.js"></script>
+    <script src="/app/components/post/gadget/gadget.controller.js"></script>
+    <script src="/app/components/post/post-item.directive.js"></script>
+    <script src="/app/components/post/post-list.controller.js"></script>
+    <script src="/app/components/post/post-markers.controller.js"></script>
+    <script src="/app/components/post/post.service.js"></script>
+    <script src="/app/components/post/settings/settings.component.js"></script>
+    <script src="/app/components/post/settings/settings.controller.js"></script>
+    <script src="/app/components/url-generator/url-dialog.controller.js"></script>
+    <script src="/app/components/url-generator/url-generator.component.js"></script>
+    <script src="/app/components/url-generator/url-generator.controller.js"></script>
+    <script src="/app/components/url-generator/url-generator.service.js"></script>
+    <script src="/app/layout/gadget/gadget.controller.js"></script>
+    <script src="/app/layout/main/main.controller.js"></script>
+    <script src="/app/layout/sidenav/sidenav.controller.js"></script>
+    <script src="/app/layout/sidenav/sidenav.service.js"></script>
+    <script src="/app/layout/toolbar/toolbar.controller.js"></script>
+    <!-- endinjector -->
     <!-- endbuild -->
 </body>
 </html>
