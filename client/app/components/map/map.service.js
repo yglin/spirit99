@@ -112,6 +112,7 @@
                     longitude: position.coords.longitude,
                     zoom: self.ZOOMS.STREET
                 });
+                return $q.resolve();
             });
         }
 
@@ -125,6 +126,8 @@
             var lastMap = localStorage.get('last-map');
             var homeMap = localStorage.get('home-map');
 
+            var done = $q.defer();
+
             // Resolve initMap from query parameter
             if ($routeParams.map) {
                 var map = JSON.parse($routeParams.map);
@@ -133,27 +136,29 @@
                 if (map.zoom) {
                     self.map.zoom = map.zoom;
                 }
-                return $q.resolve(self.map);
+                done.resolve(self.map);
             }
             // Resolve initMap from geolocation
             else if(self.initMapScheme === self.INIT_MAP_SCHEMES.GEOLOCATION){
-                return self.prmsGotoGeolocation().then(function () {
-                    return $q.resolve(self.map);
+                self.prmsGotoGeolocation().finally(function () {
+                    done.resolve(self.map);
                 });
             }
             // Resolve initMap from last one
             else if(self.initMapScheme === self.INIT_MAP_SCHEMES.LAST && lastMap){
                 angular.extend(self.map, lastMap);
-                return $q.resolve(self.map);
+                done.resolve(self.map);
             }
             // Resolve initMap from homeMap
             else if(self.initMapScheme === self.INIT_MAP_SCHEMES.HOME_MAP && homeMap){
                 angular.extend(self.map, homeMap);
-                return $q.resolve(self.map);
+                done.resolve(self.map);
             }
             else{
-                return $q.resolve(self.map);
+                done.resolve(self.map);
             }
+
+            return done.promise;
         }
 
         function getBounds () {
