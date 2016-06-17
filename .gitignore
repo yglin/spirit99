@@ -10,4 +10,4 @@ tmp
 .DS_Store
 .idea
 *.sublime*
-
+client/app/app.constant.js
