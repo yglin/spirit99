@@ -4,7 +4,7 @@
             <s99-channel-item channel='channel' focus-on='channelListVM.focusOn'></s99-channel-item>
             <md-divider layout-margin></md-divider>
         </div>
-        <div layout='row'>
+<!--         <div layout='row'>
             <md-input-container class='md-block' flex>
                 <input name='newPortalUrl' ng-model='channelListVM.newPortalUrl' placeholder='加入新的頻道'>
                 <div class='s99-input-hint'>請輸入頻道傳送門(Portal)網址</div>
@@ -14,10 +14,10 @@
                 <md-icon class='material-icons'>add</md-icon>
             </md-button>
         </div>
-        <div layout='row' layout-align='end center'>
-            <span>或者...</span>
+ -->        <div layout='row' layout-align='end center'>
+            <span></span>
             <div>
-                <md-button id='link-to-repo' class='md-primary' ng-href='{{channelListVM.repositoryLink}}'>瀏覽頻道庫</md-button>
+                <md-button id='link-to-repo' class='md-primary' ng-href='{{channelListVM.repositoryLink}}'><i>瀏覽頻道庫</i></md-button>
             </div>
         </div>
     </md-content>
