@@ -2,5 +2,6 @@
     "ENV": "production",
     "DEBUG": false,
     "MARKER_CLUSTER_TYPE": "cluster",
+    "STATION_URL": "http://station.9493.tw",
     "GOOGLE_CLIENT_API_KEY": "AIzaSyB72lwL0HWu-jdurOAWFMIUMPAL6aHeZ0s"
 }

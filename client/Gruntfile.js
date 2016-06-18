@@ -419,7 +419,7 @@ module.exports = function (grunt) {
                     )
                 }
             },
-            build: {
+            dist: {
                 constants: {
                     CONFIG: _.extend(
                         grunt.file.readJSON('config/shared.json'),
@@ -551,7 +551,7 @@ module.exports = function (grunt) {
     grunt.registerTask('build', [
         'clean:dist',
         'wiredep:app',
-        'ngconstant:build',
+        'ngconstant:dist',
         'injector',
         'useminPrepare',
         'ngtemplates:dist',

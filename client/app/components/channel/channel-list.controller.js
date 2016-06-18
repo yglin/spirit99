@@ -19,7 +19,7 @@
         ////////////////
 
         function activate() {
-            channelListVM.repositoryLink = CONFIG.SERVER_URL + '/channels';
+            channelListVM.repositoryLink = CONFIG.STATION_URL + '/channels';
         }
 
         function addChannel (portalUrl) {
