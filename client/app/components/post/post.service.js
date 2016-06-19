@@ -158,18 +158,22 @@
                 latitude: location.latitude,
                 longitude: location.longitude
             };
-            var returnUrl = $location.protocol() + '://'+ $location.host() +':'+  $location.port();
+
+            var returnUrl = '//'+ $location.host() + ':' +  $location.port();
+            var returnUrlParams = {};
             if (Channel.tunedInChannelID) {
-                returnUrl += '/' + Channel.tunedInChannelID;
+                returnUrlParams.channel = Channel.tunedInChannelID;
             }
-            returnUrl += '?' + $httpParamSerializer({
-                map: {
-                    center: Map.map.center,
-                    zoom: Map.map.zoom
-                }
-            });
+            returnUrlParams.map = {
+                center: Map.map.center,
+                zoom: Map.map.zoom
+            };
+            if (Object.keys(returnUrlParams).length > 0) {
+                returnUrl += '?' + $httpParamSerializer(returnUrlParams);
+            }
             queryParams.returnUrl = returnUrl;
-            $window.location.replace(createUrl + '?' + $httpParamSerializer(queryParams));
+
+            $window.open(createUrl + '?' + $httpParamSerializer(queryParams));
             return $q.resolve();
         }
 
