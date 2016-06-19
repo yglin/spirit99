@@ -4,7 +4,7 @@
 
     angular.module('spirit99')
     .config(['$routeProvider', function($routeProvider) {
-        $routeProvider.when('/:channel', {
+        $routeProvider.when('/', {
             controller: 'MainController',
             controllerAs: '$ctrl',
             templateUrl: 'app/layout/main/main.html',
