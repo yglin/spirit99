@@ -5,10 +5,10 @@
         .module('spirit99')
         .service('Geolocation', Geolocation);
 
-    Geolocation.$inject = ['$window', '$q', '$log', 'Dialog'];
+    Geolocation.$inject = ['$window', '$location', '$q', '$log', 'Dialog'];
 
     /* @ngInject */
-    function Geolocation($window, $q, $log, Dialog) {
+    function Geolocation($window, $location, $q, $log, Dialog) {
         var self = this;
         self.prmsGetCurrentPosition = prmsGetCurrentPosition;
 
@@ -24,7 +24,18 @@
                 },
                 function (error) {
                     $log.warn(error);
-                    Dialog.alert('定位失敗', '定位失敗，錯誤訊息如下：<br><p>' + error.message + '</p>');
+                    var alertMessage = '';
+                    console.log(error.message);
+                    console.log(error.message.indexOf('Only secure origins are allowed'));
+                    if (error.message.indexOf('Only secure origins are allowed') >= 0) {
+                        var httpsLink = 'https://' + $location.host();
+                        alertMessage = '定位失敗，請嘗試使用以下網址進入本站<br>';
+                        alertMessage += '<a href="' + httpsLink + '">' + httpsLink + '</a>';
+                    }
+                    else {
+                        alertMessage = '定位失敗，錯誤訊息如下：<br><p>' + error.message + '</p>';
+                    }
+                    Dialog.alert('定位失敗', alertMessage);
                     deferred.reject(error);
                 });
             }
