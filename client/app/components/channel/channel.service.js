@@ -121,8 +121,8 @@
                     return false;
                 }
                 if (required_fields[key] == 'url') {
-                    if (!nodeValidator.isURL(channel[key])) {
-                        $log.warn('"' + key + '" is not an url');
+                    if (!nodeValidator.isURL(channel[key], {allow_protocol_relative_urls: true})) {
+                        $log.warn('channel.' + key + ' - ' + channel[key] + ' is not an url');
                         return false;
                     };
                 }
