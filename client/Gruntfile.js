@@ -7,7 +7,9 @@
 // use this if you want to recursively match all subfolders:
 // 'test/spec/**/*.js'
 
+var path = require('path');
 var _ = require('underscore');
+var Q = require('q');
 var modRewrite = require('connect-modrewrite');
 var exec = require('child_process').exec;
 
@@ -570,8 +572,11 @@ module.exports = function (grunt) {
 
     grunt.registerTask('awss3-sync', function () {
         var done = this.async();
+        var doneSync = Q.defer();
+        // var doneSetIndexHtmlCacheCtrl = Q.defer();
+
         var command = 'aws';
-        var args = ['s3', 'sync', grunt.config.get('yeoman.dist'), 's3://www.9493.tw', '--delete'];
+        var args = ['s3', 'sync', grunt.config.get('yeoman.dist'), 's3://www.9493.tw', '--delete', '--exclude', '"index.html"'];
         grunt.util.spawn({
             cmd: command,
             args: args,
@@ -581,13 +586,35 @@ module.exports = function (grunt) {
         }, function (error, result, code) {
             if (error) {
                 grunt.log.error(error);
-                grunt.log.error(stderr);
-                done(false);
+                doneSync.reject(error);
             }
             else {
                 grunt.log.ok('Sync to AWS S3 www.9493.tw completed');
-                done(true);
+                doneSync.resolve();
             }            
+        });
+
+        doneSync.promise
+        .then(function () {
+            args = ['s3', 'cp', path.resolve(grunt.config.get('yeoman.dist'), 'index.html'), 's3://www.9493.tw/index.html', '--cache-control', '"max-age=0"'];
+            grunt.util.spawn({
+                cmd: command,
+                args: args,
+                opts: {
+                    stdio: 'inherit'
+                }
+            }, function (error, result, code) {
+                if (error) {
+                    grunt.log.error(error);
+                    done(false);
+                }
+                else {
+                    done(true);
+                }
+            })
+        })
+        .catch(function (error) {
+            done(false);
         });
     });
 
