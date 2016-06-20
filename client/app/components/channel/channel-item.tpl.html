@@ -19,3 +19,9 @@ ng-click="channelItemVM.tuneIn(channelItemVM.channel.id)">
         ng-show='channelItemVM.channel.runtime.isOffline'>電台目前無法連線...</div>
     </div>
 </div>
+<div style='position: relative;'>
+    <div class='s99-corner-x'
+    ng-click="channelItemVM.delete(channelItemVM.channel.id)">
+        <md-icon class='material-icons'>delete</md-icon>
+    </div>
+</div>

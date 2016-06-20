@@ -191,19 +191,18 @@
         }
 
         function tuneIn (channelID) {
-            var done = $q.defer();
-
             // If not given channelID, tune off
             if (typeof channelID === 'undefined' || !channelID) {
                 self.tunedInChannelID = null;
                 $rootScope.$broadcast('channel:tuned', self.tunedInChannelID);
                 done.resolve();
+                return $q.resolve();
             }
 
             var channel = self.get(channelID);
             if (!channel) {
                 Dialog.alert('找不到頻道', '找不到頻道, ID = ' + channelID);
-                done.reject();
+                return $q.reject();
             }
             
             var prmsChannelUpdated;
@@ -214,6 +213,8 @@
                 prmsChannelUpdated = self.prmsUpdate(channel);
             }
             
+            var done = $q.defer();
+
             prmsChannelUpdated.then(function () {
                 self.prmsIsOnline(channel)
                 .then(function () {
