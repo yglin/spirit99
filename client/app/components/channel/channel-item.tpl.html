@@ -2,16 +2,18 @@
 id='s99-channel-item-{{channelItemVM.channel.id}}'
 class='s99-channel-item s99-clickable s99-selectable'
 ng-click="channelItemVM.tuneIn(channelItemVM.channel.id)">
-    <img class='s99-channel-logo s99-click-no-outline'
-    id='s99-channel-item-logo-{{channelItemVM.channel.id}}'
-    ng-class='{"s99-channel-logo-offline": channelItemVM.channel.isOffline}'
-    ng-src='{{channelItemVM.channel["logo-url"]}}' layout-margin />
-    <div layout='column' flex class='s99-click-no-outline'>
+    <div layout='column' layout-margin>
+        <img class='s99-channel-logo s99-click-no-outline'
+        id='s99-channel-item-logo-{{channelItemVM.channel.id}}'
+        ng-class='{"s99-channel-logo-offline": channelItemVM.channel.isOffline}'
+        ng-src='{{channelItemVM.channel["logo-url"]}}'>
+        <md-icon class='md-warn material-icons' style='font-size: 36px;'
+        ng-show='channelItemVM.channel.id == channelItemVM.Channel.tunedInChannelID && !channelItemVM.isTuningIn'>mic</md-icon>
+        <md-progress-circular ng-show='channelItemVM.isTuningIn' md-mode='indeterminate'></md-progress-circular>
+    </div>
+    <div layout='column' flex>
         <div class='s99-channel-title'>{{channelItemVM.channel.title}}</div>
-        <div layout='column' flex class='s99-show-lightSpeedIn'
-        ng-hide='channelItemVM.focusOn == channelItemVM.channel.id'>
-            <div class='s99-channel-description'>{{channelItemVM.channel.description}}</div>
-        </div>
+        <div class='s99-channel-description'>{{channelItemVM.channel.description}}</div>
         <div class='s99-channel-offline'
         id='s99-channel-offline-{{channelItemVM.channel.id}}'
         ng-show='channelItemVM.channel.runtime.isOffline'>電台目前無法連線...</div>

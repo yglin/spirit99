@@ -191,52 +191,56 @@
         }
 
         function tuneIn (channelID) {
+            var done = $q.defer();
+
             // If not given channelID, tune off
             if (typeof channelID === 'undefined' || !channelID) {
                 self.tunedInChannelID = null;
                 $rootScope.$broadcast('channel:tuned', self.tunedInChannelID);
-                return;
+                done.resolve();
             }
 
             var channel = self.get(channelID);
             if (!channel) {
                 Dialog.alert('找不到頻道', '找不到頻道, ID = ' + channelID);
-                return;
+                done.reject();
             }
             
             var prmsChannelUpdated;
             if(channel.runtime.isUpdated){
-                // console.debug('channel.runtime.isUpdated should be fucking true')
                 prmsChannelUpdated = $q.resolve();
             }
             else{
                 prmsChannelUpdated = self.prmsUpdate(channel);
             }
             
-            // console.debug('Fuck 2~!!!');
-            // console.debug(prmsChannelUpdated.$$state);
             prmsChannelUpdated.then(function () {
-                // console.debug('Fuck 3~!!!');
                 self.prmsIsOnline(channel)
                 .then(function () {
                     self.tunedInChannelID = channelID;
                     Category.rebuildCategories(channel.categories)
                     .then(function () {
                         $rootScope.$broadcast('channel:tuned', self.tunedInChannelID);
-                        localStorage.set('last-channel-id', self.tunedInChannelID);                        
+                        localStorage.set('last-channel-id', self.tunedInChannelID);
+                        done.resolve();
                     }, function (error) {
                         self.markChannelOffline(channelID);
-                        Dialog.alert('頻道資料錯誤', '建立頻道失敗，請稍候再嘗試看看');                        
+                        Dialog.alert('頻道資料錯誤', '建立頻道失敗，請稍候再嘗試看看');
+                        done.reject();
                     });
                 }, function (error) {
                     // console.debug('Don\'t screw me please');
                     self.markChannelOffline(channelID);
                     Dialog.alert('頻道無法連線', '頻道<b>' + (self.getData(channelID, 'title') || channelID) + '</b>目前無法連線，請稍候再嘗試看看');
+                    done.reject();
                 });
             }, function (error) {
                 self.markChannelOffline(channelID);
                 Dialog.alert('頻道無法連線', '頻道<b>' + (self.getData(channelID, 'title') || channelID) + '</b>目前無法連線，請稍候再嘗試看看');
+                done.reject();
             });
+
+            return done.promise;
         }
 
         function markChannelOffline (channelID) {

@@ -36,12 +36,22 @@
     /* @ngInject */
     function ChannelItemController(Channel) {
         var channelItemVM = this;
-        channelItemVM.tuneIn = Channel.tuneIn;
-        channelItemVM.toggleFocus = toggleFocus;
+        channelItemVM.Channel = Channel;
+        channelItemVM.tuneIn = tuneIn;
+        // channelItemVM.toggleFocus = toggleFocus;
         channelItemVM.delete = Channel.prmsDelete;
+        channelItemVM.isTuningIn = false;
 
-        function toggleFocus () {
-            channelItemVM.focusOn = channelItemVM.focusOn == channelItemVM.channel.id ? '' : channelItemVM.channel.id;
+        // function toggleFocus () {
+        //     channelItemVM.focusOn = channelItemVM.focusOn == channelItemVM.channel.id ? '' : channelItemVM.channel.id;
+        // }
+
+        function tuneIn(channel_id) {
+            channelItemVM.isTuningIn = true;
+            Channel.tuneIn(channel_id)
+            .finally(function () {
+                channelItemVM.isTuningIn = false;
+            });
         }
     }
 })();

@@ -15,7 +15,8 @@
 
 .s99-channel-item {
     margin: 10px 5px;
-    min-height: 80px;
+    min-width: 240px;
+    min-height: 120px;
 }
 
 .s99-channel-logo {
