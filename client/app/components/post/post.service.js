@@ -46,6 +46,7 @@
                 $rootScope.$on('channel:tuned', function () {
                     self.issueQuery();
                 });
+                
                 $rootScope.$on('map:dragend', function () {
                     self.issueQuery();
                 });
@@ -137,7 +138,6 @@
                             self.posts.push(post);
                         }
                     }
-                    $rootScope.$broadcast('post:reload');
                 }
                 return $q.resolve(self.posts);
             }, function (error) {
@@ -146,6 +146,7 @@
                 return $q.reject(error);
             }).finally(function () {
                 $rootScope.$broadcast('progress:end');
+                $rootScope.$broadcast('post:reload');
             });
         }
 
