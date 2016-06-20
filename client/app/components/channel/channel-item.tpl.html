@@ -1,6 +1,7 @@
 <div layout='row' layout-align='start start'
 id='s99-channel-item-{{channelItemVM.channel.id}}'
-class='s99-channel-item' ng-click="channelItemVM.tuneIn(channelItemVM.channel.id)">
+class='s99-channel-item s99-clickable s99-selectable'
+ng-click="channelItemVM.tuneIn(channelItemVM.channel.id)">
     <img class='s99-channel-logo s99-click-no-outline'
     id='s99-channel-item-logo-{{channelItemVM.channel.id}}'
     ng-class='{"s99-channel-logo-offline": channelItemVM.channel.isOffline}'
@@ -11,26 +12,7 @@ class='s99-channel-item' ng-click="channelItemVM.tuneIn(channelItemVM.channel.id
         ng-hide='channelItemVM.focusOn == channelItemVM.channel.id'>
             <div class='s99-channel-description'>{{channelItemVM.channel.description}}</div>
         </div>
-<!--         <div layout='row' layout-align='space-around center' flex
-        class='s99-show-lightSpeedIn'
-        ng-show='channelItemVM.focusOn == channelItemVM.channel.id'>
-            <md-button class='md-icon-button'
-            id='s99-button-delete-channel-{{channelItemVM.channel.id}}'
-            ng-click="$event.stopPropagation(); channelItemVM.delete(channelItemVM.channel.id)">
-                <md-icon class='material-icons'>close</md-icon>
-            </md-button>
-            <md-button class='md-icon-button'
-            ng-click="$event.stopPropagation();">
-                <md-icon class='material-icons'>info</md-icon>
-            </md-button>
-            <md-button class='md-icon-button'
-            id='s99-button-tune-in-{{channelItemVM.channel.id}}'
-            ng-click="$event.stopPropagation(); channelItemVM.tuneIn(channelItemVM.channel.id)"
-            ng-disabled="channelItemVM.channel.runtime.isOffline">
-                <md-icon class='material-icons'>play_arrow</md-icon>
-            </md-button>
-        </div>
- -->        <div class='s99-channel-offline'
+        <div class='s99-channel-offline'
         id='s99-channel-offline-{{channelItemVM.channel.id}}'
         ng-show='channelItemVM.channel.runtime.isOffline'>電台目前無法連線...</div>
     </div>

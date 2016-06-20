@@ -1,6 +1,18 @@
 /* spirit99 css stylesheet */
 @import 'spirit99-animate.css';
 
+.s99-selectable:hover {
+    background-color: gainsboro
+}
+
+.s99-clickable {
+    outline: none;
+}
+
+.s99-clickable:hover {
+    cursor: pointer;
+}
+
 .s99-channel-item {
     margin: 10px 5px;
     min-height: 80px;
@@ -61,10 +73,6 @@
 
 .s99-menu-buttons {
     
-}
-
-.s99-click-no-outline:focus {
-    outline: none;
 }
 
 .s99-transparent-image {
