@@ -118,6 +118,7 @@
             self.posts.length = 0;
             var queryUrl = Channel.getData(query.channelID, 'query-url');
             if (!queryUrl) {
+                $rootScope.$broadcast('post:reload');
                 return;
             }
             // $rootScope.$broadcast('post:loadStart');
