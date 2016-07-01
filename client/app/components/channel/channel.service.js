@@ -199,7 +199,6 @@
             if (typeof channelID === 'undefined' || !channelID) {
                 self.tunedInChannelID = null;
                 $rootScope.$broadcast('channel:tuned', self.tunedInChannelID);
-                done.resolve();
                 return $q.resolve();
             }
 
@@ -285,10 +284,10 @@
             return Dialog.confirm('刪除頻道', '確定要刪除以下頻道？<br><b>' + channel.title + '</b>')
             .then(function () {
                 delete self.channels[channelID];
+                self.delete(channel);
                 if (channelID == self.tunedInChannelID) {
                     self.tuneIn();
                 }
-                self.delete(channel);
                 $rootScope.$broadcast('channel:deleted', channelID);
                 return $q.resolve();
             }, function (error) {
