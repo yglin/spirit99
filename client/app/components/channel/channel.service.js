@@ -5,10 +5,10 @@
         .module('spirit99')
         .service('Channel', Channel);
 
-    Channel.$inject = ['CONFIG', '$q', '$log', '$http', '$routeParams', '$location', '$rootScope', 'localStorageService', 'Dialog', 'nodeValidator', 'Category', 'uiGmapGoogleMapApi'];
+    Channel.$inject = ['CONFIG', '$q', '$log', '$http', '$routeParams', '$location', '$rootScope', 'localStorageService', 'Sidenav', 'Dialog', 'nodeValidator', 'Category', 'uiGmapGoogleMapApi'];
 
     /* @ngInject */
-    function Channel(CONFIG, $q, $log, $http, $routeParams, $location, $rootScope, localStorage, Dialog, nodeValidator, Category, uiGmapGoogleMapApi) {
+    function Channel(CONFIG, $q, $log, $http, $routeParams, $location, $rootScope, localStorage, Sidenav, Dialog, nodeValidator, Category, uiGmapGoogleMapApi) {
         var self = this;
         self.channels = undefined;
         self.tunedInChannelID = undefined;
@@ -52,6 +52,10 @@
                 }
                 else if (self.lastChannelId in self.channels) {
                     self.tuneIn(self.lastChannelId);
+                }
+                else {
+                    // First time, no channel, open sidenav channel-list
+                    Sidenav.open('channels');
                 };                
             });
         }

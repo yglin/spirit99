@@ -4,6 +4,9 @@
             <s99-channel-item channel='channel' focus-on='channelListVM.focusOn'></s99-channel-item>
             <md-divider layout-margin></md-divider>
         </div>
+        <div ng-show='channelListVM.empty' layout-padding>
+            <p class='s99-input-hint'>您的頻道列表中沒有任何頻道，可以到頻道庫瀏覽，選擇喜愛的頻道匯入。</p>
+        </div>
 <!--         <div layout='row'>
             <md-input-container class='md-block' flex>
                 <input name='newPortalUrl' ng-model='channelListVM.newPortalUrl' placeholder='加入新的頻道'>

@@ -13,6 +13,7 @@
         channelListVM.focusOn = '';
         channelListVM.channels = Channel.channels;
         channelListVM.addChannel = addChannel;
+        channelListVM.empty = Object.keys(Channel.channels).length <= 0;
 
         activate();
 
