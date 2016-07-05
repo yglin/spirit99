@@ -1,18 +1,18 @@
-<div id='s99-map' style='position:relative;' ng-cloak>
-<div ng-if='mapVM.map'>
-    <ui-gmap-google-map center='mapVM.map.center' zoom='mapVM.map.zoom'
-    bounds='mapVM.map.bounds' events='mapVM.events' options='mapVM.options'>
-        <div ng-include='"app/components/post/post-markers.tpl.html"'
-        ng-controller="PostMarkersController as postMarkersVM">
-        </div>
-    </ui-gmap-google-map>
-</div>
-<div layout='row' layout-align="center center" layout-padding layout-wrap
-ng-hide='mapVM.mapIsReady'
-class='angular-google-map-container'
-style='position:absolute;top:0;left:0;background-color:rgba(0, 0, 0, 0.3);'>
-    <h3>載入Google地圖...</h3>
-    <md-progress-circular md-mode="indeterminate" md-diameter='100' class='md-accent'></md-progress-circular>
-</div>
+<div id='s99-map' style='position:relative;'>
+    <div ng-if='::mapVM.map'>
+        <ui-gmap-google-map center='mapVM.map.center' zoom='mapVM.map.zoom'
+        bounds='mapVM.map.bounds' events='mapVM.events' options='mapVM.options'>
+            <div ng-include='"app/components/post/post-markers.tpl.html"'
+            ng-controller="PostMarkersController as postMarkersVM">
+            </div>
+        </ui-gmap-google-map>
+    </div>
+    <div layout='row' layout-align="center center" layout-padding layout-wrap
+    ng-hide='mapVM.mapIsReady'
+    class='angular-google-map-container'
+    style='position:absolute;top:0;left:0;background-color:rgba(0, 0, 0, 0.3);width:100vw;height:90vh;'>
+        <h3>載入Google地圖...</h3>
+        <md-progress-circular md-mode="indeterminate" md-diameter='100' class='md-accent'></md-progress-circular>
+    </div>
 </div>
  
