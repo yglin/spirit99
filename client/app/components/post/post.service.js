@@ -174,8 +174,9 @@
                 returnUrl += '?' + $httpParamSerializer(returnUrlParams);
             }
             queryParams.returnUrl = returnUrl;
+            queryParams.target = 'spirit99';
 
-            $window.open(createUrl + '?' + $httpParamSerializer(queryParams));
+            $window.open(createUrl + '?' + $httpParamSerializer(queryParams), 'spirit99-station');
             return $q.resolve();
         }
 
