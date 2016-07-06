@@ -10,12 +10,12 @@
             templateUrl: 'app/layout/main/main.html',
             // resolve: {}
         })
-        .when('/', {
-            controller: 'MainController',
-            controllerAs: '$ctrl',
-            templateUrl: 'app/layout/main/main.html',
-            // resolve: {}
-        })
+        // .when('/', {
+        //     controller: 'MainController',
+        //     controllerAs: '$ctrl',
+        //     templateUrl: 'app/layout/main/main.html',
+        //     // resolve: {}
+        // })
         .otherwise({redirectTo: '/'});
     }]);
 })();
