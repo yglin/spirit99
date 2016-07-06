@@ -44,7 +44,7 @@
                 if (importPortal) {
                     self.import(importPortal)
                     .then(function (channel) {
-                        self.tuneIn(channel.id);
+                        return self.tuneIn(channel.id);
                     });
                 }
                 else if ($routeParams.channel) {
