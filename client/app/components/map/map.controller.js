@@ -38,7 +38,7 @@
             var stopListenMapIdle = $scope.$on('map:idle', function () {
                 mapVM.mapIsReady = true;
                 stopListenMapIdle();
-            })
+            });
         }
     }
 })();
