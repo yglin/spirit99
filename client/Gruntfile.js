@@ -254,6 +254,13 @@ module.exports = function (grunt) {
         injector: {
             options: {
                 relative: true,
+            },
+            dev: {
+                files: {
+                    'index.html': ['app/app.module.js', 'app/app.*.js', 'app/**/*.js', 'app/**/*.css', '!app/obsolete/**/*.*', '!app/**/*.spec.js', '!app/**/*.test.js']
+                }
+            },
+            dist: {
                 files: {
                     'index.html': ['app/app.module.js', 'app/app.*.js', 'app/**/*.js', 'app/**/*.css', '!app/obsolete/**/*.*', '!app/**/*.spec.js', '!app/**/*.test.js']
                 }
@@ -514,7 +521,7 @@ module.exports = function (grunt) {
             'clean:server',
             'wiredep',
             'ngconstant:dev',
-            'injector',
+            'injector:dev',
             // 'includeSource',
             'concurrent:server',
             'postcss:server',
@@ -555,7 +562,7 @@ module.exports = function (grunt) {
         'clean:dist',
         'wiredep:app',
         'ngconstant:dist',
-        'injector',
+        'injector:dist',
         'useminPrepare',
         'ngtemplates:dist',
         'concurrent:dist',
