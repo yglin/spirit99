@@ -99,6 +99,10 @@
     font-size: 14px;
 }
 
+.s99-toast .material-icons{
+    color: white;
+}
+
 .s99-post-info-window-thumbnail {
     max-width: 64px;
     max-height: 64px;

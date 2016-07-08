@@ -147,7 +147,7 @@
                 return $q.reject(error);
             }).finally(function () {
                 $rootScope.$broadcast('progress:end');
-                $rootScope.$broadcast('post:reload');
+                $rootScope.$broadcast('post:reload', self.posts);
             });
         }
 
