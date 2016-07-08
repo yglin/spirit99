@@ -8,6 +8,7 @@ angular.module('spirit99', [
   'ngAnimate',
   'ngMessages',
   'ngMaterial',
+  'ngLodash',
   'LocalStorageModule',
   'uiGmapgoogle-maps',
   'angular.validators',

@@ -5,15 +5,15 @@
         .module('spirit99')
         .controller('ChannelListController',ChannelListController);
 
-    ChannelListController.$inject = ['CONFIG', 'Channel', 'Dialog', 'Sidenav'];
+    ChannelListController.$inject = ['CONFIG', 'Channel', 'Dialog', 'Sidenav', 'lodash'];
 
     /* @ngInject */
-    function ChannelListController(CONFIG, Channel, Dialog, Sidenav) {
+    function ChannelListController(CONFIG, Channel, Dialog, Sidenav, lodash) {
         var channelListVM = this;
         channelListVM.focusOn = '';
         channelListVM.channels = Channel.channels;
         channelListVM.addChannel = addChannel;
-        channelListVM.empty = Object.keys(Channel.channels).length <= 0;
+        channelListVM.lodash = lodash;
 
         activate();
 
