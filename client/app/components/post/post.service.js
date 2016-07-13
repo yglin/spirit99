@@ -108,8 +108,14 @@
             }
             post.options.title = post.title;
             post.options.icon = Category.getIcon(post.category);
+            
             if (CONFIG.DEBUG) {
                 post.options.zIndex = post.id * 100;
+                post.options.optimized = false;
+            }
+
+            if (post.options.icon.url && post.options.icon.url.split('.').pop() === 'gif') {
+                // Turn off optimized for gif animated icon
                 post.options.optimized = false;
             }
         }
