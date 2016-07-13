@@ -5,10 +5,10 @@
         .module('spirit99')
         .service('Category', Category);
 
-    Category.$inject = ['$rootScope', '$location', 'nodeValidator', 'uiGmapGoogleMapApi'];
+    Category.$inject = ['$rootScope', '$q', '$location', 'nodeValidator', 'uiGmapGoogleMapApi'];
 
     /* @ngInject */
-    function Category($rootScope, $location, nodeValidator, uiGmapGoogleMapApi) {
+    function Category($rootScope, $q, $location, nodeValidator, uiGmapGoogleMapApi) {
         var self = this;
         self.CATEGORY_MISC = CATEGORY_MISC();
         self.categories = {};
@@ -70,29 +70,55 @@
             }
 
             if (gMapApi) {
-                var scaledSizeX = 32;
-                var scaledSizeY = 32;
+                // var scaledSizeX = 36;
+                // var scaledSizeY = 36;
+                var gotSize = $q.defer();
+
                 // Normalize icon's size
                 if (category.icon.scaledSize && category.icon.scaledSize.length >= 2) {
-                    scaledSizeX = category.icon.scaledSize[0];
-                    scaledSizeY = category.icon.scaledSize[1];
+                    // console.log(category.icon.scaledSize);
+                    var scaledSizeX = category.icon.scaledSize[0];
+                    var scaledSizeY = category.icon.scaledSize[1];
+                    iconObject.scaledSize = new gMapApi.Size(scaledSizeX, scaledSizeY);
+                    gotSize.resolve({
+                        x: scaledSizeX,
+                        y: scaledSizeY
+                    });
                 }
-                iconObject.scaledSize = new gMapApi.Size(scaledSizeX, scaledSizeY);
+                else {
+                    var img = new Image();
+                    img.onload = function () {
+                        gotSize.resolve({
+                            x: img.width,
+                            y: img.height
+                        });
+                        // console.log(img.src);
+                        // console.log(scaledSizeX + ' X ' +scaledSizeY);
+                    };
+                    img.src = category.icon.url;
+                }
+                // iconObject.scaledSize = new gMapApi.Size(scaledSizeX, scaledSizeY);
 
-                // Normalize icon's anchor position
-                if (category.icon.anchor && typeof category.icon.anchor == 'string') {
-                    if (category.icon.anchor == 'left') {
-                        iconObject.anchor = new gMapApi.Point(0, scaledSizeY);
-                    }
-                    else if (category.icon.anchor == 'middle') {
-                        iconObject.anchor = new gMapApi.Point(scaledSizeX * 0.5, scaledSizeY);
-                    }
-                    else if (category.icon.anchor == 'right') {
-                        iconObject.anchor = new gMapApi.Point(scaledSizeX, scaledSizeY);
-                    }
-                }                
+                gotSize.promise.then(function (size) {
+                    console.log(category.icon.url);
+                    console.log(size.x + ' X ' + size.y);
+
+                    // Normalize icon's anchor position
+                    if (category.icon.anchor && typeof category.icon.anchor == 'string') {
+                        if (category.icon.anchor == 'left') {
+                            iconObject.anchor = new gMapApi.Point(0, size.y);
+                        }
+                        else if (category.icon.anchor == 'middle') {
+                            iconObject.anchor = new gMapApi.Point(size.x * 0.5, size.y);
+                        }
+                        else if (category.icon.anchor == 'right') {
+                            iconObject.anchor = new gMapApi.Point(size.x, size.y);
+                        }
+                    }                
+                }).finally(function () {
+                    category.icon = iconObject;                    
+                });
             }
-            category.icon = iconObject;
 
             if (!category.visible) {
                 category.visible = true;
