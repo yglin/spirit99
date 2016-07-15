@@ -100,8 +100,8 @@
                 // iconObject.scaledSize = new gMapApi.Size(scaledSizeX, scaledSizeY);
 
                 gotSize.promise.then(function (size) {
-                    console.log(category.icon.url);
-                    console.log(size.x + ' X ' + size.y);
+                    // console.log(category.icon.url);
+                    // console.log(size.x + ' X ' + size.y);
 
                     // Normalize icon's anchor position
                     if (category.icon.anchor && typeof category.icon.anchor == 'string') {
