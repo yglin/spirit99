@@ -106,7 +106,8 @@
         }
 
         function prmsGotoGeolocation () {
-            return Geolocation.prmsGetCurrentPosition().then(function (position) {
+            return Geolocation.prmsGetCurrentPosition()
+            .then(function (position) {
                 self.navigateTo({
                     latitude: position.coords.latitude,
                     longitude: position.coords.longitude,
@@ -140,7 +141,21 @@
             }
             // Resolve initMap from geolocation
             else if(self.initMapScheme === self.INIT_MAP_SCHEMES.GEOLOCATION){
-                self.prmsGotoGeolocation().finally(function () {
+                self.prmsGotoGeolocation()
+                .catch(function (error) {
+                    var confirmMessage = '是否要關閉網站開啟時的自動定位功能？<br>（可以在選單<i class="material-icons">more_vert</i><i class="material-icons">keyboard_arrow_right</i>設定<i class="material-icons">settings</i>中重新打開）';
+                    Dialog.confirm('關閉自動定位', confirmMessage,
+                        {
+                            buttons: {
+                                confirm: '關閉定位',
+                                cancel: '維持自動定位'
+                            }
+                        })
+                    .then(function () {
+                        self.setInitMapScheme(self.INIT_MAP_SCHEMES.LAST);
+                    });                    
+                })
+                .finally(function () {
                     done.resolve(self.map);
                 });
             }

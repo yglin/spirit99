@@ -9,15 +9,21 @@
 
     /* @ngInject */
     function DialogConfirmController($mdDialog) {
-        var dialogConfirmVM = this;
-        dialogConfirmVM.cancel = cancel;
-        dialogConfirmVM.confirm = confirm;
+        var $ctrl = this;
+        $ctrl.cancel = cancel;
+        $ctrl.confirm = confirm;
 
         activate();
 
         ////////////////
 
         function activate() {
+            if (!$ctrl.buttons) {
+                $ctrl.buttons = {};
+            }
+            if (!$ctrl.buttons.confirm) {
+                $ctrl.buttons.confirm = '確定';
+            }
         }
 
         function cancel () {

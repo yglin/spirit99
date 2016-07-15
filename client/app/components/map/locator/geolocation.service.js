@@ -21,38 +21,59 @@
             && typeof $window.navigator.geolocation.getCurrentPosition === 'function'){
 
                 // Wait user decision for 5 seconds
-                var waitUser = 10000;
+                var waitUser = $q.defer();
+                var waitUserDelay = 10000;
 
                 $window.navigator.geolocation.getCurrentPosition(
                 function(position){
-                    deferred.resolve(position);
+                    if (waitUser.promise.$$state.status === 0) {
+                        waitUser.resolve();
+                        deferred.resolve(position);
+                    }
                 },
                 function (error) {
-                    $log.warn(error);
-                    var alertMessage = errorMessage(error);
-                    Dialog.alert('定位失敗', alertMessage);
-                    deferred.reject(error);
+                    if (waitUser.promise.$$state.status === 0) {
+                        waitUser.resolve();
+                        $log.warn(error);
+                        var alertMessage = errorMessage(error);
+                        Dialog.alert('定位失敗', alertMessage)
+                        .finally(function () {
+                            deferred.reject(error);                    
+                        });
+                    }
                 }, {
                     enableHighAccuracy: true,
-                    timeout: waitUser,
+                    timeout: waitUserDelay,
                     maximumAge: 0
                 });
 
-                // Cancel geolocation after waitUser timeout
+                // Cancel geolocation after waitUserDelay timeout
                 $timeout(function () {
+                    waitUser.reject();
+                }, waitUserDelay);
+
+                waitUser.promise
+                .catch(function () {
                     if (deferred.promise.$$state.status === 0) {
                         var alertMessage = '超過等待時間，取消自動定位';
-                        Dialog.alert('定位失敗', alertMessage);
-                        deferred.reject(alertMessage);
+                        Dialog.alert('定位失敗', alertMessage)
+                        .finally(function () {
+                            deferred.reject();                    
+                        });
                     }
-                }, waitUser);
-
+                    else {
+                        deferred.reject();
+                    }
+                });
             }
             else{
                 $log.warn('Browser not support geolocation');
-                Dialog.alert('定位失敗', '很抱歉，您的瀏覽器不支援自動定位功能');
-                deferred.reject('Browser not support geolocation');
+                Dialog.alert('定位失敗', '很抱歉，您的瀏覽器不支援自動定位功能')
+                .finally(function () {
+                    deferred.reject('Browser not support geolocation');
+                });
             }
+
             return deferred.promise;
         }
 

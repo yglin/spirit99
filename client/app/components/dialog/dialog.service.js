@@ -15,7 +15,10 @@
 
         ////////////////
 
-        function confirm(title, desc) {
+        function confirm(title, desc, options) {
+            options = typeof options === 'undefined' ? {} : options;
+            options.buttons = typeof options.buttons === 'undefined' ? {} : options.buttons;
+
             if(!(title && desc)){
                 $log.warn('Confirm Dialog needs title and description');
                 return $q.reject('Confirm Dialog needs title and description');
@@ -24,12 +27,13 @@
                 controller: 'DialogConfirmController',
                 templateUrl: 'app/components/dialog/dialog-confirm.tpl.html',
                 parent: angular.element(document.body),
-                controllerAs: 'dialogConfirmVM',
+                controllerAs: '$ctrl',
                 bindToController: true,
                 clickOutsideToClose:true,
                 locals: {
                     title: title,
-                    description: desc
+                    description: desc,
+                    buttons: options.buttons
                 }
             });
         }

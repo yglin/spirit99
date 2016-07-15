@@ -1,24 +1,29 @@
 <md-dialog id='s99-dialog' aria-label="Confirm" ng-cloak>
 <md-toolbar>
     <div class="md-toolbar-tools">
-        <h2>{{dialogConfirmVM.title}}</h2>
+        <h2>{{$ctrl.title}}</h2>
         <span flex></span>
         <md-button id='cancel'
         class="md-icon-button"
-        ng-click="dialogConfirmVM.cancel()">
+        ng-click="$ctrl.cancel()">
             <md-icon class="material-icons">close</md-icon>
         </md-button>
     </div>
 </md-toolbar>
 <md-dialog-content layout-padding>
-    <div ng-bind-html="dialogConfirmVM.description"></div>
+    <div ng-bind-html="$ctrl.description"></div>
 </md-dialog-content>
 <md-dialog-actions layout="row">
+    <md-button ng-if='$ctrl.buttons.cancel'
+    class='md-primary md-raised'
+    ng-click="$ctrl.cancel()">
+    {{$ctrl.buttons.cancel}}
+    </md-button>
     <span flex></span>
     <md-button id='confirm'
     class='md-primary md-raised'
-    ng-click="dialogConfirmVM.confirm()">
-    確定
+    ng-click="$ctrl.confirm()">
+    {{$ctrl.buttons.confirm}}
     </md-button>
 </md-dialog-actions>
 </md-dialog>
