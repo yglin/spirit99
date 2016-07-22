@@ -1,0 +1,13 @@
+<div style='background-color: rgba(0, 0, 0, 0.5);width:100vw;'
+ng-style='$ctrl.isOpen && {"height": "200px"} || {"height": "30px"}'>
+<div layout='row' layout-align='center center' class='s99-clickable'
+ng-click='$ctrl.toggleOpen()'>
+    <md-icon class='material-icons' style='font-size: 150%; color: white;'>{{$ctrl.isOpen && "keyboard_arrow_down" || "keyboard_arrow_up"}}</md-icon>
+</div>
+<!-- <md-virtual-repeat-container md-orient-horizontal>
+    <div md-virtual-repeat="post in $ctrl.posts" class="repeated-item" flex>
+        <s99-post-item post='post'></s99-post-item>
+    </div>
+</md-virtual-repeat-container>
+ -->
+ </div>
