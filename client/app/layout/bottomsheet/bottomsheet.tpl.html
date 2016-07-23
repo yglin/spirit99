@@ -1,13 +1,27 @@
-<div style='background-color: rgba(0, 0, 0, 0.5);width:100vw;'
+<style type="text/css">
+    .s99-bottomsheet-selectable:hover {
+        background-color: rgba(0, 50, 100, 0.2);
+        cursor: pointer;
+    }
+</style>
+
+<div style='background-color: rgba(0, 0, 0, 0.2);width:100vw;'
 ng-style='$ctrl.isOpen && {"height": "200px"} || {"height": "30px"}'>
 <div layout='row' layout-align='center center' class='s99-clickable'
 ng-click='$ctrl.toggleOpen()'>
-    <md-icon class='material-icons' style='font-size: 150%; color: white;'>{{$ctrl.isOpen && "keyboard_arrow_down" || "keyboard_arrow_up"}}</md-icon>
+    <md-icon class='material-icons' style='font-size: 200%; color: white;'>{{$ctrl.isOpen && "keyboard_arrow_down" || "keyboard_arrow_up"}}</md-icon>
 </div>
-<!-- <md-virtual-repeat-container md-orient-horizontal>
-    <div md-virtual-repeat="post in $ctrl.posts" class="repeated-item" flex>
-        <s99-post-item post='post'></s99-post-item>
+
+<md-content ng-show='$ctrl.isOpen' style='height:170px; background-color: rgba(0, 0, 0, 0);' layout='row' layout-align='center start'>
+    <h3 ng-show='$ctrl.posts.length == 0' style='color:white;'>目前範圍內沒有文章</h3>
+    <div ng-repeat="post in $ctrl.posts"
+    layout='column' layout-align='start center' layout-padding
+    style='min-width:150px;' class='s99-bottomsheet-selectable'
+    ng-mouseenter="$ctrl.focusPostIndex = $index;"
+    ng-click="$ctrl.onClickPost($index)">
+        <!-- <s99-post-item post='post'></s99-post-item> -->
+        <img ng-hide='$ctrl.focusPostIndex === $index' ng-src='{{post.thumbnail}}' class='s99-post-thumbnail-large'>
+        <h6 ng-show='!post.thumbnail || $ctrl.focusPostIndex === $index' style="color: white;">{{post.title}}</h6>
     </div>
-</md-virtual-repeat-container>
- -->
- </div>
+</md-content>
+</div>

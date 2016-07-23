@@ -66,6 +66,11 @@
     max-height: 96px;
 }
 
+.s99-post-thumbnail-large {
+    max-width: 128px;
+    max-height: 128px;
+}
+
 .s99-category-icon {
     max-width: 32px;
     max-height: 32px;
