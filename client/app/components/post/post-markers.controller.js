@@ -76,31 +76,39 @@
                     });
                 }
             });
+
+            $scope.$on('post:show', function (event, post) {
+                postMarkersVM.showInfoWindow(post,
+                'app/components/post/info-window/post.tpl.html',
+                post,
+                {x: 0, y: 0});
+            });
         }
 
         function onClick (markerGObj, event, markerModel) {
-            postMarkersVM.showInfoWindow(markerModel,
-            'app/components/post/info-window/post.tpl.html',
-            markerModel,
-            {x: 0, y: -40});
+            $scope.$apply(function () {
+                postMarkersVM.showInfoWindow(markerModel,
+                'app/components/post/info-window/post.tpl.html',
+                markerModel,
+                {x: 0, y: 0});
+            });
         }
 
         function showInfoWindow (coords, templateUrl, templateParameter, pixelOffset) {
-            $scope.$apply(function () {
-                postMarkersVM.infoWindow.show = false;
-            });
-            $scope.$apply(function () {
-                postMarkersVM.infoWindow.coords.latitude = coords.latitude;
-                postMarkersVM.infoWindow.coords.longitude = coords.longitude;
-                postMarkersVM.infoWindow.templateUrl = templateUrl;
-                postMarkersVM.infoWindow.templateParameter = templateParameter;
-                if (gMapApi && pixelOffset) {
-                    postMarkersVM.infoWindow.options.pixelOffset = new gMapApi.Size(pixelOffset.x, pixelOffset.y);
-                }
-                else {
-                    postMarkersVM.infoWindow.options.pixelOffset = null;
-                }
-                postMarkersVM.infoWindow.show = true;
+            postMarkersVM.infoWindow.show = false;
+            postMarkersVM.infoWindow.coords.latitude = coords.latitude;
+            postMarkersVM.infoWindow.coords.longitude = coords.longitude;
+            postMarkersVM.infoWindow.templateUrl = templateUrl;
+            postMarkersVM.infoWindow.templateParameter = templateParameter;
+            if (gMapApi && pixelOffset) {
+                postMarkersVM.infoWindow.options.pixelOffset = new gMapApi.Size(pixelOffset.x, pixelOffset.y);
+            }
+            else {
+                postMarkersVM.infoWindow.options.pixelOffset = null;
+            }
+            // Info window auto-pan only works when it's closed and shows up in next angular digest cycle.
+            $timeout(function () {
+                postMarkersVM.infoWindow.show = true;                
             });
         }
 
