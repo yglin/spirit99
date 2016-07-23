@@ -3,6 +3,9 @@
         background-color: rgba(0, 50, 100, 0.2);
         cursor: pointer;
     }
+    .s99-bottomsheet-selected {
+        background-color: rgba(0, 50, 100, 0.5);
+    }
 </style>
 
 <div style='background-color: rgba(0, 0, 0, 0.2);width:100vw;'
@@ -16,9 +19,10 @@ ng-click='$ctrl.toggleOpen()'>
     <h3 ng-show='$ctrl.posts.length == 0' style='color:white;'>目前範圍內沒有文章</h3>
     <div ng-repeat="post in $ctrl.posts"
     layout='column' layout-align='start center' layout-padding
-    style='min-width:150px;' class='s99-bottomsheet-selectable'
+    style='min-width:150px;' class='s99-clickable s99-bottomsheet-selectable'
+    ng-class='{"s99-bottomsheet-selected": $ctrl.selectedPostIndex === $index}'
     ng-mouseenter="$ctrl.focusPostIndex = $index;"
-    ng-click="$ctrl.onClickPost($index)">
+    ng-click="$ctrl.onClickPost($index);$ctrl.selectedPostIndex = $index;">
         <!-- <s99-post-item post='post'></s99-post-item> -->
         <img ng-hide='$ctrl.focusPostIndex === $index' ng-src='{{post.thumbnail}}' class='s99-post-thumbnail-large'>
         <h6 ng-show='!post.thumbnail || $ctrl.focusPostIndex === $index' style="color: white;">{{post.title}}</h6>
