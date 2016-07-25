@@ -8,17 +8,19 @@
     }
 </style>
 
-<div style='background-color: rgba(0, 0, 0, 0.2);width:100vw;'
-ng-style='$ctrl.isOpen && {"height": "200px"} || {"height": "30px"}'>
-<div layout='row' layout-align='center center' class='s99-clickable'
+<div style='background-color: rgba(0, 0, 0, 0.2);width:100vw;'>
+
+<div layout='row' layout-align='center start' class='s99-clickable'
 ng-click='$ctrl.toggleOpen()'>
-    <md-icon class='material-icons' style='font-size: 200%; color: white;'>{{$ctrl.isOpen && "keyboard_arrow_down" || "keyboard_arrow_up"}}</md-icon>
+    <md-icon class='material-icons' style='font-size: 40px; height:40px; color: white;'>{{$ctrl.isOpen && "keyboard_arrow_down" || "keyboard_arrow_up"}}</md-icon>
 </div>
 
 <md-content
 ng-show='$ctrl.isOpen' style='height:170px; background-color: rgba(0, 0, 0, 0);'
-layout='row' layout-align='center start' layout-padding>
-    <h3 ng-show='$ctrl.posts.length == 0' style='color:white;'>目前範圍內沒有文章</h3>
+layout='row' layout-padding>
+    <div layout='row' layout-align='center center' layout-fill>
+        <h3 ng-show='$ctrl.posts.length == 0' style='color:white;'>目前範圍內沒有文章</h3>
+    </div>
     <div ng-repeat="post in $ctrl.posts"
     layout='column' layout-align='start center' layout-padding
     style='min-width:150px;' class='s99-clickable s99-bottomsheet-selectable'
