@@ -71,6 +71,10 @@
     max-height: 128px;
 }
 
+.s99-post-title {
+    font-family: Arial, "文泉驛正黑", "WenQuanYi Zen Hei", "儷黑 Pro", "LiHei Pro", "微軟正黑體", "Microsoft JhengHei", sans-serif;
+}
+
 .s99-category-icon {
     max-width: 32px;
     max-height: 32px;
