@@ -120,6 +120,14 @@
     animation-duration: 0.5s;
 }
 
+.s99-category-filter-dialog {
+    background-color: rgba(0, 0, 0, 0);    
+}
+
+.s99-category-filter-dialog div {
+    background-color: rgba(0, 0, 0, 0);    
+}
+
 .s99-button {
     border-radius: 50%;
 }
@@ -154,4 +162,13 @@
 .s99-event-period span {
     font-size: 14px;
     white-space: nowrap;
+}
+
+.s99-trasparent-dialog {
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+}
+
+.s99-button-toggle-category-visible {
+    min-width: 50px;
 }

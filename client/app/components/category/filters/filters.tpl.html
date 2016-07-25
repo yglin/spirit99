@@ -1,0 +1,20 @@
+<div layout-padding>
+    <h5>請點分類圖示來隱藏／顯示該分類</h5>
+    <div layout='row' layout-padding layout-wrap>
+        <div ng-repeat="(key, category) in $ctrl.category.categories"
+        class='s99-button-toggle-category-visible'
+        layout='column' layout-align='center center'>
+            <img class='s99-category-icon s99-clickable'
+            ng-class='{"s99-transparent-image": category.visible == false}'
+            ng-src='{{category.icon.url}}'
+            ng-click='$ctrl.toggleVisible(key)'>
+            <p class='md-body-2'>{{category.title || key}}</p>
+        </div>
+    </div>
+    <div layout='row' layout-align='space-between center'>
+        <md-button id='s99-button-show-all-categories' class='md-raised'
+        ng-click="$ctrl.showAll()">全部顯示</md-button>
+        <md-button id='s99-button-hide-all-categories' class='md-raised'
+        ng-click="$ctrl.hideAll()">全部隱藏</md-button>
+    </div>    
+</div>
