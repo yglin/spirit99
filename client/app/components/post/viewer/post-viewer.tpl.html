@@ -1,3 +1,13 @@
-<md-content layout-padding style='background-color: rgba(150, 150, 150, 0);'>
-<div style='color: white' ng-bind-html='$ctrl.post.content' ng-cloak></div>
+<div layout-padding>
+<div layout='row' style='background-color: rgba(0, 0, 0, 0);color:white;'>
+    <h3>{{$ctrl.post.title}}</h3>
+    <span flex></span>
+    <md-button class='md-icon-button'
+    ng-click='$ctrl.cancel()'>
+        <md-icon class='material-icons' style='color: white;'>close</md-icon>
+    </md-button>
+</div>
+<md-content style='max-height:50vh;background-color: rgba(0, 0, 0, 0);color:white;'>
+<div ng-bind-html='$ctrl.post.content' ng-cloak></div>
 </md-content>
+</div>

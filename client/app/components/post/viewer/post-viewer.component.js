@@ -2,7 +2,7 @@
 * @Author: yglin
 * @Date:   2016-07-23 11:13:17
 * @Last Modified by:   yglin
-* @Last Modified time: 2016-07-23 11:59:56
+* @Last Modified time: 2016-07-25 10:44:47
 */
 
 (function() {
@@ -17,14 +17,19 @@
         }
     });
 
-    PostViewerController.$inject = [];
+    PostViewerController.$inject = ['$mdDialog'];
 
     /* @ngInject */
-    function PostViewerController() {
+    function PostViewerController($mdDialog) {
         var $ctrl = this;
         $ctrl.title = 'PostViewer';
+        $ctrl.cancel = cancel;
 
         $ctrl.$onInit = function () {
         };
+
+        function cancel() {
+            $mdDialog.cancel();
+        }
     }
 })();
