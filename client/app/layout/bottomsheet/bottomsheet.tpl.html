@@ -1,13 +1,3 @@
-<style type="text/css">
-    .s99-bottomsheet-selectable:hover {
-        background-color: rgba(0, 50, 100, 0.2);
-        cursor: pointer;
-    }
-    .s99-bottomsheet-selected {
-        background-color: rgba(0, 50, 100, 0.5);
-    }
-</style>
-
 <div style='background-color: rgba(0, 0, 0, 0.2);width:100vw;'>
 
 <div layout='row' layout-align='center start' class='s99-clickable'
@@ -29,7 +19,7 @@ layout='row' layout-padding>
     ng-click="$ctrl.onClickPost($index);$ctrl.selectedPostIndex = $index;">
         <!-- <s99-post-item post='post'></s99-post-item> -->
         <img ng-hide='$ctrl.focusPostIndex === $index' ng-src='{{post.thumbnail}}' class='s99-post-thumbnail-large'>
-        <h5 ng-show='!post.thumbnail || $ctrl.focusPostIndex === $index' style="color: white;">{{post.title}}</h5>
+        <h5 ng-show='!post.thumbnail || $ctrl.focusPostIndex === $index' style="color: white;margin-top: 0px;">{{post.title}}</h5>
     </div>
 </md-content>
 </div>

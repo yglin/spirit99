@@ -172,3 +172,12 @@
 .s99-button-toggle-category-visible {
     min-width: 50px;
 }
+
+.s99-bottomsheet-selectable:hover {
+    background-color: rgba(0, 50, 100, 0.5);
+    cursor: pointer;
+}
+.s99-bottomsheet-selected {
+    background-color: rgba(0, 50, 100, 0.75);
+}
+
