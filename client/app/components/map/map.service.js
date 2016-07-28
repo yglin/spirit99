@@ -180,8 +180,9 @@
             return self.map.bounds;
         }
 
-        function navigateTo (location) {
-            $rootScope.$broadcast('map:navigate');
+        function navigateTo (location, options) {
+            options = typeof options === 'undefined' ? {} : options;
+
             self.map.center.latitude = location.latitude;
             self.map.center.longitude = location.longitude;
             if (location.zoom) {
@@ -190,6 +191,8 @@
             if (location.viewport) {
                 self.map.bounds = location.viewport;
             }
+
+            $rootScope.$broadcast('map:navigate', location);
         }
 
         //////////////////// Functions for initialize CONSTANTS

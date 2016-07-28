@@ -181,3 +181,7 @@
     background-color: rgba(0, 50, 100, 0.75);
 }
 
+.s99-warning {
+    font-size: 16px;
+    color: red;
+}

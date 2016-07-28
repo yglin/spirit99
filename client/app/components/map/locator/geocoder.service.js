@@ -56,8 +56,11 @@
                         defer.resolve(locations);
                     }
                     else {
-                        Dialog.alert('定位失敗', '無法找到以下地址<br><p>' + address + '</p>');
-                        defer.reject();
+                        var error = {
+                            status: status,
+                            message: results.error_message ? results.error_message : 'Google geocode failed, status code = ' + status
+                        };
+                        defer.reject(error);
                     }
                 })
                 return defer.promise;

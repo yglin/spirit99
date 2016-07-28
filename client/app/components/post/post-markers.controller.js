@@ -56,18 +56,36 @@
             });
 
             $scope.$on('map:dragstart', function () {
-                if (typeof postMarkersVM.infoWindow.control.hideWindow == 'function') {
-                    postMarkersVM.infoWindow.control.hideWindow();
-                }
+                // if (typeof postMarkersVM.infoWindow.control.hideWindow == 'function') {
+                //     postMarkersVM.infoWindow.control.hideWindow();
+                // }
+                $timeout(function () {
+                    postMarkersVM.infoWindow.show = false;                
+                });
             });
 
             $scope.$on('map:zoom_changed', function () {
-                if (typeof postMarkersVM.infoWindow.control.hideWindow == 'function') {
-                    postMarkersVM.infoWindow.control.hideWindow();
-                }
+                // if (typeof postMarkersVM.infoWindow.control.hideWindow == 'function') {
+                //     postMarkersVM.infoWindow.control.hideWindow();
+                // }
+                $timeout(function () {
+                    postMarkersVM.infoWindow.show = false;                
+                });
             });
 
             $scope.$on('map:click', function (event, location) {
+                if (Channel.getData('create-url')) {
+                    $scope.$apply(function () {
+                        postMarkersVM.showInfoWindow(location,
+                        'app/components/post/info-window/create.tpl.html',
+                        {
+                            createPost: postMarkersVM.createPost
+                        });
+                    });
+                }
+            });
+
+            $scope.$on('map:geocode', function (event, location) {
                 if (Channel.getData('create-url')) {
                     postMarkersVM.showInfoWindow(location,
                     'app/components/post/info-window/create.tpl.html',
@@ -109,7 +127,7 @@
             // Info window auto-pan only works when it's closed and shows up in next angular digest cycle.
             $timeout(function () {
                 postMarkersVM.infoWindow.show = true;                
-            });
+            }, 100);
         }
 
         function createPost () {
