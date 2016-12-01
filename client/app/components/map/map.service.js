@@ -132,11 +132,13 @@
             // Resolve initMap from query parameter
             if ($routeParams.map) {
                 var map = JSON.parse($routeParams.map);
+                console.log(map);
                 self.map.center.latitude = map.center.latitude;
                 self.map.center.longitude = map.center.longitude;
                 if (map.zoom) {
                     self.map.zoom = map.zoom;
                 }
+                console.log(self.map);
                 done.resolve(self.map);
             }
             // Resolve initMap from geolocation
@@ -216,7 +218,7 @@
             // An overview of Taiwan
             return {
                 center: { latitude: 23.973875, longitude: 120.982024 },
-                zoom: ZOOMS().TAIWAN,
+                zoom: ZOOMS().STREET,
                 bounds: {
                     southwest: {latitude: 21.117985, longitude: 115.2966},
                     northeast: {latitude: 26.767849, longitude: 126.667449}
