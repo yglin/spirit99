@@ -91,14 +91,6 @@
         }
         
         function normalize (post) {
-            if (post._id) {
-                post.id = post._id;
-            }
-
-            if (post.createdAt) {
-                post.create_time = post.createdAt;
-            }
-
             if (!post.category) {
                 post.category = 'misc';
             }
@@ -106,11 +98,12 @@
             if (!post.options) {
                 post.options = {};
             }
+            
             post.options.title = post.title;
             post.options.icon = Category.getIcon(post.category);
             
             if (CONFIG.DEBUG) {
-                post.options.zIndex = post.id * 100;
+                // post.options.zIndex = post.id * 100;
                 post.options.optimized = false;
             }
 
