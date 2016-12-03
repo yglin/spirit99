@@ -29,16 +29,18 @@
 
         function activate () {
             if ($location.search().categories) {
-                self.queryParams = JSON.parse($location.search().categories);
+                self.visibleCategories = $location.search().categories;
             }
         }
 
         function getParams() {
-            var params = {};
+            var visibles;
             for (var key in self.categories) {
-                params[key] = self.categories[key].visible;
+                if (self.categories[key].visible) {
+                    visibles.push(key);
+                }
             }
-            return { categories: params };
+            return { categories: visibles };
         }
 
         ////////////////
@@ -142,14 +144,17 @@
                     self.categories['misc'] = self.CATEGORY_MISC;
                 }
 
-                // Apply query parameters, only once
-                if (self.queryParams) {
-                    for (var key in self.queryParams) {
-                        if (self.categories[key]) {
-                            self.categories[key].visible = self.queryParams[key];
+                // Apply visibilities from query parameters, only once
+                if (self.visibleCategories) {
+                    for (var key in self.categories) {
+                        if (self.visibleCategories.indexOf(key) >= 0) {
+                            self.categories[key].visible = true;
+                        }
+                        else {
+                            self.categories[key].visible = false;
                         }
                     }
-                    delete self.queryParams;
+                    delete self.visibleCategories;
                 }
             });
         }
