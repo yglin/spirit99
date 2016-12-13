@@ -5,10 +5,10 @@
         .module('spirit99')
         .service('PostFilter', PostFilter);
 
-    PostFilter.$inject = ['$rootScope', '$routeParams', 'DatePeriod', 'Category'];
+    PostFilter.$inject = ['$rootScope', '$routeParams', '$log', 'DatePeriod', 'Category'];
 
     /* @ngInject */
-    function PostFilter($rootScope, $routeParams, DatePeriod, Category) {
+    function PostFilter($rootScope, $routeParams, $log, DatePeriod, Category) {
         var self = this;
         self.keywords = [];
         self.createTime = {};
@@ -30,21 +30,27 @@
             self.createTime.end = DatePeriod.getPresetEnd(self.createTime.preset);                
 
             if ($routeParams.filters) {
-                var filters = JSON.parse($routeParams.filters);
-                if (filters.keywords) {
-                    self.keywords.push.apply(self.keywords, filters.keywords);
-                }
+                try {
+                    var filters = JSON.parse($routeParams.filters);
+                    if (filters.keywords) {
+                        self.keywords.push.apply(self.keywords, filters.keywords);
+                    }
 
-                if (filters.createAt) {
-                    angular.extend(self.createTime, filters.createAt);
-                    self.createTime.start = new Date(self.createTime.start);
-                    self.createTime.end = new Date(self.createTime.end);
-                }
+                    if (filters.createAt) {
+                        angular.extend(self.createTime, filters.createAt);
+                        self.createTime.start = new Date(self.createTime.start);
+                        self.createTime.end = new Date(self.createTime.end);
+                    }
 
-                if (filters.event) {
-                    self.isEvent = true;
-                    self.event.start = new Date(filters.event.start);
-                    self.event.end = new Date(filters.event.end);
+                    if (filters.event) {
+                        self.isEvent = true;
+                        self.event.start = new Date(filters.event.start);
+                        self.event.end = new Date(filters.event.end);
+                    }
+                }
+                catch(e) {
+                    $log.error(e);
+                    $log.error($routeParams.filters);
                 }
 
             }

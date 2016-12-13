@@ -131,14 +131,18 @@
 
             // Resolve initMap from query parameter
             if ($routeParams.map) {
-                var map = JSON.parse($routeParams.map);
-                console.log(map);
-                self.map.center.latitude = map.center.latitude;
-                self.map.center.longitude = map.center.longitude;
-                if (map.zoom) {
-                    self.map.zoom = map.zoom;
+                try {
+                    var map = JSON.parse($routeParams.map);
+                    self.map.center.latitude = map.center.latitude;
+                    self.map.center.longitude = map.center.longitude;
+                    if (map.zoom) {
+                        self.map.zoom = map.zoom;
+                    }
                 }
-                console.log(self.map);
+                catch (e) {
+                    $log.error(e);
+                    $log.error($routeParams.map);
+                }
                 done.resolve(self.map);
             }
             // Resolve initMap from geolocation
