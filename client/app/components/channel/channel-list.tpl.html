@@ -4,25 +4,16 @@
             <s99-channel-item channel='channel' focus-on='channelListVM.focusOn'></s99-channel-item>
             <md-divider layout-margin></md-divider>
         </div>
-        <div ng-show='channelListVM.lodash.isEmpty(channelListVM.channels)' layout-padding>
+<!--         <div ng-show='channelListVM.lodash.isEmpty(channelListVM.channels)' layout-padding>
             <p class='s99-input-hint'>您的頻道列表中沒有任何頻道，可以到頻道庫瀏覽，選擇喜愛的頻道匯入。
             </p>
         </div>
-<!--         <div layout='row'>
-            <md-input-container class='md-block' flex>
-                <input name='newPortalUrl' ng-model='channelListVM.newPortalUrl' placeholder='加入新的頻道'>
-                <div class='s99-input-hint'>請輸入頻道傳送門(Portal)網址</div>
-            </md-input-container>
-            <md-button class='md-fab md-mini' id='add-channel'
-            ng-click="channelListVM.addChannel(channelListVM.newPortalUrl)">
-                <md-icon class='material-icons'>add</md-icon>
-            </md-button>
-        </div>
- -->        <div layout='row' layout-align='end center'>
+ --><!--         <div layout='row' layout-align='end center'>
             <span></span>
             <div>
                 <md-button id='link-to-repo' class='md-primary' ng-href='{{channelListVM.repositoryLink}}' target='spirit99-station'>瀏覽頻道庫</md-button>
             </div>
         </div>
+ -->
     </md-content>
 </div>
