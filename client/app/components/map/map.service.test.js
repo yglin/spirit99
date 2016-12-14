@@ -10,11 +10,11 @@ describe('Map', function () {
     // Mock dependencies
     beforeEach(function() {
         angular.mock.module(function($provide) {
-            $provide.service('Dialog', mockDialog);
+            $provide.service('Dialog', MockDialog);
         
-            mockDialog.$inject = ['$q'];
+            MockDialog.$inject = ['$q'];
         
-            function mockDialog ($q) {
+            function MockDialog ($q) {
                 var self = this;
                 self.property = {};
                 self.confirm = jasmine.createSpy('confirm')
@@ -25,11 +25,11 @@ describe('Map', function () {
         });
 
         angular.mock.module(function($provide) {
-            $provide.service('Post', mockPost);
+            $provide.service('Post', MockPost);
         
-            mockPost.$inject = ['$q'];
+            MockPost.$inject = ['$q'];
         
-            function mockPost ($q) {
+            function MockPost ($q) {
                 var self = this;
                 // self.property = {};
                 self.prmsCreate = jasmine.createSpy('prmsCreate')
@@ -239,7 +239,7 @@ describe('Map', function () {
             location = {
                 latitude: 78.787878,
                 longitude: 99.999999
-            }
+            };
         });
 
         it(' - Should $broadcast "map:navigate" event', function() {

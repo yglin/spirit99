@@ -17,8 +17,8 @@
         function prmsGetCurrentPosition () {
             var deferred = $q.defer();
 
-            if($window.navigator && $window.navigator.geolocation
-            && typeof $window.navigator.geolocation.getCurrentPosition === 'function'){
+            if($window.navigator && $window.navigator.geolocation &&
+            typeof $window.navigator.geolocation.getCurrentPosition === 'function'){
 
                 // Wait user decision for 5 seconds
                 var waitUser = $q.defer();
@@ -86,13 +86,10 @@
                 switch(error.code) {
                     case error.PERMISSION_DENIED:
                         return '使用者已拒絕定位；或是您的瀏覽器已設定為禁止定位';
-                        break;
                     case error.POSITION_UNAVAILABLE:
                         return '無法找到您的位置';
-                        break;
                     case error.TIMEOUT:
                         return '超過等待時間，取消自動定位';
-                        break;
                     default:
                         return '未知原因的定位失敗，錯誤訊息如下：<br><p>' + error.message + '</p>';
                 }

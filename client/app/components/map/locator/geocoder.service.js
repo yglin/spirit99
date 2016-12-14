@@ -62,7 +62,7 @@
                         };
                         defer.reject(error);
                     }
-                })
+                });
                 return defer.promise;
             }
 

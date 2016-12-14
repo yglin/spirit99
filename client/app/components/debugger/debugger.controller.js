@@ -2,14 +2,12 @@
 * @Author: yglin
 * @Date:   2016-05-16 17:40:31
 * @Last Modified by:   yglin
-* @Last Modified time: 2016-05-20 21:04:11
+* @Last Modified time: 2016-12-14 10:23:08
 */
 
 'use strict';
 
 (function() {
-    'use strict';
-
     angular
         .module('spirit99')
         .controller('DebuggerController', DebuggerController);

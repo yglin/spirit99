@@ -8,11 +8,11 @@ describe('Channel', function () {
     // Mock Dependencies
     beforeEach(function() {
         angular.mock.module(function($provide) {
-            $provide.service('Dialog', mockDialog);
+            $provide.service('Dialog', MockDialog);
         
-            mockDialog.$inject = ['$q'];
+            MockDialog.$inject = ['$q'];
         
-            function mockDialog ($q) {
+            function MockDialog ($q) {
                 var self = this;
                 self.alert = jasmine.createSpy('alert')
                 .and.returnValue($q.resolve());
@@ -22,11 +22,11 @@ describe('Channel', function () {
         });
 
         angular.mock.module(function($provide) {
-            $provide.service('Post', mockPost);
+            $provide.service('Post', MockPost);
         
-            mockPost.$inject = [];
+            MockPost.$inject = [];
         
-            function mockPost () {
+            function MockPost () {
                 var self = this;
                 // self.property = {};
                 // self.method = jasmine.createSpy('method')
@@ -36,11 +36,11 @@ describe('Channel', function () {
         });
 
         angular.mock.module(function($provide) {
-            $provide.service('Category', mockCategory);
+            $provide.service('Category', MockCategory);
         
-            mockCategory.$inject = ['$q'];
+            MockCategory.$inject = ['$q'];
         
-            function mockCategory ($q) {
+            function MockCategory ($q) {
                 var self = this;
                 // self.property = {};
                 self.rebuildCategories = jasmine.createSpy('rebuildCategories')
@@ -85,7 +85,7 @@ describe('Channel', function () {
         });
 
         it(' - Given 2 arguments as channel id and data key, get the field data of that channel', function() {
-            Channel.channels['ggyygyy'] = {
+            Channel.channels.ggyygyy = {
                 targetField: targetData
             };
             expect(Channel.getData('ggyygyy', 'targetField')).toEqual(targetData);
@@ -95,7 +95,7 @@ describe('Channel', function () {
             expect(Channel.getData()).toBeNull();
             expect(Channel.getData('yyggygg')).toBeNull();
             expect(Channel.getData()).toBeNull();
-            Channel.channels['ggyygyy'] = {
+            Channel.channels.ggyygyy = {
                 targetField: targetData
             };
             expect(Channel.getData('ggyygyy', 'targetMyS')).toBeNull();
@@ -190,7 +190,7 @@ describe('Channel', function () {
                 id: 'test',
                 title: '我是魯蛇',
                 description: '我魯魯魯魯魯魯',
-            }
+            };
             expect(Channel.validate(channel)).toBe(false);
             channel['query-url'] = 'This.is.not.a valid/url';
             expect(Channel.validate(channel)).toBe(false);

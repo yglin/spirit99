@@ -25,22 +25,6 @@ describe('Category', function () {
                 });
             }
         });
-
-        // angular.mock.module(function($provide) {
-        //     $provide.service('Channel', mockChannel);
-        
-        //     mockChannel.$inject = [];
-        
-        //     function mockChannel () {
-        //         var self = this;
-        //         self.property = {};
-        //         self.getCategories = jasmine.createSpy('getCategories')
-        //         .and.callFake(function () {
-        //             return FakeData.categories;
-        //         });
-        //     }
-        // });
-
     });
 
     var Category, $rootScope, categories;
@@ -113,11 +97,11 @@ describe('Category', function () {
     describe(' - isVisible()', function() {
         
         it(' - Should return specified category\'s "visible" property', function() {
-            Category.categories['test'] = {
+            Category.categories.test = {
                 visible: true
             };
             expect(Category.isVisible('test')).toBe(true);
-            Category.categories['test'].visible = false;
+            Category.categories.test.visible = false;
             expect(Category.isVisible('test')).toBe(false);            
         });
     });
@@ -125,13 +109,13 @@ describe('Category', function () {
     describe(' - toggleVisible()', function() {
         
         it(' - Should toggle specified category\'s "visible" property', function() {
-            Category.categories['test'] = {
+            Category.categories.test = {
                 visible: true
             };
             Category.toggleVisible('test');
-            expect(Category.categories['test'].visible).toBe(false);
+            expect(Category.categories.test.visible).toBe(false);
             Category.toggleVisible('test');
-            expect(Category.categories['test'].visible).toBe(true);
+            expect(Category.categories.test.visible).toBe(true);
         });
     });
 

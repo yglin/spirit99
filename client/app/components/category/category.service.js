@@ -131,8 +131,10 @@
             return uiGmapGoogleMapApi.then(function (googleMaps) {
                 gMapApi = googleMaps;
                 
+                var key;
+
                 self.categories = categories;
-                for (var key in self.categories) {
+                for (key in self.categories) {
                     if (self.validate(self.categories[key])) {
                         self.normalize(self.categories[key]);
                     }
@@ -141,12 +143,12 @@
                     }
                 }
                 if (!('misc' in self.categories)) {
-                    self.categories['misc'] = self.CATEGORY_MISC;
+                    self.categories.misc = self.CATEGORY_MISC;
                 }
 
                 // Apply visibilities from query parameters, only once
                 if (self.visibleCategories) {
-                    for (var key in self.categories) {
+                    for (key in self.categories) {
                         if (self.visibleCategories.indexOf(key) >= 0) {
                             self.categories[key].visible = true;
                         }

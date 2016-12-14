@@ -31,7 +31,7 @@
         }
     }
 
-    ChannelItemController.$inject = ['Channel']
+    ChannelItemController.$inject = ['Channel'];
 
     /* @ngInject */
     function ChannelItemController(Channel) {

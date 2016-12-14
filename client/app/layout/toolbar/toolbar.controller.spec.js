@@ -6,11 +6,11 @@ describe('ToolbarController', function () {
 
     beforeEach(function () {
         angular.mock.module(function($provide) {
-            $provide.service('ChannelManager', mockChannelManager);
+            $provide.service('ChannelManager', MockChannelManager);
         
-            mockChannelManager.$inject = ['DEFAULTS'];
+            MockChannelManager.$inject = ['DEFAULTS'];
         
-            function mockChannelManager (DEFAULTS) {
+            function MockChannelManager (DEFAULTS) {
                 var self = this;
                 // self.property = {};
                 // console.debug(DEFAULTS.channels);

@@ -2,6 +2,7 @@
   "globalstrict": true,
   "globals": {
     "angular": false,
+    "jasmine": false,
     "describe": false,
     "it": false,
     "expect": false,
@@ -9,6 +10,7 @@
     "afterEach": false,
     "module": false,
     "inject": false,
-    "require": false
+    "require": false,
+    "spyOn": false
   }
 }

@@ -143,7 +143,7 @@ module.exports = function (grunt) {
             all: {
                 src: [
                     'Gruntfile.js',
-                    '<%= yeoman.app %>/**/*.js'
+                    '<%= yeoman.app %>/**/*.js',
                 ]
             },
             test: {
@@ -519,6 +519,7 @@ module.exports = function (grunt) {
 
         grunt.task.run([
             'clean:server',
+            'jshint',
             'wiredep',
             'ngconstant:dev',
             'injector:dev',
@@ -537,6 +538,7 @@ module.exports = function (grunt) {
 
     grunt.registerTask('test', [
         'clean:server',
+        'jshint:test',
         'wiredep',
         'ngconstant:test',
         // 'includeSource',
@@ -549,6 +551,7 @@ module.exports = function (grunt) {
 
     grunt.registerTask('e2e-test', [
         'clean:server',
+        'jshint:test',
         'wiredep',
         'ngconstant:test',
         // 'includeSource',
@@ -560,6 +563,7 @@ module.exports = function (grunt) {
 
     grunt.registerTask('build', [
         'clean:dist',
+        'jshint',
         'wiredep:app',
         'ngconstant:dist',
         'injector:dist',
@@ -619,7 +623,7 @@ module.exports = function (grunt) {
                 else {
                     done(true);
                 }
-            })
+            });
         })
         .catch(function (error) {
             done(false);

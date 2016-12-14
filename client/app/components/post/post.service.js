@@ -9,8 +9,7 @@
  'CONFIG', 'Channel', 'Map', 'Category', 'PostFilter', 'localStorageService'];
 
     /* @ngInject */
-    function Post($rootScope, $window, $location, $timeout, $q, $log, $http, $httpParamSerializer
-, CONFIG, Channel, Map, Category, PostFilter, localStorage) {
+    function Post($rootScope, $window, $location, $timeout, $q, $log, $http, $httpParamSerializer, CONFIG, Channel, Map, Category, PostFilter, localStorage) {
         var self = this;
         self.posts = [];
         self.lastQuery = {};

@@ -1,18 +1,16 @@
 'use strict';
 
-'use strict';
-        
 describe('PostMarkersController', function () {
 
     beforeEach(angular.mock.module('spirit99'));
 
     beforeEach(function() {
         angular.mock.module(function($provide) {
-            $provide.service('Post', mockPost);
+            $provide.service('Post', MockPost);
         
-            mockPost.$inject = ['$q'];
+            MockPost.$inject = ['$q'];
         
-            function mockPost ($q) {
+            function MockPost ($q) {
                 var self = this;
                 // self.property = {};
                 self.prmsCreate = jasmine.createSpy('prmsCreate')

@@ -57,7 +57,7 @@
         }
 
         function getParams() {
-            var params = {}
+            var params = {};
             if (self.keywords.length > 0) {
                 params.keywords = self.keywords;
             }
@@ -86,8 +86,8 @@
             }
 
             // Filter by create_time in-between date period
-            if (self.createTime.start && self.createTime.end
-                && !DatePeriod.inBetween(post.create_time, self.createTime.start, self.createTime.end)) {
+            if (self.createTime.start && self.createTime.end &&
+            !DatePeriod.inBetween(post.create_time, self.createTime.start, self.createTime.end)) {
                 return false;
             }
 
@@ -114,7 +114,7 @@
 
             if (!Category.isVisible(post.category)) {
                 return false;
-            };
+            }
 
             return true;
         }

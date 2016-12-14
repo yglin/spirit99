@@ -9,11 +9,11 @@ describe('PostFilter', function () {
     // Mock dependencies
     beforeEach(function() {
         angular.mock.module(function($provide) {
-            $provide.service('DatePeriod', mockDatePeriod);
+            $provide.service('DatePeriod', MockDatePeriod);
         
-            mockDatePeriod.$inject = [];
+            MockDatePeriod.$inject = [];
         
-            function mockDatePeriod () {
+            function MockDatePeriod () {
                 var self = this;
                 // self.property = {};
                 self.getPresetStart = jasmine.createSpy('getPresetStart')
@@ -26,11 +26,11 @@ describe('PostFilter', function () {
         });
 
         angular.mock.module(function($provide) {
-            $provide.service('Category', mockCategory);
+            $provide.service('Category', MockCategory);
         
-            mockCategory.$inject = [];
+            MockCategory.$inject = [];
         
-            function mockCategory () {
+            function MockCategory () {
                 var self = this;
                 self.categories = {};
                 self.isVisible = jasmine.createSpy('isVisible')

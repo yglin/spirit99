@@ -28,11 +28,11 @@ describe('Locator', function () {
 
     beforeEach(function() {
         angular.mock.module(function($provide) {
-            $provide.service('Map', mockMap);
+            $provide.service('Map', MockMap);
         
-            mockMap.$inject = [];
+            MockMap.$inject = [];
         
-            function mockMap () {
+            function MockMap () {
                 var self = this;
                 self.ZOOMS = { STREET: 15 };
                 self.navigateTo = jasmine.createSpy('navigateTo');
@@ -40,11 +40,11 @@ describe('Locator', function () {
         });
 
         angular.mock.module(function($provide) {
-            $provide.service('Geolocation', mockGeolocation);
+            $provide.service('Geolocation', MockGeolocation);
         
-            mockGeolocation.$inject = ['$q'];
+            MockGeolocation.$inject = ['$q'];
         
-            function mockGeolocation ($q) {
+            function MockGeolocation ($q) {
                 var self = this;
                 // self.property = {};
                 self.prmsGetCurrentPosition = jasmine.createSpy('prmsGetCurrentPosition')
@@ -53,11 +53,11 @@ describe('Locator', function () {
         });
 
         angular.mock.module(function($provide) {
-            $provide.service('Geocoder', mockGeocoder);
+            $provide.service('Geocoder', MockGeocoder);
         
-            mockGeocoder.$inject = ['$q'];
+            MockGeocoder.$inject = ['$q'];
         
-            function mockGeocoder ($q) {
+            function MockGeocoder ($q) {
                 var self = this;
                 // self.property = {};
                 self.prmsGeocode = jasmine.createSpy('prmsGeocode')
@@ -66,11 +66,11 @@ describe('Locator', function () {
         });
 
         angular.mock.module(function($provide) {
-            $provide.service('localStorageService', mockLocalStorageService);
+            $provide.service('localStorageService', MockLocalStorageService);
         
-            mockLocalStorageService.$inject = [];
+            MockLocalStorageService.$inject = [];
         
-            function mockLocalStorageService () {
+            function MockLocalStorageService () {
                 var self = this;
                 self.locationQueries = angular.copy(fakeData.locationQueries);
                 self.get = jasmine.createSpy('get')

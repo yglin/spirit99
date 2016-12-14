@@ -33,7 +33,7 @@
         ////////////////
 
         function activate() {
-            locatorVM.locationQueries = locatorVM.locationQueries == null ? [] : locatorVM.locationQueries;
+            locatorVM.locationQueries = locatorVM.locationQueries === null ? [] : locatorVM.locationQueries;
             locatorVM.locationQueries.unshift({
                 title: '您的位置',
                 icon: 'my_location'
@@ -58,8 +58,7 @@
             else{
                 return Locator.locationQueries.filter(function (location) {
                     var lcSearchText = angular.lowercase(searchText);
-                    return (location.title && location.title.indexOf(lcSearchText) >= 0)
-                    || (location.address && location.address.indexOf(lcSearchText) >= 0);
+                    return (location.title && location.title.indexOf(lcSearchText) >= 0) || (location.address && location.address.indexOf(lcSearchText) >= 0);
                 });
             }
         }

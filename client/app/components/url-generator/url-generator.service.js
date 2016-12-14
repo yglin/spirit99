@@ -2,7 +2,7 @@
 * @Author: yglin
 * @Date:   2016-06-06 14:00:01
 * @Last Modified by:   yglin
-* @Last Modified time: 2016-06-06 19:56:47
+* @Last Modified time: 2016-12-14 10:38:01
 */
 
 (function() {
@@ -39,13 +39,14 @@
                 zoom: Map.map.zoom
             };
 
+            var key;
             var filterParams = PostFilter.getParams();
-            for (var key in filterParams) {
+            for (key in filterParams) {
                 queryParams[key] = filterParams[key];
             }
 
             var categoryParams = Category.getParams();
-            for (var key in categoryParams) {
+            for (key in categoryParams) {
                 queryParams[key] = categoryParams[key];
             }
 

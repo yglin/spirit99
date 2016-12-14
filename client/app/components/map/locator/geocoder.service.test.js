@@ -7,11 +7,11 @@ describe('Geocoder', function () {
 
     beforeEach(function() {
         angular.mock.module(function($provide) {
-            $provide.service('Dialog', mockDialog);
+            $provide.service('Dialog', MockDialog);
         
-            mockDialog.$inject = ['$q'];
+            MockDialog.$inject = ['$q'];
         
-            function mockDialog ($q) {
+            function MockDialog ($q) {
                 var self = this;
                 // self.property = {};
                 self.alert = jasmine.createSpy('alert')

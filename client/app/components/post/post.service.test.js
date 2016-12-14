@@ -11,11 +11,11 @@ describe('Post', function () {
     var readUrl = 'http://www.9493.tw/fake-channel/posts/:id';
     beforeEach(function() {
         angular.mock.module(function($provide) {
-            $provide.service('Channel', mockChannel);
+            $provide.service('Channel', MockChannel);
         
-            mockChannel.$inject = [];
+            MockChannel.$inject = [];
         
-            function mockChannel () {
+            function MockChannel () {
                 var self = this;
                 self.channels = {};
                 self.getData = jasmine.createSpy('getData')
@@ -43,11 +43,11 @@ describe('Post', function () {
         });
 
         angular.mock.module(function($provide) {
-            $provide.service('Category', mockCategory);
+            $provide.service('Category', MockCategory);
         
-            mockCategory.$inject = [];
+            MockCategory.$inject = [];
         
-            function mockCategory () {
+            function MockCategory () {
                 var self = this;
                 self.getIcon = jasmine.createSpy('getIcon')
                 .and.returnValue({});
@@ -55,11 +55,11 @@ describe('Post', function () {
         });
 
         angular.mock.module(function($provide) {
-            $provide.service('PostFilter', mockPostFilter);
+            $provide.service('PostFilter', MockPostFilter);
         
-            mockPostFilter.$inject = [];
+            MockPostFilter.$inject = [];
         
-            function mockPostFilter () {
+            function MockPostFilter () {
                 var self = this;
                 // self.property = {};
                 self.filter = jasmine.createSpy('filter')
@@ -187,7 +187,7 @@ describe('Post', function () {
         it(' - Normalized post should has fields: catagory, options', function() {
             expect(typeof post.category).toEqual('string');
             expect(typeof post.options).toEqual('object');
-        })
+        });
 
         it(' - Normalized post.options should has fields: title, icon', function() {
             expect(typeof post.options.title).toEqual('string');

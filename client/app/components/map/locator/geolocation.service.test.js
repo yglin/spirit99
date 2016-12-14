@@ -6,11 +6,11 @@ describe('Geolocation', function () {
     
     beforeEach(function() {
         angular.mock.module(function($provide) {
-            $provide.service('Dialog', mockDialog);
+            $provide.service('Dialog', MockDialog);
         
-            mockDialog.$inject = [];
+            MockDialog.$inject = [];
         
-            function mockDialog () {
+            function MockDialog () {
                 var self = this;
                 // self.property = {};
                 self.alert = jasmine.createSpy('alert')
@@ -20,11 +20,11 @@ describe('Geolocation', function () {
         });
 
         angular.mock.module(function($provide) {
-            $provide.service('$window', mockWindow);
+            $provide.service('$window', MockWindow);
         
-            mockWindow.$inject = [];
+            MockWindow.$inject = [];
         
-            function mockWindow () {
+            function MockWindow () {
                 var self = this;
                 self.navigator = {
                     geolocation: {}

@@ -2,7 +2,7 @@
 * @Author: yglin
 * @Date:   2016-07-05 19:49:43
 * @Last Modified by:   yglin
-* @Last Modified time: 2016-07-08 13:12:48
+* @Last Modified time: 2016-12-14 10:37:13
 */
 
 (function() {
@@ -48,7 +48,7 @@
                     template: '選單<md-icon class="material-icons">more_vert</md-icon><md-icon class="material-icons">keyboard_arrow_right</md-icon><md-icon class="material-icons">search</md-icon>設定條件搜尋文章',
                     position: 'top left'
                 }
-            }
+            };
 
             if (self.on !== false) {
                 self.on = true;
@@ -106,10 +106,10 @@
         }
 
         function toast(tutorID) {
-            if (!this.tutorPromises) {
-                this.tutorPromises = {};
+            if (!self.tutorPromises) {
+                self.tutorPromises = {};
             }
-            if (this.tutorPromises[tutorID] && (this.tutorPromises[tutorID].promise.$$state.status === 0 || this.tutorPromises[tutorID].debounce)) {
+            if (self.tutorPromises[tutorID] && (self.tutorPromises[tutorID].promise.$$state.status === 0 || self.tutorPromises[tutorID].debounce)) {
                 return;
             }
 
@@ -129,18 +129,18 @@
                 };
 
                 var tutorDefer;
-                if (!this.tutorPromises[tutorID]) {
-                    this.tutorPromises[tutorID] = {};
+                if (!self.tutorPromises[tutorID]) {
+                    self.tutorPromises[tutorID] = {};
                 }
-                tutorDefer = this.tutorPromises[tutorID];
+                tutorDefer = self.tutorPromises[tutorID];
                 
-                if (this.lastTutorPromise) {
-                    this.lastTutorPromise = tutorDefer.promise = this.lastTutorPromise.finally(function () {
+                if (self.lastTutorPromise) {
+                    self.lastTutorPromise = tutorDefer.promise = self.lastTutorPromise.finally(function () {
                         return $mdToast.show(toastObj);
                     });
                 }
                 else {
-                    this.lastTutorPromise = tutorDefer.promise = $mdToast.show(toastObj);
+                    self.lastTutorPromise = tutorDefer.promise = $mdToast.show(toastObj);
                 }
 
                 tutorDefer.debounce = true;

@@ -15,7 +15,7 @@
         self.getPresetEnd = getPresetEnd;
         self.getPresetTitle = getPresetTitle;
         self.inBetween = inBetween;
-        self.presets = presets();
+        self.presets = defaultPresets();
 
         ////////////////
 
@@ -53,7 +53,7 @@
         }
 
         function inBetween (theTime, startTime, endTime) {
-            var theTime = new Date(theTime);
+            theTime = new Date(theTime);
             if(theTime >= startTime && theTime <= endTime){
                 return true;
             }
@@ -62,7 +62,7 @@
             }
         }
 
-        function presets () {
+        function defaultPresets () {
             var presets = {
                 inTheDay: {
                     title: '一天內',

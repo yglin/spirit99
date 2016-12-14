@@ -56,7 +56,7 @@
                 else {
                     // First time, no channel, open sidenav channel-list
                     Sidenav.open('channels');
-                };                
+                }                
             });
         }
 
@@ -97,7 +97,7 @@
                 channels[channel.id] = {};
             }
             for (var field in channel) {
-                if (CONFIG['CHANNEL_SAVING_FIELDS'].indexOf(field) >= 0) {
+                if (CONFIG.CHANNEL_SAVING_FIELDS.indexOf(field) >= 0) {
                     channels[channel.id][field] = channel[field];
                 }
             }
@@ -128,12 +128,12 @@
                     if (!nodeValidator.isURL(channel[key], {allow_protocol_relative_urls: true})) {
                         $log.warn('channel.' + key + ' - ' + channel[key] + ' is not an url');
                         return false;
-                    };
+                    }
                 }
                 else if (typeof channel[key] !== required_fields[key]) {
                     $log.warn('"' + key + '" is not type of ' + required_fields[key]);
                     return false;
-                };
+                }
             }
             return true;
         }
@@ -162,7 +162,7 @@
             .then(function (response) {
                 if (!self.validate(response.data)) {
                     channel.runtime.isUpdated = false;
-                    return $q.resolve()
+                    return $q.resolve();
                 }
                 else{
                     angular.extend(channel, response.data);

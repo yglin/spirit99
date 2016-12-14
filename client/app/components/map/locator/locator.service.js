@@ -81,7 +81,7 @@
                     for (var i = 0; i < results.length; i++) {
                         locations.push.apply(locations, results);
                     }
-                    self.addQueryHistory(query, results[0].address)
+                    self.addQueryHistory(query, results[0].address);
                     return $q.resolve(locations);
                 });
             }
