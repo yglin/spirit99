@@ -149,7 +149,7 @@
             else if(self.initMapScheme === self.INIT_MAP_SCHEMES.GEOLOCATION){
                 self.prmsGotoGeolocation()
                 .catch(function (error) {
-                    var confirmMessage = '是否要關閉網站開啟時的自動定位功能？<br>（可以在選單<i class="material-icons">more_vert</i><i class="material-icons">keyboard_arrow_right</i>設定<i class="material-icons">settings</i>中重新打開）';
+                    var confirmMessage = '是否要關閉網站開啟時的自動定位功能？<br>（可以在選單<i class="material-icons">menu</i><i class="material-icons">keyboard_arrow_right</i>設定<i class="material-icons">settings</i>中重新打開）';
                     Dialog.confirm('關閉自動定位', confirmMessage,
                         {
                             buttons: {

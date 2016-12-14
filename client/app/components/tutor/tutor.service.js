@@ -2,7 +2,7 @@
 * @Author: yglin
 * @Date:   2016-07-05 19:49:43
 * @Last Modified by:   yglin
-* @Last Modified time: 2016-12-14 10:37:13
+* @Last Modified time: 2016-12-14 18:18:51
 */
 
 (function() {
@@ -41,11 +41,11 @@
                     position: 'top right'
                 },
                 'show-post-list': {
-                    template: '選單<md-icon class="material-icons">more_vert</md-icon><md-icon class="material-icons">keyboard_arrow_right</md-icon><md-icon class="material-icons">list_view</md-icon>可檢視文章清單',
+                    template: '選單<md-icon class="material-icons">menu</md-icon><md-icon class="material-icons">keyboard_arrow_right</md-icon><md-icon class="material-icons">list_view</md-icon>可檢視文章清單',
                     position: 'top right'
                 },
                 'filter-posts': {
-                    template: '選單<md-icon class="material-icons">more_vert</md-icon><md-icon class="material-icons">keyboard_arrow_right</md-icon><md-icon class="material-icons">search</md-icon>設定條件搜尋文章',
+                    template: '選單<md-icon class="material-icons">menu</md-icon><md-icon class="material-icons">keyboard_arrow_right</md-icon><md-icon class="material-icons">search</md-icon>設定條件搜尋文章',
                     position: 'top left'
                 }
             };
@@ -159,7 +159,7 @@
         $ctrl.turnOffTutors = turnOffTutors;
 
         function turnOffTutors() {
-            Dialog.confirm('關閉教學提示', '以後不再顯示教學提示？<br>可在<b>選單<i class="material-icons">more_vert</i></b><i class="material-icons">keyboard_arrow_right</i><b>設定<i class="material-icons">settings</i></b>中再打開')
+            Dialog.confirm('關閉教學提示', '以後不再顯示教學提示？<br>可在<b>選單<i class="material-icons">menu</i></b><i class="material-icons">keyboard_arrow_right</i><b>設定<i class="material-icons">settings</i></b>中再打開')
             .then(function () {
                 Tutor.turnOffTutors();
                 $mdToast.hide();
