@@ -2,7 +2,7 @@
 * @Author: yglin
 * @Date:   2016-07-20 20:44:54
 * @Last Modified by:   yglin
-* @Last Modified time: 2016-12-20 16:42:01
+* @Last Modified time: 2016-12-20 20:20:49
 */
 
 (function() {
@@ -45,7 +45,7 @@
         }
 
         function onClickPost(index) {
-            $rootScope.$broadcast('post:show', Post.posts[index]);
+            $rootScope.$broadcast('post:show', $ctrl.posts[index]);
         }
     }
 })();
