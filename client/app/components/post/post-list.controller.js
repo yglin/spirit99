@@ -11,23 +11,13 @@
     function PostListController($scope, Post) {
         var postListVM = this;
         postListVM.title = 'PostList';
-        postListVM.posts = [];
+        postListVM.posts = Post.posts;
 
         activate();
 
         ////////////////
 
         function activate () {
-            $scope.$on('post:reload', function () {
-                postListVM.posts.length = 0;
-                Post.addFilteredPosts(postListVM.posts);
-            });
-
-            $scope.$on('post:filterChanged', function () {
-                postListVM.posts.length = 0;
-                Post.addFilteredPosts(postListVM.posts);
-            });
-
         }
     }
 })();
