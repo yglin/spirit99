@@ -33,7 +33,7 @@
         ////////////////
 
         function activate() {
-            locatorVM.locationQueries = locatorVM.locationQueries === null ? [] : locatorVM.locationQueries;
+            locatorVM.locationQueries = locatorVM.locationQueries || [];
             locatorVM.locationQueries.unshift({
                 title: '您的位置',
                 icon: 'my_location'
