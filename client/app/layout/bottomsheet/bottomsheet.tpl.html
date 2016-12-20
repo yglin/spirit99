@@ -1,4 +1,4 @@
-<div style='background-color: rgba(0, 0, 0, 0.2);width:100vw;'>
+<div style='background-color: rgba(0, 0, 0, 0.5);width:100vw;'>
 
 <div layout='row' layout-align='center start' class='s99-clickable'
 ng-click='$ctrl.toggleOpen()'>
@@ -9,7 +9,7 @@ ng-click='$ctrl.toggleOpen()'>
 ng-show='$ctrl.isOpen' class='s99-bottosheet-content'
 layout='row' layout-padding>
     <div layout='row' layout-align='center center' layout-fill>
-        <h3 ng-show='$ctrl.posts.length == 0' style='color:white;'>目前範圍內沒有文章</h3>
+        <h3 ng-show='$ctrl.posts.length == 0' style='color:white;'>目前範圍內沒有顯示文章</h3>
     </div>
     <div ng-repeat="post in $ctrl.posts"
     layout='column' layout-align='start center' layout-padding
