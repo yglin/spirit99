@@ -90,36 +90,6 @@
     height:10vh;
 }
 
-@keyframes scale-enter {
-    from {height: 0vh;}
-    to {height: 25vh;}
-}
-
-@keyframes scale-leave {
-    from {height: 25vh;}
-    to {height: 0vh;}
-}
-
-.s99-bottosheet-content {
-    background-color: rgba(0, 0, 0, 0);
-    height: 25vh;    
-}
-
-.s99-bottosheet-content.ng-hide {
-    background-color: rgba(0, 0, 0, 0);
-    height: 0vh;
-}
-
-.s99-bottosheet-content.ng-hide-remove {
-    animation-name: scale-enter;
-    animation-duration: 0.5s;
-}
-
-.s99-bottosheet-content.ng-hide-add {
-    animation-name: scale-leave;
-    animation-duration: 0.5s;
-}
-
 .s99-category-filter-dialog {
     background-color: rgba(0, 0, 0, 0);    
 }

@@ -1,25 +1,27 @@
-<div style='background-color: rgba(0, 0, 0, 0.5);width:100vw;'>
+<div class='s99-bottomsheet'>
 
 <div layout='row' layout-align='center start' class='s99-clickable'
 ng-click='$ctrl.toggleOpen()'>
-    <md-icon class='material-icons' style='font-size: 40px; height:40px; color: white;'>{{$ctrl.isOpen && "keyboard_arrow_down" || "keyboard_arrow_up"}}</md-icon>
+    <md-icon class='material-icons'>{{$ctrl.isOpen && "keyboard_arrow_down" || "keyboard_arrow_up"}}</md-icon>
 </div>
 
-<md-content
-ng-show='$ctrl.isOpen' class='s99-bottosheet-content'
-layout='row' layout-padding>
-    <div layout='row' layout-align='center center' layout-fill>
-        <h3 ng-show='$ctrl.posts.length == 0' style='color:white;'>目前範圍內沒有顯示文章</h3>
+<md-content ng-show='$ctrl.isOpen'>
+    <div ng-show='$ctrl.posts.length <= 0' layout='row' layout-align='center center' layout-fill>
+        <h3 class='no-post-prompt'>目前範圍內沒有顯示文章</h3>
     </div>
-    <div ng-repeat="post in $ctrl.posts"
-    layout='column' layout-align='start center' layout-padding
-    style='min-width:150px;' class='s99-clickable s99-bottomsheet-selectable'
-    ng-class='{"s99-bottomsheet-selected": $ctrl.selectedPostIndex === $index}'
-    ng-mouseenter="$ctrl.focusPostIndex = $index;"
-    ng-click="$ctrl.onClickPost($index);$ctrl.selectedPostIndex = $index;">
-        <!-- <s99-post-item post='post'></s99-post-item> -->
-        <img ng-hide='$ctrl.focusPostIndex === $index' ng-src='{{post.thumbnail}}' class='s99-post-thumbnail-large'>
-        <h5 ng-show='!post.thumbnail || $ctrl.focusPostIndex === $index' style="color: white;margin-top: 0px;">{{post.title}}</h5>
+    <div layout='row' layout-padding class='posts-container'>
+        <div flex></div>
+        <div ng-repeat-start="post in $ctrl.posts"
+        layout='column' layout-align='start center' layout-padding
+        style='min-width:150px;' class='s99-clickable s99-bottomsheet-selectable'
+        ng-class='{"s99-bottomsheet-selected": $ctrl.selectedPostIndex === $index}'
+        ng-mouseenter="$ctrl.focusPostIndex = $index;"
+        ng-click="$ctrl.onClickPost($index);$ctrl.selectedPostIndex = $index;">
+            <!-- <s99-post-item post='post'></s99-post-item> -->
+            <img ng-hide='$ctrl.focusPostIndex === $index' ng-src='{{post.thumbnail}}' class='s99-post-thumbnail-large'>
+            <h5 ng-show='!post.thumbnail || $ctrl.focusPostIndex === $index' style="color: white;margin-top: 0px;">{{post.title}}</h5>
+        </div>
+        <div ng-repeat-end flex></div>
     </div>
 </md-content>
 </div>

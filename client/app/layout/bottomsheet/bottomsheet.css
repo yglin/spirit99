@@ -1,0 +1,67 @@
+/*
+* @Author: yglin
+* @Date:   2016-12-20 19:38:08
+* @Last Modified by:   yglin
+* @Last Modified time: 2016-12-20 20:16:07
+*/
+@keyframes scale-enter {
+    from {height: 0;}
+    to {height: 25vh;}
+}
+
+@keyframes scale-leave {
+    from {height: 25vh;}
+    to {height: 0vh;}
+}
+
+
+.s99-bottomsheet
+{
+  max-width: 100%;
+  max-width: 100vw;
+  width: 100%;
+  width: 100vw;
+  background-color: gray;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.s99-bottomsheet md-content
+{
+    max-width: 100%;
+    width: 100%;
+    height: 25vh;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.s99-bottomsheet md-content.ng-hide {
+    background-color: rgba(0, 0, 0, 0);
+    height: 0;
+}
+
+.s99-bottomsheet md-content.ng-hide-remove {
+    animation-name: scale-enter;
+    animation-duration: 0.5s;
+}
+
+.s99-bottomsheet md-content.ng-hide-add {
+    animation-name: scale-leave;
+    animation-duration: 0.5s;
+}
+
+.s99-bottomsheet .posts-container
+{
+  min-height: 100%;
+  height: 100%;
+}
+
+.s99-bottomsheet md-icon
+{
+  font-size: 36px;
+  font-weight: bold;
+  color: white;
+}
+
+.s99-bottomsheet .no-post-prompt
+{
+  color: white;
+}
